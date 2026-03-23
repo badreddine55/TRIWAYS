@@ -1,54 +1,11 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Ship, Plane, Truck, Package, Globe, Anchor } from "lucide-react";
 
 // High-quality logistics images from Unsplash
-const backgroundImages = [
-  {
-    url: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=2070&auto=format&fit=crop",
-    alt: "Container ship aerial view",
-    position: "top-left",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2070&auto=format&fit=crop",
-    alt: "Cargo containers port",
-    position: "top-right",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop",
-    alt: "Shipping containers stacked",
-    position: "mid-left",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1616432043562-3671ea2e5242?q=80&w=2070&auto=format&fit=crop",
-    alt: "Air cargo plane",
-    position: "mid-right",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=2070&auto=format&fit=crop",
-    alt: "Truck logistics",
-    position: "bottom-left",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?q=80&w=2070&auto=format&fit=crop",
-    alt: "Warehouse interior",
-    position: "bottom-right",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1542296332-2e44a3e4a3c1?q=80&w=2070&auto=format&fit=crop",
-    alt: "Harbor cranes",
-    position: "center",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=2070&auto=format&fit=crop",
-    alt: "Container terminal",
-    position: "floating",
-  },
-];
-
 const servicesPreview = [
   {
     title: "Transport Maritime",
@@ -196,8 +153,7 @@ export function ServicesPreview() {
     offset: ["start end", "end start"],
   });
 
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   return (
     <section 

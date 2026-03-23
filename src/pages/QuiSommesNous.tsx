@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
@@ -14,7 +14,6 @@ import {
   Quote,
   CheckCircle,
   ArrowRight,
-  ArrowUpRight,
   Zap,
   TrendingUp,
   Award,
@@ -323,13 +322,6 @@ const whyChooseUs = [
   { icon: Globe, title: 'Approche intégrée', description: "Nous optimisons chaque maillon de votre chaîne d'approvisionnement afin d'assurer une efficacité maximale." },
   { icon: Leaf, title: 'Engagement écoresponsable', description: "Nous adoptons des pratiques durables visant à réduire notre empreinte écologique et à préserver l'environnement." },
   { icon: Users, title: 'Partenaire stratégique', description: "Plus qu'un prestataire, nous sommes votre allié, vous accompagnant à chaque étape pour assurer la réussite de vos projets." },
-];
-
-const stats = [
-  { value: '10+', label: "Années d'expérience" },
-  { value: '500+', label: 'Clients satisfaits' },
-  { value: '50+', label: 'Pays desservis' },
-  { value: '10K+', label: 'Expéditions par an' },
 ];
 
 const galleryImages = [
@@ -1047,9 +1039,6 @@ function GallerySection() {
 // ── Page ───────────────────────────────────────────────────────────────────────
 
 export default function QuiSommesNous() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-
   return (
     <div className="relative min-h-screen text-white overflow-x-hidden bg-slate-950">
       <style>{`

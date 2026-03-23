@@ -122,7 +122,7 @@ export function ScrollHero() {
                   pct: 10,
                   color: "slate",
                 },
-              ].map((row, i) => (
+              ].map((row) => (
                 <div
                   key={row.id}
                   className="grid grid-cols-5 px-4 py-3 text-sm border-t border-slate-700/30 hover:bg-slate-800/30 transition-colors"

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, ArrowDown, Facebook, Twitter, Instagram } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowDown, Facebook, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
 // WhatsApp SVG icon (lucide doesn't have WhatsApp)
 const WhatsAppIcon = () => (
@@ -11,7 +11,7 @@ const WhatsAppIcon = () => (
 
 const WHATSAPP_NUMBER = '212634362701'; // 👈 replace with your number (no + or spaces)
 const WHATSAPP_MESSAGE = 'Bonjour, je souhaite avoir plus d\'informations sur vos services logistiques.';
-const WHATSAPP_URL = `https://api.whatsapp.com/send?phone=212634362701&text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const WHATSAPP_URL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
 const slides = [
   {

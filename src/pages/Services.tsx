@@ -1,7 +1,7 @@
-import { motion, useScroll, useSpring, useTransform, useMotionValue, useInView } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Package, Target, Truck, ArrowRight, ArrowUpRight, Globe, Clock, Shield, ChevronDown, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 const mainServices = [
   {
@@ -134,55 +134,6 @@ const GlassButton = ({ children, to, onClick, variant = 'primary' }: {
   return to ? <Link to={to}>{content}</Link> : content;
 };
 
-
-function FloatingCards() {
-  const cardServices = mainServices.slice(0, 3);
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <div
-      className="relative h-full flex items-center justify-center"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {cardServices.map((service, index) => {
-        const rotations = [-4, 1, 5];
-        const offsets = [0, 20, 40];
-
-        return (
-          <motion.div
-            key={service.id}
-            initial={{ opacity: 0, y: 60, rotate: rotations[index] }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              rotate: isHovered ? 0 : rotations[index],
-            }}
-            transition={{
-              delay: 0.8 + index * 0.15,
-              duration: 0.6,
-              ease: [0.16, 1, 0.3, 1],
-              rotate: { type: "spring", stiffness: 200, damping: 20 }
-            }}
-            className="absolute bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 w-64"
-            style={{
-              left: `${offsets[index]}px`,
-              top: `${offsets[index]}px`,
-              zIndex: index + 1,
-            }}
-          >
-            <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} text-white mb-4`}>
-              <service.icon size={28} />
-            </div>
-            <h3 className="text-white text-lg" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>
-              {service.title.split(' ').slice(0, 2).join(' ')}
-            </h3>
-          </motion.div>
-        );
-      })}
-    </div>
-  );
-}
 
 function AnimatedTitle() {
   const text = "Nos Services";
@@ -402,8 +353,6 @@ function ServiceCard({ service, index }: { service: typeof mainServices[0], inde
 }
 
 export default function Services() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
   const [lineInView, setLineInView] = useState(false);
   const [timelineInView, setTimelineInView] = useState(false);
 
