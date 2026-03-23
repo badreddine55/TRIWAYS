@@ -1056,10 +1056,6 @@ export default function QuiSommesNous() {
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
       `}</style>
 
-      <motion.div
-        style={{ scaleX }}
-        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 origin-left z-[9999]"
-      />
 
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-slate-950" />

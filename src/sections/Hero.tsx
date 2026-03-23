@@ -87,8 +87,7 @@ export default function Hero() {
 
         {[
           { href: '#', icon: <Facebook size={18} />, label: 'Facebook' },
-          { href: '#', icon: <Twitter size={18} />, label: 'Twitter' },
-          { href: '#', icon: <Instagram size={18} />, label: 'Instagram' },
+          { href: 'https://www.instagram.com/triways_logistics', icon: <Instagram size={18} />, label: 'Instagram' },
           // 👇 WhatsApp — replace href with your number
           {
             href: WHATSAPP_URL,
