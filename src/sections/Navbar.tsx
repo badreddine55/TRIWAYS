@@ -58,7 +58,7 @@ export default function Navbar() {
                 whileHover={{ scale: 1.02 }}
               >
                 <img
-                  src="/image-removebg-preview.png"
+                  src="https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldy5wbmciLCJpYXQiOjE3NzQyNjU5MDEsImV4cCI6MTgwNTgwMTkwMX0.6s80k1eHrk79AzhlZjNSOlBK4MpuPTO99qEYfBr7p2E"
                   alt="TRIWAYS logo"
                   className={`w-20 h-20 object-contain transition-all duration-300 ${
                     isScrolled || !isHome
