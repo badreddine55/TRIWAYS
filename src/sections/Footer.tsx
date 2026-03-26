@@ -141,7 +141,7 @@ export function Footer() {
                 maxWidth: '260px',
               }}
             >
-              Votre partenaire logistique de confiance pour le transport international. Solutions complètes, expertise reconnue et accompagnement personnalisé.
+              Votre partenaire logistique de confiance pour le transport international. Solutions complètes, expertise reconnue et accompagnement personnalisé .
             </p>
 
             {/* Transport icons */}
