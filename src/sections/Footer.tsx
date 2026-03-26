@@ -199,8 +199,8 @@ export function Footer() {
                       fontSize: '13.5px',
                       transition: 'color 0.2s',
                     }}
-                    onMouseEnter={(e) => (e.target.style.color = '#ffffff')}
-                    onMouseLeave={(e) => (e.target.style.color = '#8892a4')}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#ffffff')}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#8892a4')}
                   >
                     {link.name}
                   </Link>
@@ -241,8 +241,8 @@ export function Footer() {
                       fontSize: '13.5px',
                       transition: 'color 0.2s',
                     }}
-                    onMouseEnter={(e) => (e.target.style.color = '#ffffff')}
-                    onMouseLeave={(e) => (e.target.style.color = '#8892a4')}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#ffffff')}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#8892a4')}
                   >
                     {link.name}
                   </Link>
@@ -300,8 +300,8 @@ export function Footer() {
                         paddingTop: '8px',
                         transition: 'color 0.2s',
                       }}
-                      onMouseEnter={(e) => (e.target.style.color = '#ffffff')}
-                      onMouseLeave={(e) => (e.target.style.color = '#8892a4')}
+                      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#ffffff')}
+                      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#8892a4')}
                     >
                       {item.text}
                     </a>
@@ -360,11 +360,11 @@ export function Footer() {
                 textDecoration: 'none',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#ffffff';
+                ( e.currentTarget as HTMLElement).style.color = '#ffffff';
                 e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#8892a4';
+                ( e.currentTarget as HTMLElement).style.color = '#8892a4';
                 e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
               }}
             >

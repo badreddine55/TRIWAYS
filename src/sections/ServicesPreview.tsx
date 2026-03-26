@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Ship, Plane, Truck, Package, Globe, Anchor, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Ship, Plane, Truck, Package, Globe, Anchor, ChevronDown } from "lucide-react";
 
 // Sub-services for Transport National et International
 const transportSubServices = [
