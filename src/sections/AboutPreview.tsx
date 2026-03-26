@@ -116,23 +116,23 @@ const GlassEffect: React.FC<GlassEffectProps> = ({
 
 const whyChooseUs = [
   {
-    title: "Expertise Certifiée",
-    description: "Plus de 20 ans d'expérience dans le transport international avec certifications ISO reconnues.",
+    title: "Équipe qualifiée",
+    description: "Des professionnels formésdans le domaine du transportet de la logistique.",
     icon: Award,
   },
   {
     title: "Disponibilité 24/7",
-    description: "Une équipe dédiée à votre service jour et nuit pour suivre vos expéditions en temps réel.",
+    description: "Une équipe dédiée à votre service jour et nuit pour Votre dossiers en temps réel.",
     icon: Clock,
   },
   {
     title: "Réseau Mondial",
-    description: "Partenaires stratégiques dans plus de 150 pays pour une couverture logistique complète.",
+    description: "Partenaires stratégiques dans plus de 20 pays pour une couverture logistique complète.",
     icon: Globe,
   },
   {
-    title: "Sécurité Garantie",
-    description: "Protection maximale de vos marchandises avec assurance complète et tracking avancé.",
+    title: "Sécurité",
+    description: "Protection maximale de vos marchandises .",
     icon: Shield,
   },
   {
@@ -272,35 +272,7 @@ export default function AboutPreview() {
             ))}
           </div>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16"
-          >
-            {[
-              { value: '20+', label: "Années d'expérience" },
-              { value: '150+', label: 'Pays desservis' },
-              { value: '50k+', label: 'Expéditions/an' },
-              { value: '99%', label: 'Satisfaction client' },
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-indigo-400 to-purple-400 mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-slate-400 font-medium">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
+
 
           {/* CTA */}
           <motion.div

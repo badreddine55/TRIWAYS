@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Menu, X, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 const navLinks = [
   { path: '/', label: 'ACCUEIL' },
@@ -58,7 +58,7 @@ export default function Navbar() {
                 whileHover={{ scale: 1.02 }}
               >
                 <img
-                  src="https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldy5wbmciLCJpYXQiOjE3NzQyNjU5MDEsImV4cCI6MTgwNTgwMTkwMX0.6s80k1eHrk79AzhlZjNSOlBK4MpuPTO99qEYfBr7p2E"
+                  src="https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo"
                   alt="TRIWAYS logo"
                   className={`w-20 h-20 object-contain transition-all duration-300 ${
                     isScrolled || !isHome
@@ -167,7 +167,7 @@ export default function Navbar() {
                 {/* Drawer logo header */}
                 <div className="flex items-center gap-3 pb-4 mb-3 border-b border-slate-100">
                   <img
-                    src="/image-removebg-preview.png"
+                  src="https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo"
                     alt="TRIWAYS logo"
                     className="w-9 h-9 object-contain brightness-75"
                   />
@@ -206,7 +206,6 @@ export default function Navbar() {
                 <div className="flex items-center justify-center gap-3 mt-6 pt-5 border-t border-slate-100">
                   {[
                     { Icon: Facebook, href: '#' },
-                    { Icon: Twitter, href: '#' },
                     { Icon: Instagram, href: '#' },
                     { Icon: Linkedin, href: '#' },
                   ].map(({ Icon, href }, i) => (

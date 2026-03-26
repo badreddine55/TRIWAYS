@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Package, Target, Truck, ArrowRight, ArrowUpRight, Globe, Clock, Shield, ChevronDown, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
+import SEO from '@/components/SEO';
 
 const mainServices = [
   {
@@ -358,6 +359,7 @@ export default function Services() {
 
   return (
     <div className="min-h-screen bg-slate-950">
+      <SEO page="services" />
       {/* Google Fonts Import */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');

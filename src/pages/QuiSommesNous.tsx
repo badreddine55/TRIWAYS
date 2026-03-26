@@ -18,6 +18,7 @@ import {
   TrendingUp,
   Award,
 } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 // ── Noise utility ──────────────────────────────────────────────────────────────
 
@@ -259,7 +260,7 @@ function InfiniteGallery({ images, className = 'h-96 w-full', style,
 
 const GlassBadge = ({ children, icon: Icon }: { children: React.ReactNode; icon?: React.ComponentType<{ size?: number }> }) => (
   <motion.span whileHover={{ scale: 1.05 }}
-    className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-indigo-500/10 backdrop-blur-md border border-indigo-500/20 text-indigo-300 text-sm font-medium">
+    className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2 rounded-full bg-indigo-500/10 backdrop-blur-md border border-indigo-500/20 text-indigo-300 text-xs md:text-sm font-medium">
     {Icon && <Icon size={14} />}{children}
   </motion.span>
 );
@@ -269,7 +270,7 @@ const GlassButton = ({ children, to, onClick, variant = 'primary' }: {
 }) => {
   const content = (
     <motion.button whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }} onClick={onClick}
-      className={`group relative px-8 py-4 rounded-full overflow-hidden font-semibold transition-all duration-300 ${
+      className={`group relative px-6 py-3 md:px-8 md:py-4 rounded-full overflow-hidden font-semibold transition-all duration-300 text-sm md:text-base ${
         variant === 'primary'
           ? 'bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 text-white shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/40'
           : 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20'
@@ -337,6 +338,19 @@ const galleryImages = [
   { src: 'https://images.unsplash.com/photo-1605745341112-85968b19335b?w=800&q=80', alt: 'Supply chain' },
 ];
 
+// ── Ticker Data with Flags ─────────────────────────────────────────────────────
+
+const tickerCities = [
+  { name: 'CASABLANCA', flag: '🇲🇦', country: 'Maroc' },
+  { name: 'PARIS', flag: '🇫🇷', country: 'France' },
+  { name: 'DUBAI', flag: '🇦🇪', country: 'Émirats Arabes Unis' },
+  { name: 'SHANGHAI', flag: '🇨🇳', country: 'Chine' },
+  { name: 'MIAMI', flag: '🇺🇸', country: 'États-Unis' },
+  { name: 'AMSTERDAM', flag: '🇳🇱', country: 'Pays-Bas' },
+  { name: 'SINGAPORE', flag: '🇸🇬', country: 'Singapour' },
+  { name: 'ROTTERDAM', flag: '🇳🇱', country: 'Pays-Bas' },
+];
+
 // ── Animation Utilities ───────────────────────────────────────────────────────
 
 const useReducedMotion = () => {
@@ -391,7 +405,7 @@ function Hero() {
   };
 
   return (
-    <section ref={containerRef} onMouseMove={handleMouseMove} className="relative min-h-screen flex items-center overflow-hidden pt-20 bg-slate-950">
+    <section ref={containerRef} onMouseMove={handleMouseMove} className="relative min-h-screen flex items-center overflow-hidden pt-16 md:pt-20 bg-slate-950">
       {/* Particle Grid Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)] bg-[size:40px_40px]" />
@@ -401,61 +415,60 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/30 to-slate-950/80" />
       <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/40 via-transparent to-purple-900/40" />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
-          {/* Left 55% - Text Content */}
-          <div className="lg:col-span-7">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left - Text Content */}
+          <div className="lg:col-span-7 text-center lg:text-left">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
-              <GlassBadge icon={CheckCircle}>À propos de nous</GlassBadge>
+              <div className="flex justify-center lg:justify-start">
+                <GlassBadge icon={CheckCircle}>À propos de nous</GlassBadge>
+              </div>
 
-              {/* NEW TITLE — condensed editorial style */}
-              <div className="mt-8">
+              {/* Title */}
+              <div className="mt-6 md:mt-8">
                 {/* Eyebrow line */}
                 <motion.p
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2, duration: 0.6 }}
-                  className="text-indigo-400 text-sm font-mono uppercase tracking-[0.3em] mb-3 flex items-center gap-3"
+                  className="text-indigo-400 text-xs md:text-sm font-mono uppercase tracking-[0.2em] md:tracking-[0.3em] mb-3 flex items-center justify-center lg:justify-start gap-2 md:gap-3"
                   style={{ fontFamily: 'JetBrains Mono, monospace' }}
                 >
-                  <span className="inline-block w-8 h-px bg-indigo-400" />
+                  <span className="inline-block w-6 md:w-8 h-px bg-indigo-400" />
                   Qui Sommes Nous
                 </motion.p>
 
-                {/* Main display title — stacked, condensed, all-caps */}
+                {/* Main display title */}
                 <h1
                   className="leading-none tracking-tight"
                   style={{ fontFamily: 'Syne, sans-serif' }}
                 >
-                  {/* UPDATED: reduced size from clamp(64px,10vw,120px) → clamp(36px,5vw,64px) */}
                   <motion.span
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                    className="block font-extrabold uppercase text-white leading-none" // UPDATED: removed old text size class, now set via style
-                    style={{ letterSpacing: '-0.03em', fontSize: 'clamp(36px,5vw,64px)' }} // UPDATED: smaller clamp range
+                    className="block font-extrabold uppercase text-white leading-none"
+                    style={{ letterSpacing: '-0.03em', fontSize: 'clamp(28px,8vw,64px)' }}
                   >
                     TRIWAYS
                   </motion.span>
 
-                  {/* UPDATED: reduced size from clamp(64px,10vw,120px) → clamp(36px,5vw,64px) */}
                   <motion.span
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.45, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                    className="block font-extrabold uppercase leading-none" // UPDATED: removed old text size class, now set via style
+                    className="block font-extrabold uppercase leading-none mt-1 md:mt-2"
                     style={{
                       letterSpacing: '-0.03em',
-                      fontSize: 'clamp(24px,3.5vw,40px)',
+                      fontSize: 'clamp(18px,4vw,40px)',
                       backgroundImage: 'linear-gradient(90deg, #818cf8 0%, #c084fc 40%, #67e8f9 100%)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',
                     }}
                   >
-                    INTER NATIONAL
+                    INTERNATIONAL
                   </motion.span>
-
                 </h1>
 
                 {/* Animated underline */}
@@ -463,8 +476,8 @@ function Hero() {
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 0.9, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="mt-4 h-[2px] bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 origin-left"
-                  style={{ width: '100%', maxWidth: '480px' }}
+                  className="mt-4 h-[2px] bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 origin-left mx-auto lg:mx-0"
+                  style={{ width: '100%', maxWidth: '320px' }}
                 />
               </div>
 
@@ -472,7 +485,7 @@ function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.75, duration: 0.8 }}
-                className="mt-8 text-xl text-slate-400 max-w-2xl leading-relaxed"
+                className="mt-6 md:mt-8 text-base md:text-xl text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed px-4 sm:px-0"
                 style={{ fontFamily: 'DM Sans, sans-serif' }}
               >
                 Nous relions les mondes, nous livrons vos rêves. Découvrez l'histoire de TRIWAYS et notre engagement pour l'excellence logistique.
@@ -480,40 +493,45 @@ function Hero() {
             </motion.div>
           </div>
 
-          {/* Right 45% - 3D Card with Parallax */}
-          <div className="lg:col-span-5">
+          {/* Right - 3D Card with Parallax */}
+          <div className="lg:col-span-5 mt-8 lg:mt-0">
             <motion.div
               initial={{ opacity: 0, rotateX: 15, rotateY: -15 }}
               animate={{ opacity: 1, rotateX: reduced ? 0 : mousePosition.y, rotateY: reduced ? 0 : mousePosition.x }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               style={{ transformStyle: 'preserve-3d', perspective: 1000 }}
-              className="relative"
+              className="relative max-w-md mx-auto lg:max-w-none"
             >
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-indigo-500/20 border border-white/10">
+              <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl shadow-indigo-500/20 border border-white/10">
                 <img
                   src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=800&q=80"
                   alt="Logistics"
-                  className="w-full h-[400px] object-cover"
+                  className="w-full h-[250px] sm:h-[300px] md:h-[400px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6">
-                  <div className="text-indigo-400 text-sm font-mono uppercase tracking-widest mb-2" style={{ fontFamily: 'JetBrains Mono, monospace' }}>Global Logistics</div>
-                  <div className="text-white text-2xl font-bold" style={{ fontFamily: 'Syne, sans-serif' }}>Excellence Since 2014</div>
+                <div className="absolute bottom-4 md:bottom-6 left-4 md:left-6 right-4 md:right-6">
+                  <div className="text-indigo-400 text-xs md:text-sm font-mono uppercase tracking-widest mb-1 md:mb-2" style={{ fontFamily: 'JetBrains Mono, monospace' }}>Global Logistics</div>
                 </div>
               </div>
-
             </motion.div>
           </div>
         </div>
 
-        {/* Bottom Ticker */}
-        <div className="mt-16 overflow-hidden">
+        {/* Bottom Ticker with Flags - Responsive */}
+        <div className="mt-12 md:mt-16 overflow-hidden">
           <div className="flex animate-ticker whitespace-nowrap">
             {[...Array(2)].map((_, setIndex) => (
-              <div key={setIndex} className="flex items-center gap-8 mr-8">
-                {['CASABLANCA', 'PARIS', 'DUBAI', 'SHANGHAI', 'MIAMI', 'AMSTERDAM', 'SINGAPORE', 'ROTTERDAM'].map((city) => (
-                  <span key={city} className="text-slate-500 text-sm font-mono uppercase tracking-widest flex items-center gap-4" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-                    {city} <span className="text-indigo-400">•</span>
+              <div key={setIndex} className="flex items-center gap-4 md:gap-8 mr-4 md:mr-8">
+                {tickerCities.map((city) => (
+                  <span 
+                    key={`${setIndex}-${city.name}`} 
+                    className="flex items-center gap-2 md:gap-4 text-slate-500 text-xs sm:text-sm md:text-base font-mono uppercase tracking-widest"
+                    style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                  >
+                    <span className="text-lg md:text-2xl" title={city.country}>{city.flag}</span>
+                    <span className="hidden sm:inline">{city.name}</span>
+                    <span className="sm:hidden">{city.name.substring(0, 3)}</span>
+                    <span className="text-indigo-400">•</span>
                   </span>
                 ))}
               </div>
@@ -530,6 +548,11 @@ function Hero() {
         .animate-ticker {
           animation: ticker 30s linear infinite;
         }
+        @media (max-width: 640px) {
+          .animate-ticker {
+            animation: ticker 20s linear infinite;
+          }
+        }
       `}</style>
     </section>
   );
@@ -541,32 +564,34 @@ function MissionStatement() {
 
   const words = ['transparence', 'innovation', 'engagement'];
   const quoteLines = [
-    "est de créer des ponts entre les entreprises et le monde,",
-    "en transformant chaque défi logistique en opportunité de croissance.",
-    "Avec transparence, innovation et engagement,",
-    "nous construisons l'avenir du transport international."
-  ];
+  "Chez Triways Logistique, notre histoire commence avec une ambition claire : offrir des solutions de transport et de logistique fiables, modernes et accessibles à tous.",
+  "Fondée récemment, notre société est née de la volonté de répondre aux besoins croissants des entreprises en matière de gestion des flux, d'import-export et de transport national et international.",
+  "Conscients des défis du secteur, nous avons réuni une équipe passionnée et qualifiée, déterminée à proposer un service efficace et personnalisé.",
+  "Dès le départ, nous avons fait le choix de placer la qualité, la réactivité et la transparence au cœur de notre démarche.",
+  "Chaque client est unique, c'est pourquoi nous nous engageons à offrir des solutions sur mesure, adaptées à ses exigences et à ses objectifs.",
+  "Aujourd'hui, Triways Logistique poursuit son développement avec une vision claire : devenir un partenaire de confiance, capable d'accompagner ses clients à chaque étape de leur croissance, au niveau national et international."
+];
 
   return (
-    <section ref={ref} className="relative py-32 overflow-hidden bg-slate-950">
+    <section ref={ref} className="relative py-20 md:py-32 overflow-hidden bg-slate-950">
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="h-px bg-gradient-to-r from-transparent via-indigo-400 to-transparent mb-16 origin-left"
+          className="h-px bg-gradient-to-r from-transparent via-indigo-400 to-transparent mb-12 md:mb-16 origin-left"
         />
 
-        <div className="flex flex-wrap justify-center gap-6 mb-16">
+        <div className="flex flex-wrap justify-center gap-3 md:gap-6 mb-12 md:mb-16">
           {words.map((word, i) => (
             <motion.div
               key={word}
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
               transition={{ delay: i * 0.15, duration: 0.6, type: "spring", stiffness: 200 }}
-              className="px-8 py-4 rounded-full border border-indigo-400/30 bg-indigo-400/5 backdrop-blur-sm"
+              className="px-4 md:px-8 py-2 md:py-4 rounded-full border border-indigo-400/30 bg-indigo-400/5 backdrop-blur-sm"
             >
-              <span className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400" style={{ fontFamily: 'Syne, sans-serif' }}>
+              <span className="text-2xl md:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400" style={{ fontFamily: 'Syne, sans-serif' }}>
                 {word}
               </span>
             </motion.div>
@@ -577,19 +602,19 @@ function MissionStatement() {
           <motion.span
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
-            className="text-2xl md:text-3xl text-indigo-400 font-semibold"
+            className="text-xl md:text-2xl md:text-3xl text-indigo-400 font-semibold"
             style={{ fontFamily: 'Syne, sans-serif' }}
           >
-            Notre mission
+            HISTOIRE
           </motion.span>
-          <div className="mt-6 space-y-2">
+          <div className="mt-4 md:mt-6 space-y-1 md:space-y-2">
             {quoteLines.map((line, i) => (
               <motion.p
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.3 + i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="text-xl md:text-2xl text-slate-300 leading-relaxed"
+                className="text-base md:text-xl lg:text-2xl text-slate-300 leading-relaxed px-4 sm:px-0"
                 style={{ fontFamily: 'DM Sans, sans-serif' }}
               >
                 {line}
@@ -607,11 +632,11 @@ function CEOQuote() {
   const inView = useInView(ref, { once: true, margin: '-100px' });
   const reduced = useReducedMotion();
 
-  const quoteText = "Diriger TRIWAYS est un honneur pour moi. Mon objectif premier est d'instaurer une transparence totale dans notre secteur. Je suis convaincu que la clé de l'excellence réside dans cette valeur essentielle. Notre équipe, soudée et dévouée, partage cette vision et s'efforce chaque jour de dépasser vos attentes.";
+  const quoteText = "Triways Logistique est née de la volonté de trois personnes partageant la même vision : offrir un service logistique fiable, humain et performant. Aujourd'hui, nous mettons toute notre énergie et notre engagement au service de nos clients, avec une priorité claire : bâtir une relation de confiance durable et accompagner chaque projet avec sérieux et réactivité..";
   const words = quoteText.split(' ');
 
   return (
-    <section ref={ref} className="relative py-32 overflow-hidden bg-slate-950">
+    <section ref={ref} className="relative py-20 md:py-32 overflow-hidden bg-slate-950">
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-purple-500/5" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -621,18 +646,18 @@ function CEOQuote() {
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="relative"
         >
-          <div className="flex gap-8">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-8">
             <motion.div
               initial={{ scaleY: 0 }}
               animate={inView ? { scaleY: 1 } : {}}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="w-1 bg-gradient-to-b from-indigo-400 to-purple-500 origin-top hidden md:block"
+              className="w-full md:w-1 h-1 md:h-auto bg-gradient-to-r md:bg-gradient-to-b from-indigo-400 to-purple-500 origin-left md:origin-top"
             />
 
             <div className="flex-1">
-              <Quote className="w-16 h-16 text-indigo-400/20 mb-6" />
+              <Quote className="w-10 h-10 md:w-16 md:h-16 text-indigo-400/20 mb-4 md:mb-6" />
 
-              <p className="text-xl md:text-2xl text-slate-300 leading-relaxed mb-8 italic" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+              <p className="text-base md:text-xl lg:text-2xl text-slate-300 leading-relaxed mb-6 md:mb-8 italic" style={{ fontFamily: 'DM Sans, sans-serif' }}>
                 "{words.map((word, i) => (
                   <motion.span
                     key={i}
@@ -647,10 +672,9 @@ function CEOQuote() {
               </p>
 
               <div className="flex items-center gap-4">
-
                 <div>
-                  <p className="font-semibold text-white text-lg" style={{ fontFamily: 'Syne, sans-serif' }}>Directeur Général</p>
-                  <p className="text-slate-400">TRIWAYS International</p>
+                  <p className="font-semibold text-white text-base md:text-lg" style={{ fontFamily: 'Syne, sans-serif' }}>Directeur Général</p>
+                  <p className="text-slate-400 text-sm md:text-base">TRIWAYS International</p>
                 </div>
               </div>
             </div>
@@ -668,56 +692,7 @@ function CEOQuote() {
   );
 }
 
-function Stats() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
 
-  const statsData = [
-    { value: 10, suffix: '+', label: "Années d'expérience" },
-    { value: 500, suffix: '+', label: 'Clients satisfaits' },
-    { value: 50, suffix: '+', label: 'Pays desservis' },
-    { value: 10, suffix: 'K+', label: 'Expéditions par an' },
-  ];
-
-  return (
-    <section ref={ref} className="relative py-20 overflow-hidden bg-slate-950">
-      <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 via-purple-600/20 to-indigo-600/20 backdrop-blur-sm border-y border-white/10" />
-      <NoiseOverlay opacity={0.1} />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
-          {statsData.map((stat, index) => {
-            const { count, ref: countRef } = useCountUp(stat.value, 1500);
-            return (
-              <motion.div
-                key={stat.label}
-                ref={countRef}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -8, boxShadow: '0 0 40px rgba(99,102,241,0.2)' }}
-                className="relative p-8 text-center group cursor-default"
-              >
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-400 to-purple-500" />
-
-                {index < statsData.length - 1 && (
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 h-[60%] w-px bg-indigo-400/20 hidden lg:block" />
-                )}
-
-                <p className="text-5xl lg:text-6xl font-bold text-white mb-2" style={{ fontFamily: 'Syne, sans-serif' }}>
-                  {count}{stat.suffix}
-                </p>
-                <p className="text-slate-400 text-xs font-mono uppercase tracking-[0.15em]" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-                  {stat.label}
-                </p>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ── NEW ServicesDetail Style ──────────────────────────────────────────────────
 
@@ -727,7 +702,7 @@ function ServicesDetail() {
   const inView = useInView(containerRef, { once: true, margin: '-100px' });
 
   return (
-    <section ref={containerRef} className="relative py-32 overflow-hidden bg-slate-950">
+    <section ref={containerRef} className="relative py-20 md:py-32 overflow-hidden bg-slate-950">
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:60px_60px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -735,18 +710,20 @@ function ServicesDetail() {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
         >
-          <GlassBadge icon={Zap}>Nos Expertises</GlassBadge>
-          <h2 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold text-white" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <div className="flex justify-center">
+            <GlassBadge icon={Zap}>Nos Expertises</GlassBadge>
+          </div>
+          <h2 className="mt-4 md:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white" style={{ fontFamily: 'Syne, sans-serif' }}>
             Nos{' '}<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">Services</span>
           </h2>
         </motion.div>
 
         {/* New Tabbed Interface */}
-        <div className="grid lg:grid-cols-12 gap-8">
+        <div className="grid lg:grid-cols-12 gap-6 md:gap-8">
           {/* Left Side - Service Navigation */}
-          <div className="lg:col-span-4 space-y-4">
+          <div className="lg:col-span-4 space-y-3 md:space-y-4">
             {services.map((service, index) => (
               <motion.button
                 key={service.title}
@@ -754,21 +731,21 @@ function ServicesDetail() {
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => setActiveService(index)}
-                className={`w-full text-left p-6 rounded-2xl border transition-all duration-300 group ${
+                className={`w-full text-left p-4 md:p-6 rounded-xl md:rounded-2xl border transition-all duration-300 group ${
                   activeService === index
                     ? 'bg-indigo-500/10 border-indigo-400/30 shadow-lg shadow-indigo-500/10'
                     : 'bg-white/5 border-white/10 hover:border-indigo-400/20 hover:bg-white/10'
                 }`}
               >
-                <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-xl bg-gradient-to-br ${service.color} transition-transform duration-300 ${activeService === index ? 'scale-110' : 'group-hover:scale-105'}`}>
-                    <service.icon size={24} className="text-white" />
+                <div className="flex items-center gap-3 md:gap-4">
+                  <div className={`p-2 md:p-3 rounded-lg md:rounded-xl bg-gradient-to-br ${service.color} transition-transform duration-300 ${activeService === index ? 'scale-110' : 'group-hover:scale-105'}`}>
+                    <service.icon size={20} md:size={24} className="text-white" />
                   </div>
-                  <div>
-                    <span className="text-xs font-mono text-slate-500 uppercase tracking-wider" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                  <div className="min-w-0">
+                    <span className="text-[10px] md:text-xs font-mono text-slate-500 uppercase tracking-wider block" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
                       0{index + 1}
                     </span>
-                    <h3 className={`text-lg font-bold transition-colors ${activeService === index ? 'text-white' : 'text-slate-300'}`} style={{ fontFamily: 'Syne, sans-serif' }}>
+                    <h3 className={`text-sm md:text-lg font-bold transition-colors truncate ${activeService === index ? 'text-white' : 'text-slate-300'}`} style={{ fontFamily: 'Syne, sans-serif' }}>
                       {service.title}
                     </h3>
                   </div>
@@ -787,7 +764,7 @@ function ServicesDetail() {
               className="relative h-full"
             >
               {/* Large Image Card */}
-              <div className="relative rounded-3xl overflow-hidden mb-8 group">
+              <div className="relative rounded-2xl md:rounded-3xl overflow-hidden mb-6 md:mb-8 group">
                 <div className="aspect-video">
                   <img
                     src={services[activeService].image}
@@ -798,55 +775,56 @@ function ServicesDetail() {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
 
                 {/* Floating Badge */}
-                <div className="absolute top-6 left-6">
+                <div className="absolute top-4 md:top-6 left-4 md:left-6">
                 {(() => {
                   const ActiveIcon = services[activeService].icon;
 
                   return (
                     <div
-                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${services[activeService].color} text-white text-sm font-medium`}
+                      className={`inline-flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1 md:py-2 rounded-full bg-gradient-to-r ${services[activeService].color} text-white text-xs md:text-sm font-medium`}
                     >
-                      <ActiveIcon size={16} />
-                      Service Premium
+                      <ActiveIcon size={14} md:size={16} />
+                      <span className="hidden sm:inline">Service Premium</span>
+                      <span className="sm:hidden">Premium</span>
                     </div>
                   );
                 })()}
               </div>
 
                 {/* Large Number Overlay */}
-                <div className="absolute bottom-6 right-6">
-                  <span className="text-[120px] font-extrabold text-white/5 leading-none" style={{ fontFamily: 'Syne, sans-serif' }}>
+                <div className="absolute bottom-4 md:bottom-6 right-4 md:right-6">
+                  <span className="text-6xl md:text-[120px] font-extrabold text-white/5 leading-none" style={{ fontFamily: 'Syne, sans-serif' }}>
                     0{activeService + 1}
                   </span>
                 </div>
               </div>
 
               {/* Content */}
-              <div className="space-y-6">
-                <p className="text-lg text-slate-300 leading-relaxed" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+              <div className="space-y-4 md:space-y-6">
+                <p className="text-base md:text-lg text-slate-300 leading-relaxed" style={{ fontFamily: 'DM Sans, sans-serif' }}>
                   {services[activeService].description}
                 </p>
 
                 {/* Feature Grid */}
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   {services[activeService].features.map((feature, i) => (
                     <motion.div
                       key={feature}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.1 }}
-                      className="flex items-center gap-3 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-indigo-400/30 transition-colors"
+                      className="flex items-center gap-2 md:gap-3 p-3 md:p-4 rounded-lg md:rounded-xl bg-white/5 border border-white/10 hover:border-indigo-400/30 transition-colors"
                     >
-                      <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${services[activeService].color} flex items-center justify-center flex-shrink-0`}>
-                        <CheckCircle size={16} className="text-white" />
+                      <div className={`w-6 h-6 md:w-8 md:h-8 rounded-md md:rounded-lg bg-gradient-to-br ${services[activeService].color} flex items-center justify-center flex-shrink-0`}>
+                        <CheckCircle size={14} md:size={16} className="text-white" />
                       </div>
-                      <span className="text-slate-300 font-medium">{feature}</span>
+                      <span className="text-slate-300 text-sm md:text-base font-medium">{feature}</span>
                     </motion.div>
                   ))}
                 </div>
 
                 {/* CTA */}
-                <div className="pt-4">
+                <div className="pt-2 md:pt-4">
                   <GlassButton to="/contact">
                     Demander un devis
                   </GlassButton>
@@ -865,7 +843,7 @@ function WhyChooseUs() {
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section ref={ref} className="relative py-32 overflow-hidden bg-slate-950">
+    <section ref={ref} className="relative py-20 md:py-32 overflow-hidden bg-slate-950">
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:60px_60px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -873,15 +851,17 @@ function WhyChooseUs() {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-20"
+          className="text-center mb-12 md:mb-20"
         >
-          <GlassBadge icon={Award}>Nos Atouts</GlassBadge>
-          <h2 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold text-white" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <div className="flex justify-center">
+            <GlassBadge icon={Award}>Nos Atouts</GlassBadge>
+          </div>
+          <h2 className="mt-4 md:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white" style={{ fontFamily: 'Syne, sans-serif' }}>
             Pourquoi nous <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">choisir</span>?
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {whyChooseUs.map((item, index) => {
             const isLarge = index === 0 || index === 5;
             const isCTA = index === 5;
@@ -895,7 +875,7 @@ function WhyChooseUs() {
                 whileHover={{ y: -5 }}
                 className={`group relative ${isLarge ? 'md:col-span-2' : ''}`}
               >
-                <div className={`relative p-8 rounded-2xl overflow-hidden h-full border transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.15)] ${
+                <div className={`relative p-6 md:p-8 rounded-xl md:rounded-2xl overflow-hidden h-full border transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.15)] ${
                   isCTA 
                     ? 'bg-gradient-to-br from-indigo-500 to-purple-600 border-indigo-400/30' 
                     : 'bg-white/5 border-white/10 hover:border-indigo-400/30'
@@ -903,15 +883,15 @@ function WhyChooseUs() {
                   <motion.div
                     whileHover={{ rotate: 15, scale: 1.1 }}
                     transition={{ type: "spring", stiffness: 300 }}
-                    className={`p-4 rounded-xl w-fit mb-6 ${
+                    className={`p-3 md:p-4 rounded-lg md:rounded-xl w-fit mb-4 md:mb-6 ${
                       isCTA ? 'bg-white/20' : 'bg-gradient-to-br from-indigo-500 to-purple-600'
                     }`}
                   >
-                    <item.icon size={28} className="text-white" />
+                    <item.icon size={24} md:size={28} className="text-white" />
                   </motion.div>
 
-                  <h4 className="text-xl font-bold text-white mb-3" style={{ fontFamily: 'Syne, sans-serif' }}>{item.title}</h4>
-                  <p className={`leading-relaxed ${isCTA ? 'text-white/90' : 'text-slate-400 group-hover:text-slate-300'} transition-colors`}>
+                  <h4 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3" style={{ fontFamily: 'Syne, sans-serif' }}>{item.title}</h4>
+                  <p className={`text-sm md:text-base leading-relaxed ${isCTA ? 'text-white/90' : 'text-slate-400 group-hover:text-slate-300'} transition-colors`}>
                     {item.description}
                   </p>
                 </div>
@@ -932,16 +912,18 @@ function GallerySection() {
   const triwaysChars = "TRIWAYS".split('');
 
   return (
-    <section ref={ref} className="relative py-32 overflow-hidden bg-slate-950">
+    <section ref={ref} className="relative py-20 md:py-32 overflow-hidden bg-slate-950">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-12"
+          className="text-center mb-8 md:mb-12"
         >
-          <GlassBadge icon={TrendingUp}>Notre Galerie</GlassBadge>
-          <h2 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <div className="flex justify-center">
+            <GlassBadge icon={TrendingUp}>Notre Galerie</GlassBadge>
+          </div>
+          <h2 className="mt-4 md:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
             <span className="flex flex-wrap justify-center">
               {titleChars.map((char, i) => (
                 <motion.span
@@ -977,13 +959,14 @@ function GallerySection() {
           transition={{ duration: 0.8 }}
           className="relative"
         >
-          <svg className="absolute -inset-4 w-[calc(100%+32px)] h-[calc(100%+32px)] pointer-events-none z-20">
+          <svg className="absolute -inset-2 md:-inset-4 w-[calc(100%+16px)] md:w-[calc(100%+32px)] h-[calc(100%+16px)] md:h-[calc(100%+32px)] pointer-events-none z-20">
             <motion.rect
               x="2"
               y="2"
               width="calc(100% - 4px)"
               height="calc(100% - 4px)"
-              rx="24"
+              rx="16"
+              md:rx="24"
               fill="none"
               stroke="rgba(99,102,241,0.3)"
               strokeWidth="2"
@@ -993,14 +976,14 @@ function GallerySection() {
             />
           </svg>
 
-          <div className="relative h-[600px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-indigo-500/10">
+          <div className="relative h-[300px] sm:h-[400px] md:h-[600px] rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-indigo-500/10">
             <InfiniteGallery images={galleryImages} speed={1.2} visibleCount={12}
               fadeSettings={{ fadeIn: { start: 0.05, end: 0.25 }, fadeOut: { start: 0.4, end: 0.43 } }}
               blurSettings={{ blurIn: { start: 0.0, end: 0.1 }, blurOut: { start: 0.4, end: 0.43 }, maxBlur: 8.0 }}
               className="h-full w-full" />
 
             <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-              <h3 className="text-5xl md:text-7xl tracking-tight mix-blend-exclusion text-white opacity-80 italic" style={{ fontFamily: 'Syne, sans-serif' }}>TRIWAYS</h3>
+              <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl tracking-tight mix-blend-exclusion text-white opacity-80 italic" style={{ fontFamily: 'Syne, sans-serif' }}>TRIWAYS</h3>
             </div>
           </div>
 
@@ -1008,27 +991,27 @@ function GallerySection() {
             initial={{ opacity: 0, x: -20 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.5 }}
-            className="absolute -bottom-6 left-8 px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20"
+            className="absolute -bottom-4 md:-bottom-6 left-4 md:left-8 px-3 md:px-6 py-2 md:py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20"
           >
-            <span className="text-indigo-400 font-mono text-sm font-bold" style={{ fontFamily: 'JetBrains Mono, monospace' }}>10+ YEARS</span>
+            <span className="text-indigo-400 font-mono text-xs md:text-sm font-bold" style={{ fontFamily: 'JetBrains Mono, monospace' }}>10+ YEARS</span>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.6 }}
-            className="absolute -bottom-6 right-8 px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20"
+            className="absolute -bottom-4 md:-bottom-6 right-4 md:right-8 px-3 md:px-6 py-2 md:py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20"
           >
-            <span className="text-indigo-400 font-mono text-sm font-bold" style={{ fontFamily: 'JetBrains Mono, monospace' }}>50+ COUNTRIES</span>
+            <span className="text-indigo-400 font-mono text-xs md:text-sm font-bold" style={{ fontFamily: 'JetBrains Mono, monospace' }}>50+ COUNTRIES</span>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.7 }}
-            className="absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full bg-indigo-500/10 border border-indigo-400/30"
+            className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 px-3 md:px-6 py-1.5 md:py-2 rounded-full bg-indigo-500/10 border border-indigo-400/30"
           >
-            <p className="text-indigo-300 text-xs font-mono uppercase tracking-widest" style={{ fontFamily: 'JetBrains Mono, monospace' }}>Molette ou flèches • Auto-play après 3s</p>
+            <p className="text-indigo-300 text-[10px] md:text-xs font-mono uppercase tracking-widest" style={{ fontFamily: 'JetBrains Mono, monospace' }}>Molette ou flèches • Auto-play après 3s</p>
           </motion.div>
         </motion.div>
       </div>
@@ -1041,6 +1024,7 @@ function GallerySection() {
 export default function QuiSommesNous() {
   return (
     <div className="relative min-h-screen text-white overflow-x-hidden bg-slate-950">
+      <SEO page="about" />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
       `}</style>
@@ -1052,13 +1036,13 @@ export default function QuiSommesNous() {
         <motion.div
           animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.15, 0.1], x: [0, 30, 0], y: [0, -20, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -top-[20%] -right-[10%] w-[900px] h-[900px] rounded-full bg-indigo-600 blur-[220px]"
+          className="absolute -top-[20%] -right-[10%] w-[600px] md:w-[900px] h-[600px] md:h-[900px] rounded-full bg-indigo-600 blur-[150px] md:blur-[220px]"
         />
 
         <motion.div
           animate={{ scale: [1.1, 1, 1.1], opacity: [0.1, 0.15, 0.1], x: [0, -20, 0], y: [0, 30, 0] }}
           transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 5 }}
-          className="absolute -bottom-[20%] -left-[10%] w-[800px] h-[800px] rounded-full bg-purple-600 blur-[200px]"
+          className="absolute -bottom-[20%] -left-[10%] w-[500px] md:w-[800px] h-[500px] md:h-[800px] rounded-full bg-purple-600 blur-[120px] md:blur-[200px]"
         />
 
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)] bg-[size:50px_50px]" />
@@ -1070,7 +1054,6 @@ export default function QuiSommesNous() {
         <Hero />
         <MissionStatement />
         <CEOQuote />
-        <Stats />
         <ServicesDetail />
         <WhyChooseUs />
         <GallerySection />

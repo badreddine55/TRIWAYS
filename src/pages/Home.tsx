@@ -5,21 +5,11 @@ import {
   Pause,
 } from 'lucide-react';
 
+import SEO from '@/components/SEO';
 import Hero from '@/sections/Hero';
 import ProcessSection from '@/sections/Process';
 import {ServicesPreview} from '@/sections/ServicesPreview';
 import AboutPreview from '@/sections/AboutPreview';
-// ── Icon Components ────────────────────────────────────────────────────────────
-
-
-
-// ── Data ───────────────────────────────────────────────────────────────────────
-
-// ── Glass Card ─────────────────────────────────────────────────────────────────
-
-
-// ── Sections ───────────────────────────────────────────────────────────────────
-
 
 
 function VideoSection() {
@@ -44,11 +34,9 @@ function VideoSection() {
               Découvrez-nous
             </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
-              Notre Vision en Action
+              Notre Vision 
             </h2>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-              Découvrez comment TRIWAYS transforme la logistique internationale
-            </p>
+
           </motion.div>
 
           <motion.div
@@ -98,6 +86,7 @@ function VideoSection() {
 export default function Home() {
   return (
     <>
+      <SEO page="home" />
       <Hero />
       <ServicesPreview />
       <ProcessSection />

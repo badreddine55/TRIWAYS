@@ -1,69 +1,69 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Ship, Plane, Truck, Package, Globe, Anchor } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Ship, Plane, Truck, Package, Globe, Anchor, ChevronDown, ChevronUp } from "lucide-react";
 
-// High-quality logistics images from Unsplash
-const servicesPreview = [
+// Sub-services for Transport National et International
+const transportSubServices = [
   {
     title: "Transport Maritime",
-    description: "Solutions de fret maritime internationale avec tracking en temps réel et optimisation des routes commerciales.",
+    description: "Solutions de fret maritime internationale avec tracking en temps réel.",
     icon: Ship,
     color: "from-cyan-500 to-blue-600",
-    accent: "cyan",
     image: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "Transport Aérien",
-    description: "Livraison express par voie aérienne pour vos marchandises urgentes avec couverture mondiale.",
+    description: "Livraison express par voie aérienne pour vos marchandises urgentes.",
     icon: Plane,
     color: "from-violet-500 to-purple-600",
-    accent: "violet",
-    image: "https://images.unsplash.com/photo-1616432043562-3671ea2e5242?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1616432043562-3671ea2ea5242?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "Logistique Terrestre",
-    description: "Réseau routier optimisé et solutions de stockage avec gestion d'entrepôt automatisée.",
+    description: "Réseau routier optimisé et solutions de stockage automatisée.",
     icon: Truck,
     color: "from-emerald-500 to-teal-600",
-    accent: "emerald",
     image: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=800&auto=format&fit=crop",
   },
+];
+
+// Main services preview - now with expandable transport card and 2 new cards
+const servicesPreview = [
   {
-    title: "Stockage & Entreposage",
-    description: "Solutions de stockage sécurisé et gestion d'inventaire en temps réel dans nos entrepôts modernes.",
+    title: "Transport National et International",
+    description: "Solutions complètes de transport multimodal : maritime, aérien et terrestre pour vos expéditions nationales et internationales.",
+    icon: Globe,
+    color: "from-indigo-500 via-purple-500 to-cyan-500",
+    accent: "indigo",
+    image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=800&auto=format&fit=crop",
+    isExpandable: true,
+    subServices: transportSubServices,
+  },
+  {
+    title: "Gestion Douanière",
+    description: "Nous proposons une gestion douanière intégrée couvrant l'ensemble de vos opérations d'importation et d'exportation.",
     icon: Package,
     color: "from-amber-500 to-orange-600",
     accent: "amber",
     image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80",
   },
   {
-    title: "Fret International",
-    description: "Solutions complètes d'import/export avec gestion douanière et conformité réglementaire.",
-    icon: Globe,
+    title: "Consultation et Formation Stratégique",
+    description: "Accompagnement stratégique sur mesure : formez vos équipes et optimisez vos choix pour un succès durable.",
+    icon: Anchor,
     color: "from-rose-500 to-pink-600",
     accent: "rose",
-    image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    title: "Port & Terminal",
-    description: "Services portuaires complets avec manutention, transbordement et consolidation de conteneurs.",
-    icon: Anchor,
-    color: "from-indigo-500 to-blue-700",
-    accent: "indigo",
-    image: "https://images.unsplash.com/photo-1542296332-2e44a3e4a3c1?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
-
-
-
-
-// Glass Card Component with Image Preview
+// Glass Card Component with Image Preview and Expandable Support
 const GlassCard = ({ service, index }: { service: typeof servicesPreview[0]; index: number }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <motion.div
@@ -74,6 +74,7 @@ const GlassCard = ({ service, index }: { service: typeof servicesPreview[0]; ind
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       className="group relative h-full"
+      layout
     >
       <div className="relative h-full rounded-3xl overflow-hidden bg-slate-900/40 backdrop-blur-md border border-white/10 hover:border-white/20 transition-all duration-500">
         {/* Background Image Preview */}
@@ -117,6 +118,62 @@ const GlassCard = ({ service, index }: { service: typeof servicesPreview[0]; ind
             {service.description}
           </p>
 
+          {/* Expandable Section for Transport */}
+          {service.isExpandable && (
+            <div className="mb-4">
+              <motion.button
+                onClick={() => setIsExpanded(!isExpanded)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r ${service.color} bg-opacity-10 border border-white/10 hover:border-white/30 transition-all`}
+              >
+                <span className="text-sm font-semibold text-white">Voir les types de transport</span>
+                <motion.div
+                  animate={{ rotate: isExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChevronDown size={20} className="text-white" />
+                </motion.div>
+              </motion.button>
+
+              <AnimatePresence>
+                {isExpanded && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-4 space-y-3">
+                      {service.subServices?.map((sub, idx) => (
+                        <motion.div
+                          key={sub.title}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
+                          className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer group/sub"
+                        >
+                          <div className={`p-2 rounded-lg bg-gradient-to-br ${sub.color} shrink-0`}>
+                            <sub.icon size={16} className="text-white" />
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-semibold text-white group-hover/sub:text-indigo-300 transition-colors">
+                              {sub.title}
+                            </h4>
+                            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                              {sub.description}
+                            </p>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
+
           {/* CTA */}
           <Link to="/services" className="inline-flex items-center gap-2 group/link mt-auto">
             <span className={`text-sm font-semibold bg-gradient-to-r ${service.color} bg-clip-text text-transparent`}>
@@ -153,7 +210,7 @@ export function ServicesPreview() {
     offset: ["start end", "end start"],
   });
 
-const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   return (
     <section 
@@ -252,12 +309,16 @@ const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
             </h2>
             
             <p className="text-slate-400 text-xl max-w-3xl mx-auto leading-relaxed">
-              Des solutions logistiques complètes pour accompagner votre croissance internationale, 
-              avec une expertise reconnue dans le transport maritime, aérien et terrestre.
+                Une approche complète, de
+                la logistique au transport
+                enrichie par le transit et le
+                consulting pour
+                accompagner votre
+                croissance.
             </p>
           </motion.div>
 
-          {/* Services Grid - Now 2x3 layout for more images visibility */}
+          {/* Services Grid - Now 3 cards layout */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             {servicesPreview.map((service, index) => (
               <GlassCard key={service.title} service={service} index={index} />

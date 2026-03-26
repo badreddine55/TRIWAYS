@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import SEO from '@/components/SEO';
 import {
   Select,
   SelectContent,
@@ -101,6 +102,7 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-slate-950 relative">
+      <SEO page="contact" />
       {/* Global Background */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-slate-950" />

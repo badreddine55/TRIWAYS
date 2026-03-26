@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, ArrowDown, Facebook, Instagram } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowDown, Facebook, Instagram, Linkedin, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 // WhatsApp SVG icon (lucide doesn't have WhatsApp)
 const WhatsAppIcon = () => (
@@ -12,6 +12,10 @@ const WhatsAppIcon = () => (
 const WHATSAPP_NUMBER = '212634362701'; // 👈 replace with your number (no + or spaces)
 const WHATSAPP_MESSAGE = 'Bonjour, je souhaite avoir plus d\'informations sur vos services logistiques.';
 const WHATSAPP_URL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const EMAIL_ADDRESS = 'contact@triways.ma';
+const EMAIL_SUBJECT = 'Demande d\'informations';
+const EMAIL_BODY = 'Bonjour,\n\nJe souhaite avoir plus d\'informations sur vos services logistiques.\n\nCordialement,';
+const EMAIL_URL = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(EMAIL_SUBJECT)}&body=${encodeURIComponent(EMAIL_BODY)}`;
 
 const slides = [
   {
@@ -88,7 +92,7 @@ export default function Hero() {
         {[
           { href: '#', icon: <Facebook size={18} />, label: 'Facebook' },
           { href: 'https://www.instagram.com/triways_logistics', icon: <Instagram size={18} />, label: 'Instagram' },
-          // 👇 WhatsApp — replace href with your number
+          { href: 'https://www.linkedin.com/company/triways-logistics', icon: <Linkedin size={18} />, label: 'LinkedIn' },
           {
             href: WHATSAPP_URL,
             icon: <WhatsAppIcon />,
@@ -129,7 +133,7 @@ export default function Hero() {
           >
             <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
             <span className="text-sm font-medium text-white/90 tracking-wide">
-              TRIWAYS INTERNATIONAL
+              TRIWAYS LOGISTICS COMPANY
             </span>
           </motion.div>
 
@@ -154,7 +158,7 @@ export default function Hero() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="mt-6 text-lg sm:text-xl text-white/70 max-w-2xl mx-auto"
           >
-            Excellence en logistique internationale
+            Votre partenaire logistique
           </motion.p>
 
           {/* CTA Buttons */}
@@ -236,23 +240,21 @@ export default function Hero() {
         </motion.button>
       </div>
 
-      {/* ── Floating WhatsApp Button (bottom-right, visible on all screen sizes) ── */}
       <motion.a
-        href={WHATSAPP_URL}
+        href={EMAIL_URL}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Contactez-nous sur WhatsApp"
+        aria-label="Contactez-nous par email"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 1.2, type: 'spring', stiffness: 260, damping: 20 }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-3 pl-4 pr-5 py-3 rounded-full bg-green-500 hover:bg-green-400 text-white shadow-lg hover:shadow-green-500/40 transition-all group"
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-3 pl-4 pr-5 py-3 rounded-full bg-orange-500 hover:bg-orange-400 text-white shadow-lg hover:shadow-orange-500/40 transition-all group"
       >
-        <WhatsAppIcon />
-        {/* Label expands on hover — hidden on mobile tap to keep it clean */}
+        <Mail size={20} />
         <span className="text-sm font-semibold whitespace-nowrap max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300">
-          Discutons ensemble
+          Envoyez-nous un email
         </span>
       </motion.a>
 
