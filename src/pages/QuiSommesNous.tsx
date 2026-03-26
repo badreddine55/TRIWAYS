@@ -365,29 +365,7 @@ const useReducedMotion = () => {
   return reduced;
 };
 
-const useCountUp = (end: number, duration: number = 1500) => {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-100px' });
-  const reduced = useReducedMotion();
 
-  useEffect(() => {
-    if (!inView) return;
-    if (reduced) { setCount(end); return; }
-
-    let startTime: number | null = null;
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const easeOutQuad = 1 - (1 - progress) * (1 - progress);
-      setCount(Math.floor(easeOutQuad * end));
-      if (progress < 1) requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-  }, [inView, end, duration, reduced]);
-
-  return { count, ref };
-};
 
 // ── Sections (Redesigned with Home Page Colors) ───────────────────────────────
 
@@ -416,9 +394,9 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/40 via-transparent to-purple-900/40" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left - Text Content */}
-          <div className="lg:col-span-7 text-center lg:text-left">
+          <div className="lg:col-span-7 text-center lg:text-left order-2 lg:order-1">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
               <div className="flex justify-center lg:justify-start">
                 <GlassBadge icon={CheckCircle}>À propos de nous</GlassBadge>
@@ -494,7 +472,7 @@ function Hero() {
           </div>
 
           {/* Right - 3D Card with Parallax */}
-          <div className="lg:col-span-5 mt-8 lg:mt-0">
+          <div className="lg:col-span-5 mt-8 lg:mt-0 order-1 lg:order-2">
             <motion.div
               initial={{ opacity: 0, rotateX: 15, rotateY: -15 }}
               animate={{ opacity: 1, rotateX: reduced ? 0 : mousePosition.y, rotateY: reduced ? 0 : mousePosition.x }}
@@ -739,7 +717,7 @@ function ServicesDetail() {
               >
                 <div className="flex items-center gap-3 md:gap-4">
                   <div className={`p-2 md:p-3 rounded-lg md:rounded-xl bg-gradient-to-br ${service.color} transition-transform duration-300 ${activeService === index ? 'scale-110' : 'group-hover:scale-105'}`}>
-                    <service.icon size={20} md:size={24} className="text-white" />
+                    <service.icon size={20} className="text-white md:w-6 md:h-6" />
                   </div>
                   <div className="min-w-0">
                     <span className="text-[10px] md:text-xs font-mono text-slate-500 uppercase tracking-wider block" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
@@ -783,7 +761,7 @@ function ServicesDetail() {
                     <div
                       className={`inline-flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1 md:py-2 rounded-full bg-gradient-to-r ${services[activeService].color} text-white text-xs md:text-sm font-medium`}
                     >
-                      <ActiveIcon size={14} md:size={16} />
+                      <ActiveIcon size={14} className="md:w-4 md:h-4" />
                       <span className="hidden sm:inline">Service Premium</span>
                       <span className="sm:hidden">Premium</span>
                     </div>
@@ -816,7 +794,7 @@ function ServicesDetail() {
                       className="flex items-center gap-2 md:gap-3 p-3 md:p-4 rounded-lg md:rounded-xl bg-white/5 border border-white/10 hover:border-indigo-400/30 transition-colors"
                     >
                       <div className={`w-6 h-6 md:w-8 md:h-8 rounded-md md:rounded-lg bg-gradient-to-br ${services[activeService].color} flex items-center justify-center flex-shrink-0`}>
-                        <CheckCircle size={14} md:size={16} className="text-white" />
+                        <CheckCircle size={14} className="text-white md:w-4 md:h-4" />
                       </div>
                       <span className="text-slate-300 text-sm md:text-base font-medium">{feature}</span>
                     </motion.div>
@@ -887,7 +865,7 @@ function WhyChooseUs() {
                       isCTA ? 'bg-white/20' : 'bg-gradient-to-br from-indigo-500 to-purple-600'
                     }`}
                   >
-                    <item.icon size={24} md:size={28} className="text-white" />
+                    <item.icon size={24} className="text-white md:w-7 md:h-7" />
                   </motion.div>
 
                   <h4 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3" style={{ fontFamily: 'Syne, sans-serif' }}>{item.title}</h4>
@@ -966,7 +944,7 @@ function GallerySection() {
               width="calc(100% - 4px)"
               height="calc(100% - 4px)"
               rx="16"
-              md:rx="24"
+              className="md:rounded-2xl"
               fill="none"
               stroke="rgba(99,102,241,0.3)"
               strokeWidth="2"
@@ -986,24 +964,6 @@ function GallerySection() {
               <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl tracking-tight mix-blend-exclusion text-white opacity-80 italic" style={{ fontFamily: 'Syne, sans-serif' }}>TRIWAYS</h3>
             </div>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.5 }}
-            className="absolute -bottom-4 md:-bottom-6 left-4 md:left-8 px-3 md:px-6 py-2 md:py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20"
-          >
-            <span className="text-indigo-400 font-mono text-xs md:text-sm font-bold" style={{ fontFamily: 'JetBrains Mono, monospace' }}>10+ YEARS</span>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.6 }}
-            className="absolute -bottom-4 md:-bottom-6 right-4 md:right-8 px-3 md:px-6 py-2 md:py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20"
-          >
-            <span className="text-indigo-400 font-mono text-xs md:text-sm font-bold" style={{ fontFamily: 'JetBrains Mono, monospace' }}>50+ COUNTRIES</span>
-          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

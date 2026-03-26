@@ -165,35 +165,87 @@ function AnimatedTitle() {
   );
 }
 
+
+const tickerCities = [
+  { name: 'CASABLANCA', flag: '🇲🇦', country: 'Maroc' },
+  { name: 'PARIS', flag: '🇫🇷', country: 'France' },
+  { name: 'DUBAI', flag: '🇦🇪', country: 'Émirats Arabes Unis' },
+  { name: 'SHANGHAI', flag: '🇨🇳', country: 'Chine' },
+  { name: 'MIAMI', flag: '🇺🇸', country: 'États-Unis' },
+  { name: 'AMSTERDAM', flag: '🇳🇱', country: 'Pays-Bas' },
+  { name: 'SINGAPORE', flag: '🇸🇬', country: 'Singapour' },
+  { name: 'ROTTERDAM', flag: '🇳🇱', country: 'Pays-Bas' },
+];
+
 function TickerStrip() {
-  const tickerText = "DÉDOUANEMENT • CONSULTING • TRANSPORT • FREIGHT • EXPRESS • ASSURANCE • CASABLANCA • INTERNATIONAL •";
+  const services = ["DÉDOUANEMENT", "CONSULTING", "TRANSPORT", "FREIGHT", "EXPRESS", "ASSURANCE", "INTERNATIONAL"];
+  
+  // Shuffle or interleave them for variety, or keep structured
+  const structuredItems: Array<{ type: string; text?: string; name?: string; flag?: string; country?: string }> = [];
+  services.forEach((service, i) => {
+    structuredItems.push({ type: 'service', text: service });
+    if (tickerCities[i]) {
+      structuredItems.push({ type: 'city', ...tickerCities[i] });
+    }
+  });
 
   return (
     <div className="absolute bottom-0 left-0 right-0 bg-slate-950/80 backdrop-blur-md border-t border-white/5 py-4 overflow-hidden">
       <div className="ticker-wrapper">
         <motion.div
-          className="ticker-content flex gap-8"
-          animate={{ x: [0, -2000] }}
+          className="ticker-content flex items-center gap-6"
+          animate={{ x: [0, -3000] }}
           transition={{
-            duration: 20,
+            duration: 30,
             ease: "linear",
             repeat: Infinity,
           }}
         >
-          {[...Array(3)].map((_, i) => (
-            <span
-              key={i}
-              className="text-indigo-400/70 text-xs uppercase whitespace-nowrap"
-              style={{ fontFamily: 'JetBrains Mono, monospace' }}
-            >
-              {tickerText}
-            </span>
+          {[...Array(4)].map((_, setIndex) => (
+            <div key={setIndex} className="flex items-center gap-6 shrink-0">
+              {structuredItems.map((item, i) => (
+                <div key={`${setIndex}-${i}`} className="flex items-center gap-2 shrink-0">
+                  {item.type === 'city' ? (
+                    <>
+                      <span className="text-lg leading-none">{item.flag}</span>
+                      <span 
+                        className="text-indigo-300 text-xs uppercase whitespace-nowrap"
+                        style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                      >
+                        {item.name}
+                      </span>
+                      <span className="text-white/30 text-[10px] uppercase hidden sm:inline">
+                        {item.country}
+                      </span>
+                    </>
+                  ) : (
+                    <span 
+                      className="text-indigo-400/70 text-xs uppercase whitespace-nowrap"
+                      style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                    >
+                      {item.text}
+                    </span>
+                  )}
+                  
+                  {/* Separator dot */}
+                  <span className="text-white/20 text-xs mx-2">•</span>
+                </div>
+              ))}
+            </div>
           ))}
         </motion.div>
       </div>
+
+      <style>{`
+        .ticker-wrapper {
+          mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+          -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+      `}</style>
     </div>
   );
 }
+
 
 function ServiceCard({ service, index }: { service: typeof mainServices[0], index: number }) {
   const ref = useRef<HTMLDivElement>(null);
