@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Ship, Plane, Truck, Package, Globe, Anchor, ChevronDown } from "lucide-react";
+import { useLang } from "./LangContext";
+import { translations } from "@/lib/translations";
 
 // Sub-services for Transport National et International
 const transportSubServices = [
@@ -31,10 +33,10 @@ const transportSubServices = [
 ];
 
 // Main services preview - now with expandable transport card and 2 new cards
-const servicesPreview = [
+const baseServicesPreview = [
   {
-    title: "Transport National et International",
-    description: "Solutions complètes de transport multimodal : maritime, aérien et terrestre pour vos expéditions nationales et internationales.",
+    titleKey: 'transport',
+    descriptionKey: 'transportDesc',
     icon: Globe,
     color: "from-indigo-500 via-purple-500 to-cyan-500",
     accent: "indigo",
@@ -43,16 +45,16 @@ const servicesPreview = [
     subServices: transportSubServices,
   },
   {
-    title: "Gestion Douanière",
-    description: "Nous proposons une gestion douanière intégrée couvrant l'ensemble de vos opérations d'importation et d'exportation.",
+    titleKey: 'customs',
+    descriptionKey: 'customsDesc',
     icon: Package,
     color: "from-amber-500 to-orange-600",
     accent: "amber",
     image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80",
   },
   {
-    title: "Consultation et Formation Stratégique",
-    description: "Accompagnement stratégique sur mesure : formez vos équipes et optimisez vos choix pour un succès durable.",
+    titleKey: 'consulting',
+    descriptionKey: 'consultingDesc',
     icon: Anchor,
     color: "from-rose-500 to-pink-600",
     accent: "rose",
@@ -61,7 +63,7 @@ const servicesPreview = [
 ];
 
 // Glass Card Component with Image Preview and Expandable Support
-const GlassCard = ({ service, index }: { service: typeof servicesPreview[0]; index: number }) => {
+const GlassCard = ({ service, index, learnMore }: { service: typeof baseServicesPreview[0] & { title: string; description: string }; index: number; learnMore: string }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -177,7 +179,7 @@ const GlassCard = ({ service, index }: { service: typeof servicesPreview[0]; ind
           {/* CTA */}
           <Link to="/services" className="inline-flex items-center gap-2 group/link mt-auto">
             <span className={`text-sm font-semibold bg-gradient-to-r ${service.color} bg-clip-text text-transparent`}>
-              En savoir plus
+              {learnMore}
             </span>
             <motion.div
               animate={{ x: isHovered ? 4 : 0, y: isHovered ? -4 : 0 }}
@@ -204,6 +206,8 @@ const GlassCard = ({ service, index }: { service: typeof servicesPreview[0]; ind
 };
 
 export function ServicesPreview() {
+  const { lang } = useLang();
+  const servicesData = translations[lang].servicesPreview;
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -211,6 +215,20 @@ export function ServicesPreview() {
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+  // Build services with translations
+  const servicesPreview = baseServicesPreview.map((service) => ({
+    ...service,
+    title: servicesData[service.titleKey as keyof typeof servicesData],
+    description: servicesData[service.descriptionKey as keyof typeof servicesData],
+  }));
+
+  const badgeText = servicesData.badge;
+  const headingPart1 = servicesData.headingPart1;
+  const headingPart2 = servicesData.headingPart2;
+  const servicesDescription = servicesData.description;
+  const viewAllServices = servicesData.cta;
+  const learnMore = servicesData.learnMore;
 
   return (
     <section 
@@ -278,14 +296,14 @@ export function ServicesPreview() {
                 transition={{ duration: 2, repeat: Infinity }}
                 className="w-2 h-2 rounded-full bg-indigo-400"
               />
-              Nos Expertises
+              {badgeText}
             </motion.span>
             
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
-              Nos{" "}
+              {headingPart1}{" "}
               <span className="relative inline-block">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 animate-gradient-x">
-                  Services
+                  {headingPart2}
                 </span>
                 <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 400 12" preserveAspectRatio="none">
                   <motion.path 
@@ -309,19 +327,14 @@ export function ServicesPreview() {
             </h2>
             
             <p className="text-slate-400 text-xl max-w-3xl mx-auto leading-relaxed">
-                Une approche complète, de
-                la logistique au transport
-                enrichie par le transit et le
-                consulting pour
-                accompagner votre
-                croissance.
+              {servicesDescription}
             </p>
           </motion.div>
 
           {/* Services Grid - Now 3 cards layout */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             {servicesPreview.map((service, index) => (
-              <GlassCard key={service.title} service={service} index={index} />
+              <GlassCard key={service.title} service={service} index={index} learnMore={learnMore} />
             ))}
           </div>
 
@@ -343,7 +356,7 @@ export function ServicesPreview() {
                 <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
                 <span className="relative flex items-center gap-3 text-white font-semibold text-lg">
-                  Voir tous nos services
+                  {viewAllServices}
                   <motion.span
                     animate={{ x: [0, 5, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}

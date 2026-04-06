@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { LangProvider } from '@/sections/LangContext';
 import Navbar from '@/sections/Navbar';
 import Footer from '@/sections/Footer';
 import Home from '@/pages/Home';
@@ -18,7 +19,7 @@ function ScrollToTop() {
   return null;
 }
 
-function App() {
+function AppContent() {
   return (
     <div className="min-h-screen bg-white">
       <ScrollToTop />
@@ -33,6 +34,14 @@ function App() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <LangProvider>
+      <AppContent />
+    </LangProvider>
   );
 }
 

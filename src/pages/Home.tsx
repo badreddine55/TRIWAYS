@@ -1,19 +1,18 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import {
-  Play,
-  Pause,
-} from 'lucide-react';
-
+import { Play, Pause } from 'lucide-react';
 import SEO from '@/components/SEO';
 import Hero from '@/sections/Hero';
 import ProcessSection from '@/sections/Process';
-import {ServicesPreview} from '@/sections/ServicesPreview';
+import { ServicesPreview } from '@/sections/ServicesPreview';
 import AboutPreview from '@/sections/AboutPreview';
-
+import { useLang } from '@/sections/LangContext';
+import { translations } from '@/lib/translations';
 
 function VideoSection() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const { lang } = useLang();
+  const data = translations[lang].home.videoSection;
 
   return (
     <section className="relative py-24 bg-slate-950 overflow-hidden">
@@ -31,12 +30,11 @@ function VideoSection() {
             className="text-center mb-12"
           >
             <span className="inline-block px-4 py-1.5 rounded-full bg-indigo-500/20 text-indigo-400 text-sm font-medium mb-4">
-              Découvrez-nous
+              {data.badge}
             </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
-              Notre Vision 
+              {data.heading}
             </h2>
-
           </motion.div>
 
           <motion.div
@@ -64,12 +62,12 @@ function VideoSection() {
 
             <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
               <div>
-                <p className="text-white font-semibold text-lg">TRIWAYS International</p>
-                <p className="text-white/60 text-sm">Excellence en logistique</p>
+                <p className="text-white font-semibold text-lg">{data.company}</p>
+                <p className="text-white/60 text-sm">{data.tagline}</p>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md">
                 <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                <span className="text-white/80 text-sm">LIVE</span>
+                <span className="text-white/80 text-sm">{data.live}</span>
               </div>
             </div>
           </motion.div>
@@ -78,10 +76,6 @@ function VideoSection() {
     </section>
   );
 }
-
-
-
-// ── Page ───────────────────────────────────────────────────────────────────────
 
 export default function Home() {
   return (

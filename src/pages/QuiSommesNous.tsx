@@ -4,19 +4,15 @@ import { Link } from 'react-router-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
+import { useLang } from '@/sections/LangContext';
+import { translations } from '@/lib/translations';
 import {
-  Shield,
-  Clock,
-  Globe,
-  Leaf,
-  Users,
-  Target,
   Quote,
   CheckCircle,
   ArrowRight,
-  Zap,
   TrendingUp,
   Award,
+  Zap,
 } from 'lucide-react';
 import SEO from '@/components/SEO';
 
@@ -286,45 +282,6 @@ const GlassButton = ({ children, to, onClick, variant = 'primary' }: {
 
 // ── Data (UNCHANGED) ───────────────────────────────────────────────────────────
 
-const services = [
-  {
-    title: 'Gestion Douanière Intégrée',
-    description: "Simplifiez vos formalités douanières avec notre expertise spécialisée, couvrant tous les aspects du dédouanement, des déclarations et des procédures nécessaires pour un transit fluide et efficace.",
-    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=80',
-    features: ['Dédouanement complet', 'Suivi en temps réel', 'Conformité réglementaire', 'Documentation assurée'],
-    icon: Shield,
-    color: 'from-indigo-500 to-purple-600',
-    accent: 'indigo',
-  },
-  {
-    title: 'Consulting Stratégique',
-    description: "Maximisez vos opportunités d'importation grâce à notre consulting personnalisé. Nous vous guidons à travers chaque étape, en optimisant les processus pour minimiser les coûts.",
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80',
-    features: ['Optimisation des coûts', 'Analyse des processus', 'Conseil personnalisé', 'Accompagnement continu'],
-    icon: Target,
-    color: 'from-purple-500 to-pink-600',
-    accent: 'purple',
-  },
-  {
-    title: 'Transport National et International',
-    description: "Profitez de notre réseau mondial de partenaires pour des solutions de transport sur mesure, offrant des délais compétitifs et une fiabilité inégalée.",
-    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80',
-    features: ['Réseau mondial', 'Délais compétitifs', 'Multi-modal', 'Traçabilité complète'],
-    icon: Globe,
-    color: 'from-cyan-500 to-blue-600',
-    accent: 'cyan',
-  },
-];
-
-const whyChooseUs = [
-  { icon: Shield, title: 'Expertise complète', description: "Du transport international à la gestion d'entrepôts et aux formalités douanières, notre savoir-faire couvre l'ensemble de la chaîne logistique." },
-  { icon: Target, title: 'Solutions sur mesure', description: 'Chaque service est conçu pour répondre précisément aux besoins spécifiques de votre entreprise, quelle que soit sa taille.' },
-  { icon: Clock, title: 'Fiabilité et ponctualité', description: 'Nous garantissons des livraisons sécurisées, dans les délais convenus, pour que vos marchandises arrivent toujours à destination.' },
-  { icon: Globe, title: 'Approche intégrée', description: "Nous optimisons chaque maillon de votre chaîne d'approvisionnement afin d'assurer une efficacité maximale." },
-  { icon: Leaf, title: 'Engagement écoresponsable', description: "Nous adoptons des pratiques durables visant à réduire notre empreinte écologique et à préserver l'environnement." },
-  { icon: Users, title: 'Partenaire stratégique', description: "Plus qu'un prestataire, nous sommes votre allié, vous accompagnant à chaque étape pour assurer la réussite de vos projets." },
-];
-
 const galleryImages = [
   { src: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=800&q=80', alt: 'Container ship' },
   { src: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&q=80', alt: 'Port operations' },
@@ -336,19 +293,6 @@ const galleryImages = [
   { src: 'https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=800&q=80', alt: 'Logistics team' },
   { src: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Business meeting' },
   { src: 'https://images.unsplash.com/photo-1605745341112-85968b19335b?w=800&q=80', alt: 'Supply chain' },
-];
-
-// ── Ticker Data with Flags ─────────────────────────────────────────────────────
-
-const tickerCities = [
-  { name: 'CASABLANCA', flag: '🇲🇦', country: 'Maroc' },
-  { name: 'PARIS', flag: '🇫🇷', country: 'France' },
-  { name: 'DUBAI', flag: '🇦🇪', country: 'Émirats Arabes Unis' },
-  { name: 'SHANGHAI', flag: '🇨🇳', country: 'Chine' },
-  { name: 'MIAMI', flag: '🇺🇸', country: 'États-Unis' },
-  { name: 'AMSTERDAM', flag: '🇳🇱', country: 'Pays-Bas' },
-  { name: 'SINGAPORE', flag: '🇸🇬', country: 'Singapour' },
-  { name: 'ROTTERDAM', flag: '🇳🇱', country: 'Pays-Bas' },
 ];
 
 // ── Animation Utilities ───────────────────────────────────────────────────────
@@ -365,11 +309,14 @@ const useReducedMotion = () => {
   return reduced;
 };
 
-
-
 // ── Sections (Redesigned with Home Page Colors) ───────────────────────────────
 
+// ── Hero ──────────────────────────────────────────────────────────────────────
+
 function Hero() {
+  const { lang } = useLang();
+  const data = translations[lang].about;
+
   const reduced = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -384,27 +331,23 @@ function Hero() {
 
   return (
     <section ref={containerRef} onMouseMove={handleMouseMove} className="relative min-h-screen flex items-center overflow-hidden pt-16 md:pt-20 bg-slate-950">
-      {/* Particle Grid Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.05)_1px,transparent_0)] bg-[size:40px_40px]" />
       </div>
-
-      {/* Gradient overlays matching Home page */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/30 to-slate-950/80" />
       <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/40 via-transparent to-purple-900/40" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left - Text Content */}
+
+          {/* Left */}
           <div className="lg:col-span-7 text-center lg:text-left order-2 lg:order-1">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
               <div className="flex justify-center lg:justify-start">
-                <GlassBadge icon={CheckCircle}>À propos de nous</GlassBadge>
+                <GlassBadge icon={CheckCircle}>{data.heroBadge}</GlassBadge>
               </div>
 
-              {/* Title */}
               <div className="mt-6 md:mt-8">
-                {/* Eyebrow line */}
                 <motion.p
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -413,14 +356,10 @@ function Hero() {
                   style={{ fontFamily: 'JetBrains Mono, monospace' }}
                 >
                   <span className="inline-block w-6 md:w-8 h-px bg-indigo-400" />
-                  Qui Sommes Nous
+                  {data.heroEyebrow}
                 </motion.p>
 
-                {/* Main display title */}
-                <h1
-                  className="leading-none tracking-tight"
-                  style={{ fontFamily: 'Syne, sans-serif' }}
-                >
+                <h1 className="leading-none tracking-tight" style={{ fontFamily: 'Syne, sans-serif' }}>
                   <motion.span
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -430,7 +369,6 @@ function Hero() {
                   >
                     TRIWAYS
                   </motion.span>
-
                   <motion.span
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -449,7 +387,6 @@ function Hero() {
                   </motion.span>
                 </h1>
 
-                {/* Animated underline */}
                 <motion.div
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
@@ -466,12 +403,12 @@ function Hero() {
                 className="mt-6 md:mt-8 text-base md:text-xl text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed px-4 sm:px-0"
                 style={{ fontFamily: 'DM Sans, sans-serif' }}
               >
-                Nous relions les mondes, nous livrons vos rêves. Découvrez l'histoire de TRIWAYS et notre engagement pour l'excellence logistique.
+                {data.heroTagline}
               </motion.p>
             </motion.div>
           </div>
 
-          {/* Right - 3D Card with Parallax */}
+          {/* Right */}
           <div className="lg:col-span-5 mt-8 lg:mt-0 order-1 lg:order-2">
             <motion.div
               initial={{ opacity: 0, rotateX: 15, rotateY: -15 }}
@@ -483,26 +420,28 @@ function Hero() {
               <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl shadow-indigo-500/20 border border-white/10">
                 <img
                   src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=800&q=80"
-                  alt="Logistics"
+                  alt={data.heroImageAlt}
                   className="w-full h-[250px] sm:h-[300px] md:h-[400px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
                 <div className="absolute bottom-4 md:bottom-6 left-4 md:left-6 right-4 md:right-6">
-                  <div className="text-indigo-400 text-xs md:text-sm font-mono uppercase tracking-widest mb-1 md:mb-2" style={{ fontFamily: 'JetBrains Mono, monospace' }}>Global Logistics</div>
+                  <div className="text-indigo-400 text-xs md:text-sm font-mono uppercase tracking-widest mb-1 md:mb-2" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                    {data.heroImageLabel}
+                  </div>
                 </div>
               </div>
             </motion.div>
           </div>
         </div>
 
-        {/* Bottom Ticker with Flags - Responsive */}
+        {/* Ticker */}
         <div className="mt-12 md:mt-16 overflow-hidden">
           <div className="flex animate-ticker whitespace-nowrap">
             {[...Array(2)].map((_, setIndex) => (
               <div key={setIndex} className="flex items-center gap-4 md:gap-8 mr-4 md:mr-8">
-                {tickerCities.map((city) => (
-                  <span 
-                    key={`${setIndex}-${city.name}`} 
+                {data.tickerCities.map((city) => (
+                  <span
+                    key={`${setIndex}-${city.name}`}
                     className="flex items-center gap-2 md:gap-4 text-slate-500 text-xs sm:text-sm md:text-base font-mono uppercase tracking-widest"
                     style={{ fontFamily: 'JetBrains Mono, monospace' }}
                   >
@@ -519,36 +458,22 @@ function Hero() {
       </div>
 
       <style>{`
-        @keyframes ticker {
-          from { transform: translateX(0); }
-          to { transform: translateX(-50%); }
-        }
-        .animate-ticker {
-          animation: ticker 30s linear infinite;
-        }
-        @media (max-width: 640px) {
-          .animate-ticker {
-            animation: ticker 20s linear infinite;
-          }
-        }
+        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .animate-ticker { animation: ticker 30s linear infinite; }
+        @media (max-width: 640px) { .animate-ticker { animation: ticker 20s linear infinite; } }
       `}</style>
     </section>
   );
 }
 
 function MissionStatement() {
+  const { lang } = useLang();
+  const data = translations[lang].about;
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
-  const words = ['transparence', 'innovation', 'engagement'];
-  const quoteLines = [
-  "Chez Triways Logistique, notre histoire commence avec une ambition claire : offrir des solutions de transport et de logistique fiables, modernes et accessibles à tous.",
-  "Fondée récemment, notre société est née de la volonté de répondre aux besoins croissants des entreprises en matière de gestion des flux, d'import-export et de transport national et international.",
-  "Conscients des défis du secteur, nous avons réuni une équipe passionnée et qualifiée, déterminée à proposer un service efficace et personnalisé.",
-  "Dès le départ, nous avons fait le choix de placer la qualité, la réactivité et la transparence au cœur de notre démarche.",
-  "Chaque client est unique, c'est pourquoi nous nous engageons à offrir des solutions sur mesure, adaptées à ses exigences et à ses objectifs.",
-  "Aujourd'hui, Triways Logistique poursuit son développement avec une vision claire : devenir un partenaire de confiance, capable d'accompagner ses clients à chaque étape de leur croissance, au niveau national et international."
-];
+  const words = data.missionWords;
+  const quoteLines = data.mission.description;
 
   return (
     <section ref={ref} className="relative py-20 md:py-32 overflow-hidden bg-slate-950">
@@ -583,7 +508,7 @@ function MissionStatement() {
             className="text-xl md:text-2xl md:text-3xl text-indigo-400 font-semibold"
             style={{ fontFamily: 'Syne, sans-serif' }}
           >
-            HISTOIRE
+            {data.mission.heading}
           </motion.span>
           <div className="mt-4 md:mt-6 space-y-1 md:space-y-2">
             {quoteLines.map((line, i) => (
@@ -606,11 +531,13 @@ function MissionStatement() {
 }
 
 function CEOQuote() {
+  const { lang } = useLang();
+  const data = translations[lang].about;
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
   const reduced = useReducedMotion();
 
-  const quoteText = "Triways Logistique est née de la volonté de trois personnes partageant la même vision : offrir un service logistique fiable, humain et performant. Aujourd'hui, nous mettons toute notre énergie et notre engagement au service de nos clients, avec une priorité claire : bâtir une relation de confiance durable et accompagner chaque projet avec sérieux et réactivité..";
+  const quoteText = data.ceoQuote.text;
   const words = quoteText.split(' ');
 
   return (
@@ -651,8 +578,8 @@ function CEOQuote() {
 
               <div className="flex items-center gap-4">
                 <div>
-                  <p className="font-semibold text-white text-base md:text-lg" style={{ fontFamily: 'Syne, sans-serif' }}>Directeur Général</p>
-                  <p className="text-slate-400 text-sm md:text-base">TRIWAYS International</p>
+                  <p className="font-semibold text-white text-base md:text-lg" style={{ fontFamily: 'Syne, sans-serif' }}>{data.ceoTitle}</p>
+                  <p className="text-slate-400 text-sm md:text-base">{data.ceoCompany}</p>
                 </div>
               </div>
             </div>
@@ -675,6 +602,8 @@ function CEOQuote() {
 // ── NEW ServicesDetail Style ──────────────────────────────────────────────────
 
 function ServicesDetail() {
+  const { lang } = useLang();
+  const data = translations[lang].about;
   const [activeService, setActiveService] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const inView = useInView(containerRef, { once: true, margin: '-100px' });
@@ -691,10 +620,10 @@ function ServicesDetail() {
           className="text-center mb-12 md:mb-16"
         >
           <div className="flex justify-center">
-            <GlassBadge icon={Zap}>Nos Expertises</GlassBadge>
+            <GlassBadge icon={Zap}>{data.servicesBadge}</GlassBadge>
           </div>
           <h2 className="mt-4 md:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white" style={{ fontFamily: 'Syne, sans-serif' }}>
-            Nos{' '}<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">Services</span>
+            {data.servicesHeading}{' '}<span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">{data.servicesHeadingGradient}</span>
           </h2>
         </motion.div>
 
@@ -702,7 +631,7 @@ function ServicesDetail() {
         <div className="grid lg:grid-cols-12 gap-6 md:gap-8">
           {/* Left Side - Service Navigation */}
           <div className="lg:col-span-4 space-y-3 md:space-y-4">
-            {services.map((service, index) => (
+            {data.services.map((service, index) => (
               <motion.button
                 key={service.title}
                 initial={{ opacity: 0, x: -20 }}
@@ -716,9 +645,6 @@ function ServicesDetail() {
                 }`}
               >
                 <div className="flex items-center gap-3 md:gap-4">
-                  <div className={`p-2 md:p-3 rounded-lg md:rounded-xl bg-gradient-to-br ${service.color} transition-transform duration-300 ${activeService === index ? 'scale-110' : 'group-hover:scale-105'}`}>
-                    <service.icon size={20} className="text-white md:w-6 md:h-6" />
-                  </div>
                   <div className="min-w-0">
                     <span className="text-[10px] md:text-xs font-mono text-slate-500 uppercase tracking-wider block" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
                       0{index + 1}
@@ -745,29 +671,13 @@ function ServicesDetail() {
               <div className="relative rounded-2xl md:rounded-3xl overflow-hidden mb-6 md:mb-8 group">
                 <div className="aspect-video">
                   <img
-                    src={services[activeService].image}
-                    alt={services[activeService].title}
+                    src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=80"
+                    alt={data.services[activeService].title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
 
-                {/* Floating Badge */}
-                <div className="absolute top-4 md:top-6 left-4 md:left-6">
-                {(() => {
-                  const ActiveIcon = services[activeService].icon;
-
-                  return (
-                    <div
-                      className={`inline-flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1 md:py-2 rounded-full bg-gradient-to-r ${services[activeService].color} text-white text-xs md:text-sm font-medium`}
-                    >
-                      <ActiveIcon size={14} className="md:w-4 md:h-4" />
-                      <span className="hidden sm:inline">Service Premium</span>
-                      <span className="sm:hidden">Premium</span>
-                    </div>
-                  );
-                })()}
-              </div>
 
                 {/* Large Number Overlay */}
                 <div className="absolute bottom-4 md:bottom-6 right-4 md:right-6">
@@ -780,31 +690,14 @@ function ServicesDetail() {
               {/* Content */}
               <div className="space-y-4 md:space-y-6">
                 <p className="text-base md:text-lg text-slate-300 leading-relaxed" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                  {services[activeService].description}
+                  {data.services[activeService].description}
                 </p>
 
-                {/* Feature Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
-                  {services[activeService].features.map((feature, i) => (
-                    <motion.div
-                      key={feature}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className="flex items-center gap-2 md:gap-3 p-3 md:p-4 rounded-lg md:rounded-xl bg-white/5 border border-white/10 hover:border-indigo-400/30 transition-colors"
-                    >
-                      <div className={`w-6 h-6 md:w-8 md:h-8 rounded-md md:rounded-lg bg-gradient-to-br ${services[activeService].color} flex items-center justify-center flex-shrink-0`}>
-                        <CheckCircle size={14} className="text-white md:w-4 md:h-4" />
-                      </div>
-                      <span className="text-slate-300 text-sm md:text-base font-medium">{feature}</span>
-                    </motion.div>
-                  ))}
-                </div>
 
                 {/* CTA */}
                 <div className="pt-2 md:pt-4">
                   <GlassButton to="/contact">
-                    Demander un devis
+                    {data.servicesCta}
                   </GlassButton>
                 </div>
               </div>
@@ -817,6 +710,8 @@ function ServicesDetail() {
 }
 
 function WhyChooseUs() {
+  const { lang } = useLang();
+  const data = translations[lang].about;
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
@@ -832,17 +727,23 @@ function WhyChooseUs() {
           className="text-center mb-12 md:mb-20"
         >
           <div className="flex justify-center">
-            <GlassBadge icon={Award}>Nos Atouts</GlassBadge>
+            <GlassBadge icon={Award}>{data.whyChooseBadge}</GlassBadge>
           </div>
-          <h2 className="mt-4 md:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white" style={{ fontFamily: 'Syne, sans-serif' }}>
-            Pourquoi nous <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">choisir</span>?
+          <h2 
+            className="mt-4 md:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white" 
+            style={{ fontFamily: 'Syne, sans-serif' }}
+          >
+            {data.whyChooseHeading}{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">
+              {lang === 'fr' ? 'choisir' : 'us'}
+            </span>
+            ?
           </h2>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {whyChooseUs.map((item, index) => {
-            const isLarge = index === 0 || index === 5;
-            const isCTA = index === 5;
+          {data.whyChooseUs.map((item, index) => {
+            const isCTA = index === 6; // Last item (Service après-vente)
 
             return (
               <motion.div
@@ -851,27 +752,46 @@ function WhyChooseUs() {
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className={`group relative ${isLarge ? 'md:col-span-2' : ''}`}
+                className="group relative"
               >
-                <div className={`relative p-6 md:p-8 rounded-xl md:rounded-2xl overflow-hidden h-full border transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.15)] ${
-                  isCTA 
-                    ? 'bg-gradient-to-br from-indigo-500 to-purple-600 border-indigo-400/30' 
-                    : 'bg-white/5 border-white/10 hover:border-indigo-400/30'
-                }`}>
-                  <motion.div
-                    whileHover={{ rotate: 15, scale: 1.1 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className={`p-3 md:p-4 rounded-lg md:rounded-xl w-fit mb-4 md:mb-6 ${
-                      isCTA ? 'bg-white/20' : 'bg-gradient-to-br from-indigo-500 to-purple-600'
-                    }`}
+                <div 
+                  className={`relative p-6 md:p-8 rounded-xl md:rounded-2xl overflow-hidden h-full border transition-all duration-300 hover:shadow-[0_0_40px_rgba(99,102,241,0.15)] ${
+                    isCTA 
+                      ? 'bg-gradient-to-br from-indigo-500 to-purple-600 border-indigo-400/30' 
+                      : 'bg-white/5 border-white/10 hover:border-indigo-400/30'
+                  }`}
+                >
+                  <h4 
+                    className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3" 
+                    style={{ fontFamily: 'Syne, sans-serif' }}
                   >
-                    <item.icon size={24} className="text-white md:w-7 md:h-7" />
-                  </motion.div>
-
-                  <h4 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3" style={{ fontFamily: 'Syne, sans-serif' }}>{item.title}</h4>
-                  <p className={`text-sm md:text-base leading-relaxed ${isCTA ? 'text-white/90' : 'text-slate-400 group-hover:text-slate-300'} transition-colors`}>
+                    {item.title}
+                  </h4>
+                  
+                  <p 
+                    className={`text-sm md:text-base leading-relaxed ${
+                      isCTA ? 'text-white/90' : 'text-slate-400 group-hover:text-slate-300'
+                    } transition-colors`}
+                  >
                     {item.description}
                   </p>
+
+                  {/* CTA Button on last card */}
+                  {isCTA && (
+                    <motion.div 
+                      className="mt-6"
+                      whileHover={{ x: 5 }}
+                    >
+                      <Link 
+                        to="/contact"
+                        className="inline-flex items-center gap-2 text-white font-semibold text-sm hover:gap-3 transition-all"
+                        style={{ fontFamily: 'Syne, sans-serif' }}
+                      >
+                        {data.whyChooseCtaText}
+                        <ArrowRight size={18} />
+                      </Link>
+                    </motion.div>
+                  )}
                 </div>
               </motion.div>
             );
@@ -883,11 +803,13 @@ function WhyChooseUs() {
 }
 
 function GallerySection() {
+  const { lang } = useLang();
+  const data = translations[lang].about;
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
-  const titleChars = "L'univers".split('');
-  const triwaysChars = "TRIWAYS".split('');
+  const titleChars = data.galleryTitle.split('');
+  const triwaysChars = data.galleryTitleGradient.split('');
 
   return (
     <section ref={ref} className="relative py-20 md:py-32 overflow-hidden bg-slate-950">
@@ -899,7 +821,7 @@ function GallerySection() {
           className="text-center mb-8 md:mb-12"
         >
           <div className="flex justify-center">
-            <GlassBadge icon={TrendingUp}>Notre Galerie</GlassBadge>
+            <GlassBadge icon={TrendingUp}>{data.galleryBadge}</GlassBadge>
           </div>
           <h2 className="mt-4 md:mt-6 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-4" style={{ fontFamily: 'Syne, sans-serif' }}>
             <span className="flex flex-wrap justify-center">
@@ -971,7 +893,7 @@ function GallerySection() {
             transition={{ delay: 0.7 }}
             className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 px-3 md:px-6 py-1.5 md:py-2 rounded-full bg-indigo-500/10 border border-indigo-400/30"
           >
-            <p className="text-indigo-300 text-[10px] md:text-xs font-mono uppercase tracking-widest" style={{ fontFamily: 'JetBrains Mono, monospace' }}>Molette ou flèches • Auto-play après 3s</p>
+            <p className="text-indigo-300 text-[10px] md:text-xs font-mono uppercase tracking-widest" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{data.galleryHint}</p>
           </motion.div>
         </motion.div>
       </div>

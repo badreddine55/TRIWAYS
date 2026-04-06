@@ -1,241 +1,54 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Package, Target, Truck, ArrowRight, ArrowUpRight, Globe, Clock, Shield, ChevronDown, Zap } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Minus, ChevronDown } from 'lucide-react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useRef, useState } from 'react';
 import SEO from '@/components/SEO';
+import { useLang } from '@/sections/LangContext';
+import { translations } from '@/lib/translations';
 
-const mainServices = [
-  {
-    id: 1,
-    icon: Package,
-    title: 'Gestion Douanière Intégrée',
-    shortDesc: 'Simplifiez vos formalités douanières avec notre expertise spécialisée',
-    fullDesc: 'Notre service de gestion douanière couvre tous les aspects du dédouanement, des déclarations et des procédures nécessaires pour un transit fluide et efficace. Notre plateforme de suivi permet à nos clients de suivre en temps réel l\'avancement de leurs démarches douanières.',
-    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1920&q=80',
-    color: 'from-indigo-500 to-purple-600',
-    features: [
-      'Dédouanement complet et rapide',
-      'Suivi en temps réel des dossiers',
-      'Conformité réglementaire garantie',
-      'Documentation professionnelle',
-      'Conseil en classification tarifaire',
-    ],
-    stat: '100%',
-    statLabel: 'Livraisons à temps',
-  },
-  {
-    id: 2,
-    icon: Target,
-    title: 'Consulting Stratégique',
-    shortDesc: 'Maximisez vos opportunités d\'importation avec notre expertise',
-    fullDesc: 'Nous vous guidons à travers chaque étape de votre chaîne logistique, en optimisant les processus pour minimiser les coûts et garantir la sortie de vos marchandises sans encombre.',
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80',
-    color: 'from-purple-500 to-pink-600',
-    features: [
-      'Analyse de la chaîne logistique',
-      'Optimisation des coûts d\'importation',
-      'Stratégie d\'approvisionnement',
-      'Étude de faisabilité',
-      'Accompagnement personnalisé',
-    ],
-    stat: '95%',
-    statLabel: 'Couverture réseau mondial',
-  },
-  {
-    id: 3,
-    icon: Truck,
-    title: 'Transport National et International',
-    shortDesc: 'Réseau mondial de partenaires pour vos expéditions',
-    fullDesc: 'Profitez de notre réseau mondial de partenaires pour des solutions de transport sur mesure, offrant des délais compétitifs et une fiabilité inégalée.',
-    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80',
-    color: 'from-cyan-500 to-blue-600',
-    features: [
-      'Transport terrestre national',
-      'Transport maritime FCL/LCL',
-      'Transport aérien express',
-      'Multimodal et intermodal',
-      'Traçabilité en temps réel',
-    ],
-    stat: '90%',
-    statLabel: 'Efficacité transfrontalière',
-  },
-];
+// --- Components ---
 
-const additionalServices = [
-  {
-    icon: Globe,
-    title: 'Freight Forwarding',
-    description: 'Organisation complète de vos expéditions internationales',
-  },
-  {
-    icon: Clock,
-    title: 'Express Delivery',
-    description: 'Livraison express pour vos envois urgents',
-  },
-  {
-    icon: Shield,
-    title: 'Assurance Transport',
-    description: 'Protection complète de vos marchandises',
-  },
-];
-
-const processSteps = [
-  { number: '01', title: 'Consultation', description: 'Analyse de vos besoins spécifiques' },
-  { number: '02', title: 'Devis', description: 'Proposition personnalisée et transparente' },
-  { number: '03', title: 'Exécution', description: 'Mise en œuvre de la solution choisie' },
-  { number: '04', title: 'Suivi', description: 'Accompagnement jusqu\'à la livraison' },
-];
-
-// Noise overlay component
-const NoiseOverlay = ({ opacity = 0.08 }: { opacity?: number }) => (
-  <div
-    className="absolute inset-0 mix-blend-overlay pointer-events-none"
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-      opacity
-    }}
-  />
-);
-
-// Glass Badge component
-const GlassBadge = ({ children, icon: Icon }: { children: React.ReactNode; icon?: React.ComponentType<{ size?: number }> }) => (
-  <motion.span
-    whileHover={{ scale: 1.05 }}
-    className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-indigo-500/10 backdrop-blur-md border border-indigo-500/20 text-indigo-300 text-sm font-medium"
-    style={{ fontFamily: 'DM Sans, sans-serif' }}
-  >
-    {Icon && <Icon size={14} />}{children}
-  </motion.span>
-);
-
-// Glass Button component
-const GlassButton = ({ children, to, onClick, variant = 'primary' }: {
-  children: React.ReactNode; to?: string; onClick?: () => void; variant?: 'primary' | 'secondary';
-}) => {
-  const content = (
-    <motion.button
-      whileHover={{ scale: 1.02, y: -2 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={onClick}
-      className={`group relative px-8 py-4 rounded-full overflow-hidden font-semibold transition-all duration-300 ${
-        variant === 'primary'
-          ? 'bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 text-white shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/40'
-          : 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20'
-      }`}
-      style={{ fontFamily: 'Syne, sans-serif' }}
-    >
-      <span className="relative flex items-center gap-2">
-        {children}
-        <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
-          <ArrowRight size={18} />
-        </motion.span>
-      </span>
-    </motion.button>
-  );
-  return to ? <Link to={to}>{content}</Link> : content;
-};
-
-
-function AnimatedTitle() {
-  const text = "Nos Services";
-
-  return (
-    <motion.h1
-      className="text-[88px] text-white mb-4"
-      style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800 }}
-      initial="hidden"
-      animate="visible"
-    >
-      {text.split('').map((char, index) => (
-        <motion.span
-          key={index}
-          initial={{ y: 60, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{
-            delay: index * 0.025,
-            duration: 0.6,
-            ease: [0.16, 1, 0.3, 1]
-          }}
-          style={{ display: 'inline-block' }}
-        >
-          {char === ' ' ? '\u00A0' : char}
-        </motion.span>
-      ))}
-    </motion.h1>
-  );
-}
-
-
-const tickerCities = [
-  { name: 'CASABLANCA', flag: '🇲🇦', country: 'Maroc' },
-  { name: 'PARIS', flag: '🇫🇷', country: 'France' },
-  { name: 'DUBAI', flag: '🇦🇪', country: 'Émirats Arabes Unis' },
-  { name: 'SHANGHAI', flag: '🇨🇳', country: 'Chine' },
-  { name: 'MIAMI', flag: '🇺🇸', country: 'États-Unis' },
-  { name: 'AMSTERDAM', flag: '🇳🇱', country: 'Pays-Bas' },
-  { name: 'SINGAPORE', flag: '🇸🇬', country: 'Singapour' },
-  { name: 'ROTTERDAM', flag: '🇳🇱', country: 'Pays-Bas' },
-];
-
-function TickerStrip() {
-  const services = ["DÉDOUANEMENT", "CONSULTING", "TRANSPORT", "FREIGHT", "EXPRESS", "ASSURANCE", "INTERNATIONAL"];
-  
-  // Shuffle or interleave them for variety, or keep structured
+function TickerStrip({ services, cities }: { services: string[]; cities: any[] }) {
   const structuredItems: Array<{ type: string; text?: string; name?: string; flag?: string; country?: string }> = [];
-  services.forEach((service, i) => {
+  services.forEach((service: string, i: number) => {
     structuredItems.push({ type: 'service', text: service });
-    if (tickerCities[i]) {
-      structuredItems.push({ type: 'city', ...tickerCities[i] });
+    if (cities[i]) {
+      structuredItems.push({ type: 'city', ...cities[i] });
     }
   });
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 bg-slate-950/80 backdrop-blur-md border-t border-white/5 py-4 overflow-hidden">
+    <div className="absolute bottom-0 left-0 right-0 bg-slate-950/80 backdrop-blur-md border-t border-white/5 py-3 md:py-4 overflow-hidden">
       <div className="ticker-wrapper">
         <motion.div
-          className="ticker-content flex items-center gap-6"
+          className="ticker-content flex items-center gap-4 md:gap-6"
           animate={{ x: [0, -3000] }}
-          transition={{
-            duration: 30,
-            ease: "linear",
-            repeat: Infinity,
-          }}
+          transition={{ duration: 30, ease: "linear", repeat: Infinity }}
         >
           {[...Array(4)].map((_, setIndex) => (
-            <div key={setIndex} className="flex items-center gap-6 shrink-0">
+            <div key={setIndex} className="flex items-center gap-4 md:gap-6 shrink-0">
               {structuredItems.map((item, i) => (
-                <div key={`${setIndex}-${i}`} className="flex items-center gap-2 shrink-0">
+                <div key={`${setIndex}-${i}`} className="flex items-center gap-1 md:gap-2 shrink-0">
                   {item.type === 'city' ? (
                     <>
-                      <span className="text-lg leading-none">{item.flag}</span>
-                      <span 
-                        className="text-indigo-300 text-xs uppercase whitespace-nowrap"
-                        style={{ fontFamily: 'JetBrains Mono, monospace' }}
-                      >
+                      <span className="text-base md:text-lg leading-none">{item.flag}</span>
+                      <span className="text-indigo-300 text-xs uppercase whitespace-nowrap" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
                         {item.name}
                       </span>
-                      <span className="text-white/30 text-[10px] uppercase hidden sm:inline">
-                        {item.country}
-                      </span>
+                      <span className="text-white/30 text-[10px] uppercase hidden sm:inline">{item.country}</span>
                     </>
                   ) : (
-                    <span 
-                      className="text-indigo-400/70 text-xs uppercase whitespace-nowrap"
-                      style={{ fontFamily: 'JetBrains Mono, monospace' }}
-                    >
+                    <span className="text-indigo-400/70 text-xs uppercase whitespace-nowrap" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
                       {item.text}
                     </span>
                   )}
-                  
-                  {/* Separator dot */}
-                  <span className="text-white/20 text-xs mx-2">•</span>
+                  <span className="text-white/20 text-xs mx-1 md:mx-2">•</span>
                 </div>
               ))}
             </div>
           ))}
         </motion.div>
       </div>
-
       <style>{`
         .ticker-wrapper {
           mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
@@ -246,541 +59,418 @@ function TickerStrip() {
   );
 }
 
+interface ServiceItem {
+  id: string;
+  title: string;
+  shortDesc: string;
+  fullDesc: string;
+  image: string;
+  sections?: Array<{ title: string; items: string[] }>;
+  subsections?: Array<{ id: string; title: string; description: string; items: string[] }>;
+}
 
-function ServiceCard({ service, index }: { service: typeof mainServices[0], index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [-30, 30]);
+function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem; isOpen: boolean; onToggle: () => void }) {
+  const hasSubsections = service.subsections && service.subsections.length > 0;
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{
-        duration: 0.9,
-        ease: [0.16, 1, 0.3, 1]
-      }}
-      className="relative"
-    >
-      <div className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
-        {/* Background Number */}
-        <div
-          className="absolute text-white/[0.03] text-[200px] pointer-events-none select-none"
-          style={{
-            fontFamily: 'Syne, sans-serif',
-            fontWeight: 800,
-            [index % 2 === 0 ? 'right' : 'left']: '20px',
-            bottom: '20px',
-            zIndex: 0,
-          }}
-        >
-          0{service.id}
+    <div className="border-b border-white/10 last:border-b-0">
+      {/* Header */}
+      <button
+        onClick={onToggle}
+        className="w-full py-5 md:py-8 lg:py-10 flex items-center justify-between group hover:bg-white/[0.02] transition-colors px-4 sm:px-6 lg:px-12 xl:px-20"
+      >
+        <div className="flex items-center gap-3 md:gap-8 lg:gap-12 min-w-0">
+          {/* Number */}
+          <span 
+            className="text-slate-500 text-xs md:text-base font-mono tracking-widest w-8 md:w-12 shrink-0"
+            style={{ fontFamily: 'JetBrains Mono, monospace' }}
+          >
+            {service.id}
+          </span>
+          
+          {/* Title with accent line */}
+          <div className="flex items-center gap-2 md:gap-4 min-w-0">
+            <span className={`w-px h-5 md:h-8 transition-all duration-300 shrink-0 ${isOpen ? 'bg-indigo-500' : 'bg-slate-700 group-hover:bg-slate-600'}`} />
+            <h3 
+              className={`text-base md:text-2xl lg:text-3xl xl:text-4xl font-medium transition-colors duration-300 text-left truncate ${isOpen ? 'text-white' : 'text-slate-300 group-hover:text-white'}`}
+              style={{ fontFamily: 'Syne, sans-serif' }}
+            >
+              {service.title}
+            </h3>
+          </div>
         </div>
 
-        {/* Image */}
-        <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
-          <motion.div style={{ y }} className="relative rounded-2xl overflow-hidden">
-            <img
-              src={service.image}
-              alt={service.title}
-              className="w-full h-[450px] object-cover"
-            />
-            {/* Scanline texture */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: 'repeating-linear-gradient(transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px)',
-                mixBlendMode: 'overlay'
-              }}
-            />
+        {/* Toggle Icon */}
+        <div className={`w-7 h-7 md:w-12 md:h-12 rounded-full border flex items-center justify-center transition-all duration-300 shrink-0 ml-3 md:ml-4 ${isOpen ? 'border-indigo-500 bg-indigo-500/10' : 'border-slate-700 group-hover:border-slate-500'}`}>
+          {isOpen ? (
+            <Minus size={14} className="text-indigo-400 md:w-5 md:h-5" />
+          ) : (
+            <Plus size={14} className="text-slate-400 group-hover:text-white md:w-5 md:h-5" />
+          )}
+        </div>
+      </button>
 
-            {/* Stat Badge */}
-            <div className="absolute bottom-6 left-6 bg-slate-950/80 backdrop-blur-md border border-indigo-500/30 rounded-xl p-4">
-              <p
-                className="text-3xl text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400"
-                style={{ fontFamily: 'JetBrains Mono, monospace' }}
-              >
-                {service.stat}
-              </p>
-              <p
-                className="text-slate-300 text-xs uppercase tracking-widest"
-                style={{ fontFamily: 'JetBrains Mono, monospace' }}
-              >
-                {service.statLabel}
-              </p>
+      {/* Expandable Content */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="px-4 sm:px-6 lg:px-12 xl:px-20 pb-10 md:pb-16 lg:pb-20">
+              
+              {hasSubsections ? (
+                // Transport National et International - 3 subsections layout
+                <div className="space-y-6 md:space-y-8">
+                  {/* Main description */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    transition={{ delay: 0.1 }}
+                    className="max-w-4xl"
+                  >
+                    <p className="text-slate-400 text-xs md:text-sm uppercase tracking-widest mb-2 md:mb-3" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                      {service.shortDesc}
+                    </p>
+                    <p className="text-slate-300 text-sm md:text-base lg:text-lg leading-relaxed" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                      {service.fullDesc}
+                    </p>
+                  </motion.div>
+
+                  {/* 3 Subsections Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+                    {service.subsections?.map((sub, sIndex) => (
+                      <motion.div
+                        key={sub.id}
+                        id={sub.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 + sIndex * 0.1 }}
+                        className="relative p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 hover:border-indigo-500/30 transition-all duration-300 group"
+                      >
+                        {/* Subsection number */}
+                        <div className="absolute top-3 right-3 md:top-4 md:right-4 text-3xl md:text-5xl lg:text-6xl font-bold text-white/5" style={{ fontFamily: 'Syne, sans-serif' }}>
+                          0{sIndex + 1}
+                        </div>
+
+                        <h4 className="text-lg md:text-xl lg:text-2xl text-white mb-3 md:mb-4 relative z-10" style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700 }}>
+                          {sub.title}
+                        </h4>
+                        
+                        <p className="text-slate-400 text-xs md:text-sm mb-4 md:mb-6 relative z-10 leading-relaxed" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                          {sub.description}
+                        </p>
+
+                        <ul className="space-y-2 md:space-y-3 relative z-10">
+                          {sub.items.map((item: string, i: number) => (
+                            <li key={i} className="flex items-start gap-2 md:gap-3 text-slate-300 text-xs md:text-sm">
+                              <span className="w-1 h-1 md:w-1.5 md:h-1.5 bg-indigo-400 rounded-full mt-1.5 md:mt-2 shrink-0" />
+                              <span style={{ fontFamily: 'DM Sans, sans-serif' }}>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+
+                        {/* Hover accent line */}
+                        <div className="absolute bottom-0 left-0 w-0 h-0.5 md:h-1 bg-gradient-to-r from-indigo-500 to-cyan-500 group-hover:w-full transition-all duration-500 rounded-b-xl md:rounded-b-2xl" />
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Commitments */}
+                  {service.sections && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }} 
+                      animate={{ opacity: 1, y: 0 }} 
+                      transition={{ delay: 0.5 }}
+                      className="mt-6 md:mt-8 p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl bg-gradient-to-r from-indigo-500/10 to-cyan-500/10 border border-white/10"
+                    >
+                      <h4 className="text-white font-semibold mb-3 md:mb-4 flex items-center gap-2 md:gap-3 text-sm md:text-base" style={{ fontFamily: 'Syne, sans-serif' }}>
+                        <span className="w-6 md:w-8 h-px bg-indigo-500" />
+                        {service.sections[0].title}
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                        {service.sections[0].items.map((item: string, i: number) => (
+                          <div key={i} className="flex items-center gap-2 text-slate-300 text-xs md:text-sm">
+                            <span className="w-1 h-1 md:w-1.5 md:h-1.5 bg-gradient-to-r from-indigo-400 to-cyan-400 rotate-45 shrink-0" />
+                            <span style={{ fontFamily: 'DM Sans, sans-serif' }}>{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              ) : (
+                // Regular 2-column layout for other services
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-16">
+                  {/* Image */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    transition={{ delay: 0.1 }}
+                    className="relative rounded-lg md:rounded-xl overflow-hidden aspect-[4/3] lg:aspect-[16/10]"
+                  >
+                    <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
+                  </motion.div>
+
+                  {/* Content */}
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    transition={{ delay: 0.2 }}
+                    className="space-y-4 md:space-y-6 lg:space-y-8"
+                  >
+                    <div>
+                      <p className="text-slate-400 text-xs md:text-sm uppercase tracking-widest mb-2 md:mb-3" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                        {service.shortDesc}
+                      </p>
+                      <p className="text-slate-300 text-sm md:text-base lg:text-lg leading-relaxed" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                        {service.fullDesc}
+                      </p>
+                    </div>
+
+                    <div className="space-y-4 md:space-y-6">
+                      {service.sections?.map((section, sIndex) => (
+                        <div key={sIndex}>
+                          <h4 className="text-white font-semibold mb-2 md:mb-3 flex items-center gap-2 md:gap-3 text-sm md:text-base" style={{ fontFamily: 'Syne, sans-serif' }}>
+                            <span className="w-4 md:w-6 h-px bg-indigo-500" />
+                            {section.title}
+                          </h4>
+                          <ul className="space-y-1.5 md:space-y-2 pl-6 md:pl-9">
+                            {section.items.map((item: string, i: number) => (
+                              <li key={i} className="text-slate-400 text-xs md:text-sm lg:text-base leading-relaxed flex items-start gap-2 md:gap-3" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                                <span className="w-0.5 h-0.5 md:w-1 md:h-1 bg-indigo-400 rounded-full mt-2 md:mt-2.5 shrink-0" />
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                </div>
+              )}
             </div>
           </motion.div>
-        </div>
-
-        {/* Content */}
-        <div className={`relative z-10 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
-          <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br ${service.color} text-white mb-6`}>
-            <service.icon size={32} />
-          </div>
-
-          <h3
-            className="text-[40px] text-white mb-4"
-            style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700 }}
-          >
-            {service.title}
-          </h3>
-
-          <p
-            className="text-slate-300 text-lg leading-relaxed mb-6"
-            style={{ fontFamily: 'DM Sans, sans-serif' }}
-          >
-            {service.fullDesc}
-          </p>
-
-          <motion.ul
-            className="space-y-3 mb-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {service.features.map((feature, i) => (
-              <motion.li
-                key={feature}
-                className="flex items-center gap-3 group cursor-default"
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                whileHover={{ x: 5 }}
-              >
-                <motion.div
-                  className="w-1.5 h-1.5 bg-gradient-to-r from-indigo-400 to-cyan-400 rotate-45"
-                  whileHover={{ scale: 1.3 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                />
-                <span
-                  className="text-slate-200 group-hover:text-white transition-colors"
-                  style={{ fontFamily: 'DM Sans, sans-serif' }}
-                >
-                  {feature}
-                </span>
-              </motion.li>
-            ))}
-          </motion.ul>
-
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link to="/contact">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 text-white transition-all shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/40"
-                style={{ fontFamily: 'Syne, sans-serif', fontWeight: 600 }}
-              >
-                Demander un devis
-                <motion.div
-                  whileHover={{ x: 3, y: -3 }}
-                  transition={{ type: "spring", stiffness: 400 }}
-                >
-                  <ArrowUpRight size={18} />
-                </motion.div>
-              </motion.button>
-            </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 text-indigo-400 hover:text-cyan-400 transition-colors"
-              style={{ fontFamily: 'DM Sans, sans-serif' }}
-            >
-              En savoir plus →
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* Divider */}
-      {index < mainServices.length - 1 && (
-        <div className="mt-24 h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent" />
-      )}
-    </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
+// --- Main Page ---
+
 export default function Services() {
-  const [lineInView, setLineInView] = useState(false);
-  const [timelineInView, setTimelineInView] = useState(false);
+  const { lang } = useLang();
+  const data = translations[lang].services;
+  const [openId, setOpenId] = useState<string | null>('01');
+
+  const toggleService = (id: string) => {
+    setOpenId(openId === id ? null : id);
+  };
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-[#0a0a0a]">
       <SEO page="services" />
-      {/* Google Fonts Import */}
+      
+      {/* Google Fonts */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
-        
-        .ticker-wrapper {
-          width: 100%;
-          overflow: hidden;
-        }
-        .ticker-content {
-          display: inline-flex;
-          white-space: nowrap;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
       `}</style>
 
-      
+      {/* Hero Section */}
+      <section className="relative min-h-[60vh] md:h-screen overflow-hidden">
+        <img 
+          src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1920&q=80" 
+          alt="Services Hero" 
+          className="w-full h-full object-cover absolute inset-0"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/70 to-slate-950/40" />
+        <div className="absolute inset-0 opacity-30 md:opacity-40" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-slate-950/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/30 via-transparent to-purple-900/20" />
 
-      {/* Hero */}
-<section className="relative h-screen overflow-hidden">
-  <img
-    src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1920&q=80"
-    alt="Services Hero"
-    className="w-full h-full object-cover"
-  />
-  <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-transparent" />
-
-  {/* Dot grid pattern */}
-  <div
-    className="absolute inset-0 opacity-40"
-    style={{
-      backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)',
-      backgroundSize: '32px 32px'
-    }}
-  />
-
-  <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/30 to-slate-950/80" />
-  <div className="absolute inset-0 bg-gradient-to-r from-indigo-900/40 via-transparent to-purple-900/40" />
-
-  {/* Full width centered content */}
-  <div className="absolute inset-0 flex items-center px-4 sm:px-6 lg:px-12 xl:px-20">
-    {/* Left: Text Content */}
-          <div className="flex flex-col justify-center">
-            <motion.span
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+        <div className="relative z-10 h-full flex flex-col justify-center px-4 sm:px-6 lg:px-12 xl:px-20 py-20 md:py-0">
+          <div className="max-w-3xl">
+            <motion.span 
+              initial={{ opacity: 0, scale: 0.9 }} 
+              animate={{ opacity: 1, scale: 1 }} 
               transition={{ duration: 0.6 }}
-              className="inline-block w-fit px-4 py-1.5 rounded-full bg-indigo-500/15 text-indigo-300 text-sm border border-indigo-500/20 mb-6"
-              style={{ fontFamily: 'DM Sans, sans-serif', fontWeight: 500 }}
+              className="inline-block w-fit px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-indigo-500/15 text-indigo-300 text-xs md:text-sm border border-indigo-500/20 mb-4 md:mb-6"
+              style={{ fontFamily: 'DM Sans, sans-serif' }}
             >
-              <motion.span
-                animate={{ opacity: [1, 0.6, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                Nos Solutions
+              <motion.span animate={{ opacity: [1, 0.6, 1] }} transition={{ duration: 2, repeat: Infinity }}>
+                {data.badge}
               </motion.span>
             </motion.span>
 
-            <AnimatedTitle />
+            <motion.h1 
+              initial={{ opacity: 0, y: 40 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="text-[clamp(36px,10vw,80px)] text-white font-bold leading-[0.9] mb-4 md:mb-6"
+              style={{ fontFamily: 'Syne, sans-serif' }}
+            >
+              {data.heading}
+            </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="text-white/70 text-lg max-w-xl"
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="text-slate-400 text-base md:text-lg lg:text-xl max-w-xl leading-relaxed"
               style={{ fontFamily: 'DM Sans, sans-serif' }}
             >
-              Explorez nos différents services et trouvez la solution adaptée à vos besoins logistiques
+              {data.subtitle}
             </motion.p>
 
-            {/* Scroll Cue */}
-            <motion.div
-              className="mt-12"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.4 }}
-              transition={{ delay: 1.2 }}
+            <motion.div 
+              className="mt-8 md:mt-12"
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              transition={{ delay: 0.8 }}
             >
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
+              <motion.div 
+                animate={{ y: [0, 8, 0] }} 
                 transition={{ duration: 1.5, repeat: Infinity }}
+                className="flex flex-col items-center gap-2 w-fit"
               >
-                <ChevronDown className="text-white" size={32} />
+                <span className="text-slate-500 text-xs uppercase tracking-widest" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{data.discover}</span>
+                <ChevronDown className="text-indigo-400" size={24} />
               </motion.div>
             </motion.div>
           </div>
-  </div>
-
-  <TickerStrip />
-</section>
-
-      {/* Main Services */}
-      <section className="py-24 relative">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:60px_60px]" />
-        <NoiseOverlay opacity={0.05} />
-
-        <div className="px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-20"
-            >
-              <GlassBadge icon={Zap}>Solutions Complètes</GlassBadge>
-              <motion.h2
-                className="text-[64px] text-white mb-6"
-                style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800 }}
-                onViewportEnter={() => setLineInView(true)}
-              >
-                Ce que nous offrons
-              </motion.h2>
-              <motion.div
-                className="h-[2px] bg-gradient-to-r from-indigo-400 to-transparent max-w-md"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: lineInView ? 1 : 0 }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                style={{ transformOrigin: 'left' }}
-              />
-            </motion.div>
-
-            <div className="space-y-24">
-              {mainServices.map((service, index) => (
-                <ServiceCard key={service.id} service={service} index={index} />
-              ))}
-            </div>
-          </div>
         </div>
+
+        <TickerStrip services={data.tickerServices} cities={data.tickerCities} />
       </section>
 
-      {/* Additional Services */}
-      <section className="py-24 relative bg-slate-900/50">
-        {/* Noise texture */}
-        <NoiseOverlay opacity={0.06} />
-
-        <div className="px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="text-center mb-16"
+      {/* Services Accordion Section */}
+      <section className="w-full bg-[#0a0a0a] relative overflow-hidden">
+        {/* Background grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:40px_40px] md:bg-[size:60px_60px]" />
+        
+        <div className="relative z-10 w-full">
+          {/* Section Header - Full width with padding */}
+          <div className="px-4 sm:px-6 lg:px-12 xl:px-20 pt-12 md:pt-20 lg:pt-24 pb-6 md:pb-10 lg:pb-12">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true }} 
+              transition={{ duration: 0.8 }}
             >
-              <GlassBadge>Services Complémentaires</GlassBadge>
-              <h2
-                className="text-[56px] text-white mt-6"
-                style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800 }}
-              >
-                Et bien plus encore
-              </h2>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {additionalServices.map((service, index) => (
-                <motion.div
-                  key={service.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group relative"
-                >
-                  <motion.div
-                    whileHover={{ y: -8 }}
-                    className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-indigo-400/60 hover:shadow-[0_0_40px_rgba(99,102,241,0.15)] transition-all duration-300 h-full"
-                  >
-                    <motion.div
-                      className="p-4 rounded-xl bg-indigo-500/10 text-indigo-400 w-fit mb-6 group-hover:bg-indigo-500 group-hover:text-white transition-colors"
-                      whileHover={{ rotate: 10, scale: 1.1 }}
-                      transition={{ type: "spring", stiffness: 400 }}
-                    >
-                      <service.icon size={28} />
-                    </motion.div>
-                    <h4
-                      className="text-xl text-white mb-3"
-                      style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700 }}
-                    >
-                      {service.title}
-                    </h4>
-                    <p
-                      className="text-slate-400"
-                      style={{ fontFamily: 'DM Sans, sans-serif' }}
-                    >
-                      {service.description}
-                    </p>
-
-                    {/* Animated bottom line */}
-                    <motion.div
-                      className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-indigo-400 to-cyan-400"
-                      initial={{ width: 0 }}
-                      whileHover={{ width: '100%' }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                    />
-                  </motion.div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Process */}
-      <section className="py-24 relative">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:60px_60px]" />
-
-        <div className="px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              onViewportEnter={() => setTimelineInView(true)}
-              className="text-center mb-16"
-            >
-              <GlassBadge>Comment ça marche</GlassBadge>
-              <h2
-                className="text-[56px] text-white mt-6"
-                style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800 }}
-              >
-                Notre Processus
-              </h2>
-            </motion.div>
-
-            <div className="relative">
-              {/* Timeline connector */}
-              <div className="hidden lg:block absolute top-8 left-0 right-0 h-px">
-                <motion.div
-                  className="h-full bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: timelineInView ? 1 : 0 }}
-                  transition={{ duration: 1.5, ease: "easeOut" }}
-                  style={{ transformOrigin: 'left' }}
-                />
-              </div>
-
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {processSteps.map((step, index) => (
-                  <motion.div
-                    key={step.number}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.6,
-                      delay: index * 0.2,
-                      ease: [0.16, 1, 0.3, 1]
-                    }}
-                    className="relative flex flex-col items-center text-center"
-                  >
-                    {/* Number Circle */}
-                    <motion.div
-                      className="relative w-16 h-16 rounded-full border-2 flex items-center justify-center mb-6 group"
-                      initial={{ borderColor: 'rgba(71, 85, 105, 1)' }}
-                      whileInView={{ borderColor: 'rgba(99, 102, 241, 0.4)' }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.2 + 0.5 }}
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      <span
-                        className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400"
-                        style={{ fontFamily: 'JetBrains Mono, monospace', fontWeight: 700 }}
-                      >
-                        {step.number}
-                      </span>
-
-                      {/* Pulsing ring */}
-                      <motion.div
-                        className="absolute inset-0 rounded-full border border-indigo-500/20"
-                        animate={{
-                          scale: [1, 1.6],
-                          opacity: [1, 0]
-                        }}
-                        transition={{
-                          duration: 1.5,
-                          repeat: Infinity,
-                          ease: "easeOut"
-                        }}
-                      />
-                    </motion.div>
-
-                    <h4
-                      className="text-xl text-white mb-2"
-                      style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700 }}
-                    >
-                      {step.title}
-                    </h4>
-                    <p
-                      className="text-slate-400"
-                      style={{ fontFamily: 'DM Sans, sans-serif' }}
-                    >
-                      {step.description}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-24 relative overflow-hidden">
-        {/* Orb blurs */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-indigo-500 opacity-15 blur-[180px]" />
-        <div className="absolute top-1/2 right-0 translate-x-1/4 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-cyan-500 opacity-10 blur-[150px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-purple-500 opacity-10 blur-[150px]" />
-
-        {/* Dot grid */}
-        <div
-          className="absolute inset-0 opacity-40"
-          style={{
-            backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)',
-            backgroundSize: '32px 32px'
-          }}
-        />
-
-        <NoiseOverlay opacity={0.05} />
-
-        <div className="px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h2
-                className="text-[64px] text-white mb-2"
-                style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, lineHeight: 1.1 }}
-              >
-                Prêt à optimiser
-              </h2>
-              <h2
-                className="text-[64px] mb-6"
-                style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, lineHeight: 1.1 }}
-              >
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">
-                  votre logistique
+              <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
+                <span className="w-8 md:w-12 h-px bg-indigo-500" />
+                <span className="text-indigo-400 text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.3em]" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                  {data.section.expertise}
                 </span>
-                <span className="text-white"> ?</span>
-              </h2>
-              <p
-                className="text-slate-300 text-lg mb-8"
-                style={{ fontFamily: 'DM Sans, sans-serif' }}
-              >
-                Contactez-nous dès maintenant pour obtenir un devis personnalisé
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <GlassButton to="/contact">
-                  Demander un devis gratuit
-                </GlassButton>
-
-                <Link to="/contact">
-                  <motion.button
-                    whileHover={{
-                      scale: 1.05,
-                      borderColor: 'rgba(99,102,241,0.4)'
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-10 py-5 rounded-full border border-white/15 text-white hover:border-indigo-500/40 transition-colors"
-                    style={{ fontFamily: 'Syne, sans-serif', fontWeight: 600 }}
-                  >
-                    Voir nos références →
-                  </motion.button>
-                </Link>
               </div>
+              <h2 className="text-[clamp(28px,6vw,64px)] text-white font-bold leading-none" style={{ fontFamily: 'Syne, sans-serif' }}>
+                {data.section.what}
+              </h2>
             </motion.div>
           </div>
+
+          {/* Accordion - Full width */}
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="border-t border-white/10 w-full"
+          >
+            {data.items.map((service: ServiceItem) => (
+              <ServiceAccordion 
+                key={service.id} 
+                service={service} 
+                isOpen={openId === service.id} 
+                onToggle={() => toggleService(service.id)} 
+              />
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section className="py-16 md:py-24 relative bg-slate-950/30 overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:40px_40px] md:bg-[size:60px_60px]" />
+        
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ duration: 0.8 }} 
+            className="text-center mb-10 md:mb-16"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 md:px-5 md:py-2 rounded-full bg-indigo-500/10 backdrop-blur-md border border-indigo-500/20 text-indigo-300 text-xs md:text-sm font-medium mb-4 md:mb-6" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+              {data.methodology}
+            </span>
+            <h2 className="text-[clamp(24px,5vw,48px)] text-white font-bold" style={{ fontFamily: 'Syne, sans-serif' }}>
+              {data.process}
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+            {data.processSteps.map((step: any, index: number) => (
+              <motion.div 
+                key={step.number} 
+                initial={{ opacity: 0, y: 30 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                viewport={{ once: true }} 
+                transition={{ delay: index * 0.1, duration: 0.6 }} 
+                className="relative flex flex-col items-center text-center p-4 md:p-6"
+              >
+                <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-indigo-500/30 flex items-center justify-center mb-3 md:mb-6">
+                  <span className="text-lg md:text-xl text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400 font-bold" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                    {step.number}
+                  </span>
+                </div>
+                <h4 className="text-sm md:text-lg text-white mb-1 md:mb-2 font-semibold" style={{ fontFamily: 'Syne, sans-serif' }}>
+                  {step.title}
+                </h4>
+                <p className="text-slate-400 text-xs md:text-sm" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                  {step.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 md:py-24 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full bg-indigo-500 opacity-10 blur-[100px] md:blur-[180px]" />
+        
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 text-center relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-[clamp(24px,6vw,56px)] text-white font-bold mb-2 leading-tight" style={{ fontFamily: 'Syne, sans-serif' }}>
+              {data.cta}
+            </h2>
+            <p className="text-slate-400 text-sm md:text-lg mb-6 md:mb-8 mt-4" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+              {data.ctaSubtitle}
+            </p>
+            
+            <Link to="/contact">
+              <motion.button 
+                whileHover={{ scale: 1.05 }} 
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 rounded-full bg-white text-black text-sm md:text-base font-semibold hover:bg-indigo-400 transition-colors"
+                style={{ fontFamily: 'Syne, sans-serif' }}
+              >
+                {data.ctaButton}
+                <span className="hidden md:inline">→</span>
+              </motion.button>
+            </Link>
+          </motion.div>
         </div>
       </section>
     </div>

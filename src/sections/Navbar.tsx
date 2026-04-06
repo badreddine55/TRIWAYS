@@ -2,18 +2,14 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Facebook, Instagram, Linkedin } from 'lucide-react';
-
-const navLinks = [
-  { path: '/', label: 'ACCUEIL' },
-  { path: '/qui-sommes-nous', label: 'QUI SOMMES NOUS' },
-  { path: '/services', label: 'NOS SERVICES' },
-  { path: '/contact', label: 'CONTACTEZ-NOUS' },
-];
+import { useLang } from '@/sections/LangContext';
+import { translations } from '@/lib/translations';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { lang, setLang } = useLang();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -27,6 +23,40 @@ export default function Navbar() {
 
   const isHome = location.pathname === '/';
   const isActive = (path: string) => location.pathname === path;
+  const navData = translations[lang].nav;
+  const navLinks = [
+    { path: '/', label: navData.home },
+    { path: '/qui-sommes-nous', label: navData.about },
+    { path: '/services', label: navData.services },
+    { path: '/contact', label: navData.contact },
+  ];
+
+  // Pill switcher — reused in desktop & mobile
+  const LangSwitcher = ({ dark = false }: { dark?: boolean }) => (
+    <div
+      className={`flex items-center gap-0.5 p-1 rounded-full ${
+        dark
+          ? 'bg-slate-100 border border-slate-200'
+          : 'bg-white/10 backdrop-blur-md border border-white/20'
+      }`}
+    >
+      {(['fr', 'en'] as const).map((l) => (
+        <button
+          key={l}
+          onClick={() => setLang(l)}
+          className={`px-3 py-1 rounded-full text-xs font-bold tracking-wider transition-all duration-200 uppercase ${
+            lang === l
+              ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow'
+              : dark
+              ? 'text-slate-500 hover:text-slate-700'
+              : 'text-white/60 hover:text-white'
+          }`}
+        >
+          {l}
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <>
@@ -35,9 +65,7 @@ export default function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={`fixed z-50 transition-all duration-500 ${
-          isScrolled
-            ? 'top-4 left-4 right-4'
-            : 'top-0 left-0 right-0'
+          isScrolled ? 'top-4 left-4 right-4' : 'top-0 left-0 right-0'
         }`}
       >
         <div
@@ -53,17 +81,12 @@ export default function Navbar() {
 
             {/* ── Logo ── */}
             <Link to="/">
-              <motion.div
-                className="flex items-center gap-3 cursor-pointer"
-                whileHover={{ scale: 1.02 }}
-              >
+              <motion.div className="flex items-center gap-3 cursor-pointer" whileHover={{ scale: 1.02 }}>
                 <img
                   src="https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo"
                   alt="TRIWAYS logo"
                   className={`w-20 h-20 object-contain transition-all duration-300 ${
-                    isScrolled || !isHome
-                      ? 'brightness-75'
-                      : 'brightness-0 invert'
+                    isScrolled || !isHome ? 'brightness-75' : 'brightness-0 invert'
                   }`}
                 />
               </motion.div>
@@ -77,12 +100,8 @@ export default function Navbar() {
                   to={link.path}
                   className={`relative text-sm font-medium tracking-wide transition-colors duration-300 ${
                     isScrolled || !isHome
-                      ? isActive(link.path)
-                        ? 'text-indigo-600'
-                        : 'text-slate-600 hover:text-indigo-600'
-                      : isActive(link.path)
-                      ? 'text-white font-semibold'
-                      : 'text-white/80 hover:text-white'
+                      ? isActive(link.path) ? 'text-indigo-600' : 'text-slate-600 hover:text-indigo-600'
+                      : isActive(link.path) ? 'text-white font-semibold' : 'text-white/80 hover:text-white'
                   }`}
                 >
                   {link.label}
@@ -101,8 +120,9 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* ── CTA Button ── */}
-            <div className="hidden lg:block">
+            {/* ── Desktop Right: Lang Switcher + CTA ── */}
+            <div className="hidden lg:flex items-center gap-3">
+              <LangSwitcher dark={isScrolled || !isHome} />
               <Link to="/contact">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -113,7 +133,7 @@ export default function Navbar() {
                       : 'bg-white/10 backdrop-blur-md text-white border border-white/30 hover:bg-white/20'
                   }`}
                 >
-                  Demandez un devis
+                  {navData.cta}
                 </motion.button>
               </Link>
             </div>
@@ -127,10 +147,7 @@ export default function Navbar() {
                   : 'text-white hover:bg-white/10'
               }`}
             >
-              <motion.div
-                animate={{ rotate: isMobileMenuOpen ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
-              >
+              <motion.div animate={{ rotate: isMobileMenuOpen ? 180 : 0 }} transition={{ duration: 0.3 }}>
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </motion.div>
             </button>
@@ -142,7 +159,6 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -152,7 +168,6 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
             />
 
-            {/* Drawer */}
             <motion.div
               initial={{ opacity: 0, y: -16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -164,19 +179,20 @@ export default function Navbar() {
             >
               <div className="p-6">
 
-                {/* Drawer logo header */}
-                <div className="flex items-center gap-3 pb-4 mb-3 border-b border-slate-100">
-                  <img
-                  src="https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo"
-                    alt="TRIWAYS logo"
-                    className="w-9 h-9 object-contain brightness-75"
-                  />
-                  <div>
-                    <p className="font-bold text-slate-900 text-sm">TRIWAYS</p>
-                    <p className="text-[10px] text-indigo-500 tracking-[0.25em]">
-                      INTERNATIONAL
-                    </p>
+                {/* Drawer header: logo + lang switcher */}
+                <div className="flex items-center justify-between pb-4 mb-3 border-b border-slate-100">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src="https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo"
+                      alt="TRIWAYS logo"
+                      className="w-9 h-9 object-contain brightness-75"
+                    />
+                    <div>
+                      <p className="font-bold text-slate-900 text-sm">TRIWAYS</p>
+                      <p className="text-[10px] text-indigo-500 tracking-[0.25em]">INTERNATIONAL</p>
+                    </div>
                   </div>
+                  <LangSwitcher dark />
                 </div>
 
                 {/* Links */}
@@ -226,7 +242,7 @@ export default function Navbar() {
                     whileTap={{ scale: 0.98 }}
                     className="w-full mt-5 py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-semibold shadow-lg hover:shadow-xl hover:shadow-indigo-500/30 transition-all"
                   >
-                    Demandez un devis
+                    {navData.cta}
                   </motion.button>
                 </Link>
               </div>

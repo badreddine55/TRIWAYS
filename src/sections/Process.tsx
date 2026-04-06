@@ -1,36 +1,20 @@
 import { motion } from 'framer-motion';
 import { Laptop, FolderOpen, Truck, PackageCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
-const marqueeText = 'GESTION DOUANIÈRE INTÉGRÉE • CONSULTING STRATÉGIQUE • TRANSPORT NATIONAL ET INTERNATIONAL • ';
-
-const steps = [
-  {
-    id: 1,
-    icon: Laptop,
-    title: 'Ouverture du Compte Client',
-    description: 'Notre chargée de clientèle enregistre vos informations et crée votre compte personnel pour un suivi personnalisé.',
-  },
-  {
-    id: 2,
-    icon: FolderOpen,
-    title: 'Création du dossier de transit',
-    description: 'Votre dossier est ouvert avec facture proforma, marquant la prise en charge officielle de votre expédition.',
-  },
-  {
-    id: 3,
-    icon: Truck,
-    title: 'Suivi Logistique',
-    description: 'Recevez des notifications automatiques à chaque étape, de l\'expédition jusqu\'à la livraison finale.',
-  },
-  {
-    id: 4,
-    icon: PackageCheck,
-    title: 'Réception de la marchandise',
-    description: 'Votre marchandise arrive en parfait état, avec un service rapide et transparent du début à la fin.',
-  },
-];
-
+import { useLang } from './LangContext';
+import { translations } from '@/lib/translations';
 export default function Process() {
+  const { lang } = useLang();
+  const processData = translations[lang].process;
+
+  const iconMap: Record<number, React.ComponentType<{ size?: number }>> = {
+    1: Laptop,
+    2: FolderOpen,
+    3: Truck,
+    4: PackageCheck,
+  };
+
+  const steps = processData.steps;
   return (
     <section className="relative py-24 overflow-hidden">
       {/* Fixed Background */}
@@ -52,7 +36,7 @@ export default function Process() {
               key={i}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold mx-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400"
             >
-              {marqueeText}
+              {processData.marquee}
             </span>
           ))}
         </div>
@@ -69,13 +53,13 @@ export default function Process() {
             className="text-center mb-16"
           >
             <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-sky-400 text-sm font-medium mb-4 backdrop-blur-sm">
-              Notre Méthodologie
+              {processData.methodology}
             </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white">
-              Notre Processus
+              {processData.heading}
             </h2>
             <p className="mt-4 text-slate-400 text-lg max-w-2xl mx-auto">
-              Un processus simple et transparent pour une expérience client optimale
+              {processData.description}
             </p>
           </motion.div>
 
@@ -111,7 +95,10 @@ export default function Process() {
                   {/* Icon */}
                   <div className="mb-6">
                     <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg group-hover:shadow-glow transition-shadow">
-                      <step.icon size={28} />
+                      {(() => {
+                        const IconComponent = iconMap[step.id as keyof typeof iconMap];
+                        return IconComponent ? <IconComponent size={28} /> : null;
+                      })()}
                     </div>
                   </div>
 
@@ -135,7 +122,7 @@ export default function Process() {
             className="mt-16 text-center"
           >
             <p className="text-slate-400 mb-6">
-              Prêt à démarrer votre expédition ?
+              {processData.ctaText}
             </p>
             <Link to="/contact">
               <motion.button
@@ -143,8 +130,8 @@ export default function Process() {
                 whileTap={{ scale: 0.95 }}
                 className="px-8 py-4 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-lg hover:shadow-glow-lg transition-shadow"
               >
-                Commencer maintenant
-            </motion.button>
+                {processData.cta}
+              </motion.button>
             </Link>
           </motion.div>
         </div>

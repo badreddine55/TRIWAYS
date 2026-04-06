@@ -4,6 +4,8 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Shield, Clock, Globe, Users, Award, Headphones } from "lucide-react";
+import { useLang } from "./LangContext";
+import { translations } from "@/lib/translations";
 
 // ── SVG Glass Filter ───────────────────────────────────────────────────────────
 
@@ -114,38 +116,14 @@ const GlassEffect: React.FC<GlassEffectProps> = ({
 
 // ── Data ───────────────────────────────────────────────────────────────────────
 
-const whyChooseUs = [
-  {
-    title: "Équipe qualifiée",
-    description: "Des professionnels formésdans le domaine du transportet de la logistique.",
-    icon: Award,
-  },
-  {
-    title: "Disponibilité 24/7",
-    description: "Une équipe dédiée à votre service jour et nuit pour Votre dossiers en temps réel.",
-    icon: Clock,
-  },
-  {
-    title: "Réseau Mondial",
-    description: "Partenaires stratégiques dans plus de 20 pays pour une couverture logistique complète.",
-    icon: Globe,
-  },
-  {
-    title: "Sécurité",
-    description: "Protection maximale de vos marchandises .",
-    icon: Shield,
-  },
-  {
-    title: "Solutions Sur Mesure",
-    description: "Des stratégies logistiques adaptées à vos besoins spécifiques et contraintes métier.",
-    icon: Users,
-  },
-  {
-    title: "Support Dédié",
-    description: "Un interlocuteur unique et expert pour accompagner chaque étape de votre projet.",
-    icon: Headphones,
-  },
-];
+const iconMap = {
+  qualified: Award,
+  availability: Clock,
+  network: Globe,
+  security: Shield,
+  custom: Users,
+  support: Headphones,
+};
 
 // ── Feature Card with Glass Effect ────────────────────────────────────────────
 
@@ -153,7 +131,7 @@ const FeatureCard = ({
   item,
   index,
 }: {
-  item: (typeof whyChooseUs)[0];
+  item: { title: string; description: string; icon: React.ComponentType<{ size?: number; strokeWidth?: number }> };
   index: number;
 }) => {
   return (
@@ -203,6 +181,21 @@ const FeatureCard = ({
 // ── Main Component ─────────────────────────────────────────────────────────────
 
 export default function AboutPreview() {
+  const { lang } = useLang();
+  const aboutData = translations[lang].aboutPreview;
+
+  const whyChooseUsData = aboutData.whyChooseUs;
+  const whyChooseUs = whyChooseUsData.map((item) => ({
+    ...item,
+    icon: iconMap[item.key as keyof typeof iconMap],
+  }));
+
+  const badgeText = aboutData.badge;
+  const headingPart1 = aboutData.headingPart1;
+  const headingPart2 = aboutData.headingPart2;
+  const closingSuffix = aboutData.closingSuffix;
+  const descriptionText = aboutData.description;
+  const ctaText = aboutData.cta;
   return (
     <section className="relative py-32 overflow-hidden bg-slate-950">
 
@@ -233,14 +226,14 @@ export default function AboutPreview() {
               className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-indigo-300 text-sm font-semibold mb-6"
             >
               <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
-              À propos
+              {badgeText}
             </motion.span>
 
             <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
-              Pourquoi nous{' '}
+              {headingPart1}{' '}
               <span className="relative inline-block">
                 <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
-                  choisir
+                  {headingPart2}
                 </span>
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
                   <path
@@ -257,11 +250,11 @@ export default function AboutPreview() {
                   </defs>
                 </svg>
               </span>
-              {' '}?
+              {' '}{closingSuffix}
             </h2>
 
             <p className="text-slate-400 text-xl max-w-2xl mx-auto">
-              Une expertise reconnue et des valeurs fortes au service de votre réussite
+              {descriptionText}
             </p>
           </motion.div>
 
@@ -291,7 +284,7 @@ export default function AboutPreview() {
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600" />
                 <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <span className="relative text-white font-semibold text-lg">
-                  Découvrir notre histoire
+                  {ctaText}
                 </span>
                 <motion.span
                   animate={{ x: [0, 4, 0] }}

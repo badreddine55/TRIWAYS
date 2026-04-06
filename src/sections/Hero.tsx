@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, ArrowDown, Facebook, Instagram, Linkedin, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLang } from './LangContext';
+import { translations } from '@/lib/translations';
 // WhatsApp SVG icon (lucide doesn't have WhatsApp)
 const WhatsAppIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -9,43 +11,44 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-const WHATSAPP_NUMBER = '212634362701'; // 👈 replace with your number (no + or spaces)
-const WHATSAPP_MESSAGE = 'Bonjour, je souhaite avoir plus d\'informations sur vos services logistiques.';
-const WHATSAPP_URL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+const WHATSAPP_NUMBER = '212634362701';
 const EMAIL_ADDRESS = 'contact@triways.ma';
-const EMAIL_SUBJECT = 'Demande d\'informations';
-const EMAIL_BODY = 'Bonjour,\n\nJe souhaite avoir plus d\'informations sur vos services logistiques.\n\nCordialement,';
-const EMAIL_URL = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(EMAIL_SUBJECT)}&body=${encodeURIComponent(EMAIL_BODY)}`;
-
-const slides = [
-  {
-    id: 1,
-    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1920&q=80',
-    title: 'Transport National\net International',
-  },
-  {
-    id: 2,
-    image: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1920&q=80',
-    title: 'Gestion Douanière\nIntégrée',
-  },
-  {
-    id: 3,
-    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1920&q=80',
-    title: 'Consulting\nStratégique',
-  },
-];
 
 export default function Hero() {
+  const { lang } = useLang();
+  const heroData = translations[lang].hero;
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
+  const slides = heroData.slides.map((slide, index) => ({
+    id: index + 1,
+    image: [
+      'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1920&q=80',
+      'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1920&q=80',
+      'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1920&q=80',
+    ][index],
+    title: slide.title,
+  }));
+
+  const whatsappMessage = lang === 'fr' 
+    ? 'Bonjour, je souhaite avoir plus d\'informations sur vos services logistiques.'
+    : 'Hello, I would like more information about your logistics services.';
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(whatsappMessage)}`;
+
+  const emailSubject = lang === 'fr' ? 'Demande d\'informations' : 'Information request';
+  const emailBody = lang === 'fr'
+    ? 'Bonjour,\n\nJe souhaite avoir plus d\'informations sur vos services logistiques.\n\nCordialement,'
+    : 'Hello,\n\nI would like more information about your logistics services.\n\nBest regards,';
+  const emailUrl = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+
+
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, []);
+  }, [slides.length]);
 
   const prevSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  }, []);
+  }, [slides.length]);
 
   useEffect(() => {
     if (!isAutoPlaying) return;
@@ -94,7 +97,7 @@ export default function Hero() {
           { href: 'https://www.instagram.com/triways_logistics', icon: <Instagram size={18} />, label: 'Instagram' },
           { href: 'https://www.linkedin.com/company/triways-logistics', icon: <Linkedin size={18} />, label: 'LinkedIn' },
           {
-            href: WHATSAPP_URL,
+            href: whatsappUrl,
             icon: <WhatsAppIcon />,
             label: 'WhatsApp',
             isWhatsApp: true,
@@ -133,7 +136,7 @@ export default function Hero() {
           >
             <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
             <span className="text-sm font-medium text-white/90 tracking-wide">
-              TRIWAYS LOGISTICS COMPANY
+              {heroData.badge}
             </span>
           </motion.div>
 
@@ -158,7 +161,7 @@ export default function Hero() {
             transition={{ delay: 0.4, duration: 0.6 }}
             className="mt-6 text-lg sm:text-xl text-white/70 max-w-2xl mx-auto"
           >
-            Votre partenaire logistique
+            {heroData.subtitle}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -173,9 +176,9 @@ export default function Hero() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-8 py-4 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold shadow-lg hover:shadow-xl transition-shadow"
-            >
-              Découvrir nos services
-            </motion.button>
+              >
+                {heroData.cta1}
+              </motion.button>
             </Link>
             <Link to="/contact">
               <motion.button
@@ -183,8 +186,8 @@ export default function Hero() {
                 whileTap={{ scale: 0.95 }}
                 className="px-8 py-4 rounded-full bg-white/10 backdrop-blur-md text-white font-semibold border border-white/30 hover:bg-white/20 transition-all"
               >
-                Contactez-nous
-            </motion.button>
+                {heroData.cta2}
+              </motion.button>
             </Link>
           </motion.div>
         </div>
@@ -228,7 +231,7 @@ export default function Hero() {
       {/* Right Side - Scroll Indicator */}
       <div className="hidden lg:flex absolute right-8 top-1/2 -translate-y-1/2 flex-col items-center gap-4 z-20">
         <span className="text-xs font-medium text-white/50 tracking-[0.2em] rotate-90 origin-center whitespace-nowrap mb-8">
-          DÉCOUVRIR
+          {heroData.scrollText}
         </span>
         <motion.button
           onClick={() => scrollToSection('qui-sommes-nous')}
@@ -241,10 +244,10 @@ export default function Hero() {
       </div>
 
       <motion.a
-        href={EMAIL_URL}
+        href={emailUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Contactez-nous par email"
+        aria-label="Send us an email"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 1.2, type: 'spring', stiffness: 260, damping: 20 }}
@@ -254,7 +257,7 @@ export default function Hero() {
       >
         <Mail size={20} />
         <span className="text-sm font-semibold whitespace-nowrap max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300">
-          Envoyez-nous un email
+          {heroData.emailCta}
         </span>
       </motion.a>
 
