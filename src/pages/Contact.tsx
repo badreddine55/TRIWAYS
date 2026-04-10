@@ -1,6 +1,6 @@
 import { useState, useRef, type FormEvent } from 'react';
 import { motion, useScroll, useSpring, useInView, AnimatePresence } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, Facebook, Twitter, Instagram, Linkedin, Check, Send, ChevronDown, Navigation, Truck, Plane, Ship } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Check, Send, Navigation, Truck, Plane, Ship } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -32,41 +32,7 @@ const NoiseOverlay = ({ opacity = 0.08 }: { opacity?: number }) => (
   />
 );
 
-const contactInfo = [
-  {
-    icon: MapPin,
-    label: 'Adresse',
-    value: 'Dakhla, Maroc',
-  },
-  {
-    icon: Phone,
-    label: 'Téléphone',
-    value: '+212 5XX-XXXXXX',
-  },
-  {
-    icon: Mail,
-    label: 'Email',
-    value: 'contact@TRIWAYS.ma',
-  },
-  {
-    icon: Clock,
-    label: 'Horaires',
-    value: 'Lun–Ven, 8h–18h',
-  },
-];
 
-const socialLinks = [
-  { icon: Facebook, href: '#', label: 'Facebook' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Instagram, href: '#', label: 'Instagram' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
-];
-
-const transportOptions = [
-  { id: 'maritime', label: 'Transport Maritime', icon: Ship, desc: 'FCL / LCL / Conteneurs' },
-  { id: 'aerien', label: 'Transport Aérien', icon: Plane, desc: 'Express / Cargo / Charter' },
-  { id: 'routier', label: 'Transport Routier', icon: Truck, desc: 'FTL / LTL / Groupage' },
-];
 
 export default function Contact() {
   const { lang } = useLang();
@@ -87,6 +53,23 @@ export default function Contact() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    
+    // Create email body with form data
+    const emailBody = `Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Subject: ${formData.subject}
+${formData.transportType ? `Transport Type: ${formData.transportType}\n` : ''}
+Message:
+${formData.message}`;
+
+    // Create mailto link
+    const mailtoLink = `mailto:sales@triwayslogistics.ma?subject=${encodeURIComponent(`Contact Form - ${formData.subject}`)}&body=${encodeURIComponent(emailBody)}&cc=${encodeURIComponent(formData.email)}`;
+
+    // Open email client in new tab
+    window.open(mailtoLink, '_blank');
+
+    // Show success state
     setIsSubmitted(true);
     setProgress(0);
     const duration = 3000;
@@ -224,31 +207,6 @@ export default function Contact() {
                   ))}
                 </div>
 
-                {/* Social Links */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                >
-                  <p className="text-indigo-400/50 text-xs uppercase tracking-widest mb-3" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-                    {t.followUs}
-                  </p>
-                  <div className="flex items-center gap-3">
-                    {socialLinks.map((social) => (
-                      <motion.a
-                        key={social.label}
-                        href={social.href}
-                        whileHover={{ scale: 1.1, y: -3 }}
-                        whileTap={{ scale: 0.95 }}
-                        transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                        className="w-10 h-10 rounded-xl bg-white/4 border border-white/8 flex items-center justify-center text-slate-500 hover:text-indigo-400 hover:bg-indigo-500/10 hover:border-indigo-400/25 transition-all"
-                        aria-label={social.label}
-                      >
-                        <social.icon size={18} />
-                      </motion.a>
-                    ))}
-                  </div>
-                </motion.div>
 
                 {/* Map */}
                 <motion.div

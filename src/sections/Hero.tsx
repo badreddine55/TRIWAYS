@@ -11,8 +11,7 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-const WHATSAPP_NUMBER = '212634362701';
-const EMAIL_ADDRESS = 'contact@triways.ma';
+const EMAIL_ADDRESS = 'sales@triwayslogistics.ma';
 
 export default function Hero() {
   const { lang } = useLang();
@@ -23,17 +22,14 @@ export default function Hero() {
   const slides = heroData.slides.map((slide, index) => ({
     id: index + 1,
     image: [
-      'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1920&q=80',
-      'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1920&q=80',
-      'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1920&q=80',
+      '/src/assets/International_Transport.jpeg',
+      '/src/assets/gestion_.jpg',
+      '/src/assets/consultation.jpeg',
     ][index],
     title: slide.title,
   }));
 
-  const whatsappMessage = lang === 'fr' 
-    ? 'Bonjour, je souhaite avoir plus d\'informations sur vos services logistiques.'
-    : 'Hello, I would like more information about your logistics services.';
-  const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(whatsappMessage)}`;
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${heroData.whatsapp.number}&text=${encodeURIComponent(heroData.whatsapp.message)}`;
 
   const emailSubject = lang === 'fr' ? 'Demande d\'informations' : 'Information request';
   const emailBody = lang === 'fr'

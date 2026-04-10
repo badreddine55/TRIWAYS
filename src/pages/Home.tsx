@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Play, Pause } from 'lucide-react';
 import SEO from '@/components/SEO';
 import Hero from '@/sections/Hero';
-import ProcessSection from '@/sections/Process';
+import Partners from '@/sections/Process';
 import { ServicesPreview } from '@/sections/ServicesPreview';
 import AboutPreview from '@/sections/AboutPreview';
 import { useLang } from '@/sections/LangContext';
@@ -13,6 +13,7 @@ function VideoSection() {
   const [isPlaying, setIsPlaying] = useState(false);
   const { lang } = useLang();
   const data = translations[lang].home.videoSection;
+
 
   return (
     <section className="relative py-24 bg-slate-950 overflow-hidden">
@@ -83,7 +84,7 @@ export default function Home() {
       <SEO page="home" />
       <Hero />
       <ServicesPreview />
-      <ProcessSection />
+      <Partners />
       <VideoSection />
       <AboutPreview />
     </>

@@ -19,7 +19,6 @@ const iconMap = { mail: Mail, phone: Phone, location: MapPin };
 export function Footer() {
   const { lang } = useLang();
   const footerData = translations[lang].footer;
-  const currentYear = new Date().getFullYear();
 
   const footerLinks = footerData.links;
   const contactInfo = footerData.info.map((item: any) => ({
@@ -27,16 +26,16 @@ export function Footer() {
     icon: iconMap[item.icon as keyof typeof iconMap],
   }));
   const socialLinks = [
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: Facebook, href: 'https://facebook.com', label: 'Facebook' },
-    { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
+    { icon: Linkedin, href: 'https://linkedin.com', label: footerData.social[0].label },
+    { icon: Twitter, href: 'https://twitter.com', label: footerData.social[1].label },
+    { icon: Facebook, href: 'https://facebook.com', label: footerData.social[2].label },
+    { icon: Instagram, href: 'https://instagram.com', label: footerData.social[3].label },
   ];
 
   const transportIcons = [
-    { icon: Ship, label: 'Maritime' },
-    { icon: Plane, label: 'Aérien' },
-    { icon: Truck, label: 'Terrestre' },
+    { icon: Ship, label: footerData.transport.maritime },
+    { icon: Plane, label: footerData.transport.air },
+    { icon: Truck, label: footerData.transport.land },
   ];
 
   return (
@@ -240,16 +239,16 @@ export function Footer() {
                 </div>
                 <div>
                   <div style={{ fontSize: '20px', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.01em', lineHeight: 1 }}>
-                    TRIWAYS
+                    {footerData.brand.name}
                   </div>
                   <div style={{ fontSize: '9px', color: '#4a5568', letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: '3px' }}>
-                    INTERNATIONAL
+                    {footerData.brand.tagline}
                   </div>
                 </div>
               </Link>
 
               <p style={{ color: '#8892a4', fontSize: '13.5px', lineHeight: '1.7', margin: '0 0 28px', maxWidth: '260px' }}>
-                Votre partenaire logistique de confiance pour le transport international. Solutions complètes, expertise reconnue et accompagnement personnalisé.
+                {footerData.description}
               </p>
 
               <div style={{ display: 'flex', gap: '10px' }}>
@@ -276,7 +275,7 @@ export function Footer() {
             {/* Services column */}
             <div>
               <div className="footer-section-heading">
-                <h4>Services</h4>
+                <h4>{footerData.services}</h4>
                 <div className="footer-divider" />
               </div>
               <ul className="footer-link-list">
@@ -291,7 +290,7 @@ export function Footer() {
             {/* Entreprise column */}
             <div>
               <div className="footer-section-heading">
-                <h4>Entreprise</h4>
+                <h4>{footerData.company}</h4>
                 <div className="footer-divider" />
               </div>
               <ul className="footer-link-list">
@@ -306,7 +305,7 @@ export function Footer() {
             {/* Contact column */}
             <div>
               <div className="footer-section-heading">
-                <h4>Contact</h4>
+                <h4>{footerData.contact}</h4>
                 <div className="footer-divider" />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -346,7 +345,7 @@ export function Footer() {
           </div>
 
           <p style={{ color: '#4a5568', fontSize: '13px', margin: 0 }}>
-            © {currentYear} TRIWAYS International. Tous droits réservés.
+            {footerData.copyright}
           </p>
         </div>
       </footer>

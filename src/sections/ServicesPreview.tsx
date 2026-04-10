@@ -14,7 +14,7 @@ const transportSubServices = [
     description: "Solutions de fret maritime internationale avec tracking en temps réel.",
     icon: Ship,
     color: "from-cyan-500 to-blue-600",
-    image: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?q=80&w=800&auto=format&fit=crop",
+    image: "/src/assets/s1.avif",
   },
   {
     title: "Transport Aérien",
@@ -28,7 +28,7 @@ const transportSubServices = [
     description: "Réseau routier optimisé et solutions de stockage automatisée.",
     icon: Truck,
     color: "from-emerald-500 to-teal-600",
-    image: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?q=80&w=800&auto=format&fit=crop",
+    image: "/src/assets/s2.avif",
   },
 ];
 
@@ -40,7 +40,7 @@ const baseServicesPreview = [
     icon: Globe,
     color: "from-indigo-500 via-purple-500 to-cyan-500",
     accent: "indigo",
-    image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=800&auto=format&fit=crop",
+    image: "/src/assets/ss1.avif",
     isExpandable: true,
     subServices: transportSubServices,
   },
@@ -50,7 +50,7 @@ const baseServicesPreview = [
     icon: Package,
     color: "from-amber-500 to-orange-600",
     accent: "amber",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80",
+    image: "/src/assets/ss2.jpeg",
   },
   {
     titleKey: 'consulting',
@@ -58,12 +58,12 @@ const baseServicesPreview = [
     icon: Anchor,
     color: "from-rose-500 to-pink-600",
     accent: "rose",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop",
+    image: "/src/assets/ss2.avif",
   },
 ];
 
 // Glass Card Component with Image Preview and Expandable Support
-const GlassCard = ({ service, index, learnMore }: { service: typeof baseServicesPreview[0] & { title: string; description: string }; index: number; learnMore: string }) => {
+const GlassCard = ({ service, index, learnMore }: { service: (typeof baseServicesPreview[0]) & { title: any; description: any }; index: number; learnMore: string }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -334,7 +334,7 @@ export function ServicesPreview() {
           {/* Services Grid - Now 3 cards layout */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             {servicesPreview.map((service, index) => (
-              <GlassCard key={service.title} service={service} index={index} learnMore={learnMore} />
+              <GlassCard key={index} service={service} index={index} learnMore={learnMore} />
             ))}
           </div>
 

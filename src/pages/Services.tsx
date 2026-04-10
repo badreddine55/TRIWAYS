@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SEO from '@/components/SEO';
 import { useLang } from '@/sections/LangContext';
 import { translations } from '@/lib/translations';
@@ -66,11 +66,31 @@ interface ServiceItem {
   fullDesc: string;
   image: string;
   sections?: Array<{ title: string; items: string[] }>;
-  subsections?: Array<{ id: string; title: string; description: string; items: string[] }>;
+  subsections?: Array<{
+    id: string;
+    title: string;
+    description: string;
+    items: string[];
+    action?: { navigate: string; state: { openServiceId: string } };
+  }>;
 }
 
 function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem; isOpen: boolean; onToggle: () => void }) {
+  const navigate = useNavigate();
   const hasSubsections = service.subsections && service.subsections.length > 0;
+
+  const handleSubsectionClick = (sub: any) => {
+    console.log('Subsection clicked:', sub);
+    console.log('Action:', sub.action);
+    if (sub.action?.navigate) {
+      console.log('Navigating to:', sub.action.navigate);
+      navigate(sub.action.navigate, { state: sub.action.state });
+    } else {
+      console.log('No action found, navigating to services');
+      // Fallback navigation
+      navigate('/services', { state: { openServiceId: '03' } });
+    }
+  };
 
   return (
     <div className="border-b border-white/10 last:border-b-0">
@@ -143,13 +163,17 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
                   {/* 3 Subsections Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
                     {service.subsections?.map((sub, sIndex) => (
-                      <motion.div
+                      <motion.button
+                        type="button"
                         key={sub.id}
                         id={sub.id}
+                        onClick={() => handleSubsectionClick(sub)}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         transition={{ delay: 0.2 + sIndex * 0.1 }}
-                        className="relative p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 hover:border-indigo-500/30 transition-all duration-300 group"
+                        className="relative p-4 md:p-6 lg:p-8 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 hover:border-indigo-500/30 transition-all duration-300 group text-left cursor-pointer pointer-events-auto"
                       >
                         {/* Subsection number */}
                         <div className="absolute top-3 right-3 md:top-4 md:right-4 text-3xl md:text-5xl lg:text-6xl font-bold text-white/5" style={{ fontFamily: 'Syne, sans-serif' }}>
@@ -175,7 +199,7 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
 
                         {/* Hover accent line */}
                         <div className="absolute bottom-0 left-0 w-0 h-0.5 md:h-1 bg-gradient-to-r from-indigo-500 to-cyan-500 group-hover:w-full transition-all duration-500 rounded-b-xl md:rounded-b-2xl" />
-                      </motion.div>
+                      </motion.button>
                     ))}
                   </div>
 
@@ -266,11 +290,24 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
 export default function Services() {
   const { lang } = useLang();
   const data = translations[lang].services;
-  const [openId, setOpenId] = useState<string | null>('01');
+  const location = useLocation();
+  const accordionRef = useRef<HTMLDivElement>(null);
+  const [openId, setOpenId] = useState<string | null>(
+    location.state?.openServiceId ?? '01'
+  );
 
   const toggleService = (id: string) => {
     setOpenId(openId === id ? null : id);
   };
+
+  // Auto-scroll to accordion when navigating with state
+  useEffect(() => {
+    if (location.state?.openServiceId && accordionRef.current) {
+      setTimeout(() => {
+        accordionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  }, [location.state?.openServiceId]);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
@@ -284,7 +321,7 @@ export default function Services() {
       {/* Hero Section */}
       <section className="relative min-h-[60vh] md:h-screen overflow-hidden">
         <img 
-          src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1920&q=80" 
+          src="/src/assets/backimage.jpeg" 
           alt="Services Hero" 
           className="w-full h-full object-cover absolute inset-0"
         />
@@ -376,6 +413,7 @@ export default function Services() {
 
           {/* Accordion - Full width */}
           <motion.div 
+            ref={accordionRef}
             initial={{ opacity: 0, y: 40 }} 
             whileInView={{ opacity: 1, y: 0 }} 
             viewport={{ once: true }} 
@@ -414,7 +452,7 @@ export default function Services() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
             {data.processSteps.map((step: any, index: number) => (
               <motion.div 
                 key={step.number} 

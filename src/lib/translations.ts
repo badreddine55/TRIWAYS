@@ -21,6 +21,10 @@ export const translations = {
       cta2: 'Contactez-nous',
       scrollText: 'DÉCOUVRIR',
       emailCta: 'Envoyez-nous un email',
+      whatsapp: {
+        number: '212660276334',
+        message: '🚛 Besoin d\'un partenaire fiable pour votre logistique ?\nNous vous proposons :\n✔️ Transport national & international\n✔️ Transit & dédouanement\n✔️ Conseil et formation en commerce international\n🎯 Moins de stress, plus d\'efficacité\n📩 Écrivez-nous pour une prise en charge rapide !',
+      },
     },
     home: {
       videoSection: {
@@ -88,8 +92,8 @@ export const translations = {
       followUs: 'Suivez-nous',
       info: [
         { label: 'Adresse', value: 'Dakhla, Maroc' },
-        { label: 'Téléphone', value: '+212 5XX-XXXXXX' },
-        { label: 'Email', value: 'contact@TRIWAYS.ma' },
+        { label: 'Téléphone', value: '+212 611-087900' },
+        { label: 'Email', value: 'sales@triwayslogistics.ma' },
         { label: 'Horaires', value: 'Lun–Ven, 8h–18h' },
       ],
       form: {
@@ -220,10 +224,12 @@ export const translations = {
       methodology: 'Comment ça marche',
       process: 'Notre Processus',
       processSteps: [
-        { number: '01', title: 'Consultation', description: 'Analyse de vos besoins spécifiques' },
-        { number: '02', title: 'Devis', description: 'Proposition personnalisée et transparente' },
-        { number: '03', title: 'Exécution', description: 'Mise en œuvre de la solution choisie' },
-        { number: '04', title: 'Suivi', description: 'Accompagnement jusqu\'à la livraison' },
+        { number: '01', title: 'Consultation', description: 'Analyse de vos besoins en transport et logistique.' },
+        { number: '02', title: 'Devis', description: 'Proposition d\'une offre adaptée (coût, délai, mode de transport).' },
+        { number: '03', title: 'Confirmation', description: 'Validation de la commande et des modalités d\'expédition.' },
+        { number: '04', title: 'Exécution', description: 'Organisation et suivi du transport (douane, transit, livraison).' },
+        { number: '05', title: 'Livraison', description: 'Réception de la marchandise par le destinataire.' },
+        { number: '06', title: 'Accompagnement Continu', description: 'Suivi post-livraison, assistance et gestion des demandes pour garantir votre satisfaction.' },
       ],
       cta: 'Prêt à optimiser votre logistique ?',
       ctaSubtitle: 'Contactez-nous dès maintenant pour obtenir un devis personnalisé',
@@ -234,7 +240,7 @@ export const translations = {
           title: 'Gestion Douanière',
           shortDesc: 'Formalités douanières simplifiées et conformes',
           fullDesc: 'Nous assurons une gestion complète et rigoureuse de vos formalités douanières, en garantissant un suivi précis et conforme à la réglementation en vigueur. Grâce à l\'expertise de nos partenaires spécialisés dans le domaine du transit, nous facilitons toutes vos opérations d\'import et d\'export, en réduisant les délais et en optimisant les coûts.',
-          image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&q=80',
+          image: 'src/assets/servis1.jpeg',
           sections: [
             {
               title: 'Nos services incluent',
@@ -262,7 +268,7 @@ export const translations = {
           title: 'Consultation et Formation Stratégique',
           shortDesc: 'Accompagnement expert pour optimiser vos opérations',
           fullDesc: 'Nous accompagnons les entreprises à travers des services de consultation et de formation stratégique dans les domaines du transport et de la logistique internationale. Grâce à notre expertise et à celle de nos partenaires, nous aidons nos clients à optimiser leurs opérations, renforcer leurs compétences et assurer la conformité de leurs activités.',
-          image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80',
+          image: 'src/assets/servis2.jpeg',
           sections: [
             {
               title: 'Nos services incluent',
@@ -290,7 +296,7 @@ export const translations = {
           title: 'Transport National et International',
           shortDesc: 'Solutions de transport sur mesure avec réseau mondial',
           fullDesc: 'Profitez de notre réseau mondial de partenaires pour des solutions de transport sur mesure, offrant des délais compétitifs et une fiabilité inégalée.',
-          image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=80',
+          image: 'src/assets/servis3.jpeg',
           subsections: [
             {
               id: 'maritime',
@@ -302,6 +308,7 @@ export const translations = {
                 'Réservation, suivi et gestion documentaire',
                 'Optimisation des coûts et délais',
               ],
+              action: { navigate: '/services', state: { openServiceId: '03' } },
             },
             {
               id: 'aerien',
@@ -313,6 +320,7 @@ export const translations = {
                 'Gestion complète des formalités et de la documentation',
                 'Service après-vente réactif',
               ],
+              action: { navigate: '/services', state: { openServiceId: '03' } },
             },
             {
               id: 'routier',
@@ -325,6 +333,7 @@ export const translations = {
                 'Gestion des formalités douanières',
                 'Suivi et coordination de bout en bout',
               ],
+              action: { navigate: '/services', state: { openServiceId: '03' } },
             },
           ],
           sections: [
@@ -352,6 +361,11 @@ export const translations = {
         { name: 'ROTTERDAM', flag: '🇳🇱', country: 'Pays-Bas' },
       ],
     },
+    partners: {
+      badge: 'Réseau Mondial',
+      heading: 'Approuvés par les Leaders de l\'Industrie',
+      description: 'Nous collaborons avec les plus grands armateurs et prestataires logistiques mondiaux pour offrir un service d\'exception partout dans le monde.',
+    },
     footer: {
       description: 'Votre partenaire logistique de confiance pour le transport international. Solutions complètes, expertise reconnue et accompagnement personnalisé.',
       services: 'Services',
@@ -371,13 +385,13 @@ export const translations = {
         ],
         company: [
           { name: 'À propos', to: '/qui-sommes-nous' },
-          { name: 'Notre équipe', to: '/qui-sommes-nous#equipe' },
           { name: 'Contact', to: '/contact' },
         ],
       },
       info: [
-        { icon: 'mail', href: 'mailto:contact@triways.ma', text: 'contact@triways.ma' },
-        { icon: 'phone', href: 'tel:+212634362701', text: '+212 6 34 36 27 01' },
+        { icon: 'mail',  text: 'sales@triwayslogistics.ma' },
+        { icon: 'phone',  text: '+212 6 34 36 27 01' },
+        { icon: 'phone',  text: '+212 6 11 08 79 00' },
         { icon: 'location', text: 'Dakhla, Maroc' },
       ],
       brand: {
@@ -413,6 +427,10 @@ export const translations = {
       cta2: 'Contact us',
       scrollText: 'EXPLORE',
       emailCta: 'Send us an email',
+      whatsapp: {
+        number: '212660276334',
+        message: '🚛 Need a reliable logistics partner?\nWe offer you:\n✔️ National & international transport\n✔️ Transit & customs clearance\n✔️ Consulting and training in international commerce\n🎯 Less stress, more efficiency\n📩 Write to us for quick handling!',
+      },
     },
     home: {
       videoSection: {
@@ -480,8 +498,8 @@ export const translations = {
       followUs: 'Follow us',
       info: [
         { label: 'Address', value: 'Dakhla, Morocco' },
-        { label: 'Phone', value: '+212 5XX-XXXXXX' },
-        { label: 'Email', value: 'contact@TRIWAYS.ma' },
+        { label: 'Phone', value: '+212 611-087900' },
+        { label: 'Email', value: 'sales@triwayslogistics.ma' },
         { label: 'Hours', value: 'Mon–Fri, 8am–6pm' },
       ],
       form: {
@@ -606,10 +624,12 @@ export const translations = {
       methodology: 'How it works',
       process: 'Our Process',
       processSteps: [
-        { number: '01', title: 'Consultation', description: 'Analysis of your specific needs' },
-        { number: '02', title: 'Quote', description: 'Personalized and transparent proposal' },
-        { number: '03', title: 'Execution', description: 'Implementation of the chosen solution' },
-        { number: '04', title: 'Follow-up', description: 'Support until delivery' },
+        { number: '01', title: 'Consultation', description: 'Analysis of your transport and logistics needs.' },
+        { number: '02', title: 'Quote', description: 'Proposal of a customized offer (cost, deadline, transport mode).' },
+        { number: '03', title: 'Confirmation', description: 'Validation of the order and shipping terms.' },
+        { number: '04', title: 'Execution', description: 'Organization and monitoring of transport (customs, transit, delivery).' },
+        { number: '05', title: 'Delivery', description: 'Receipt of goods by the recipient.' },
+        { number: '06', title: 'Continuous Support', description: 'Post-delivery follow-up, assistance and request management to ensure your satisfaction.' },
       ],
       cta: 'Ready to optimize your logistics?',
       ctaSubtitle: 'Contact us now to get a personalized quote',
@@ -620,7 +640,7 @@ export const translations = {
           title: 'Customs Management',
           shortDesc: 'Simplified and compliant customs procedures',
           fullDesc: 'We ensure complete and rigorous management of your customs procedures, guaranteeing precise monitoring in compliance with current regulations. Thanks to the expertise of our partners specialized in the field of transit, we facilitate all your import and export operations, reducing delays and optimizing costs.',
-          image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&q=80',
+          image: 'src/assets/servis1.jpeg',
           sections: [
             {
               title: 'Our services include',
@@ -648,7 +668,7 @@ export const translations = {
           title: 'Consulting and Strategic Training',
           shortDesc: 'Expert support to optimize your operations',
           fullDesc: 'We support companies through consulting and strategic training services in the fields of transport and international logistics. Thanks to our expertise and that of our partners, we help our clients optimize their operations, strengthen their skills and ensure the compliance of their activities.',
-          image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80',
+          image: 'src/assets/servis2.jpeg',
           sections: [
             {
               title: 'Our services include',
@@ -676,7 +696,7 @@ export const translations = {
           title: 'National and International Transport',
           shortDesc: 'Customized transport solutions with global network',
           fullDesc: 'Benefit from our global network of partners for customized transport solutions, offering competitive deadlines and unmatched reliability.',
-          image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&q=80',
+          image: 'src/assets/servis3.jpeg',
           subsections: [
             {
               id: 'maritime',
@@ -688,6 +708,7 @@ export const translations = {
                 'Booking, tracking and documentation management',
                 'Cost and deadline optimization',
               ],
+              action: { navigate: '/services', state: { openServiceId: '03' } },
             },
             {
               id: 'aerien',
@@ -699,6 +720,7 @@ export const translations = {
                 'Complete management of formalities and documentation',
                 'Responsive after-sales service',
               ],
+              action: { navigate: '/services', state: { openServiceId: '03' } },
             },
             {
               id: 'routier',
@@ -711,6 +733,7 @@ export const translations = {
                 'Management of customs procedures',
                 'End-to-end tracking and coordination',
               ],
+              action: { navigate: '/services', state: { openServiceId: '03' } },
             },
           ],
           sections: [
@@ -738,6 +761,11 @@ export const translations = {
         { name: 'ROTTERDAM', flag: '🇳🇱', country: 'Netherlands' },
       ],
     },
+    partners: {
+      badge: 'Global Network',
+      heading: 'Trusted by Industry Leaders',
+      description: 'We collaborate with the world\'s leading shipping lines and logistics providers to deliver exceptional service worldwide.',
+    },
     footer: {
       description: 'Your trusted logistics partner for international transport. Complete solutions, recognized expertise and personalized support.',
       services: 'Services',
@@ -757,13 +785,13 @@ export const translations = {
         ],
         company: [
           { name: 'About', to: '/qui-sommes-nous' },
-          { name: 'Our Team', to: '/qui-sommes-nous#equipe' },
           { name: 'Contact', to: '/contact' },
         ],
       },
       info: [
-        { icon: 'mail', href: 'mailto:contact@triways.ma', text: 'contact@triways.ma' },
-        { icon: 'phone', href: 'tel:+212634362701', text: '+212 6 34 36 27 01' },
+        { icon: 'mail', text: 'sales@triwayslogistics.ma' },
+        { icon: 'phone', text: '+212 6 34 36 27 01' },
+        { icon: 'phone',  text: '+212 6 11 08 79 00' },
         { icon: 'location', text: 'Dakhla, Morocco' },
       ],
       brand: {

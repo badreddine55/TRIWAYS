@@ -283,16 +283,16 @@ const GlassButton = ({ children, to, onClick, variant = 'primary' }: {
 // ── Data (UNCHANGED) ───────────────────────────────────────────────────────────
 
 const galleryImages = [
-  { src: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=800&q=80', alt: 'Container ship' },
-  { src: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&q=80', alt: 'Port operations' },
-  { src: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80', alt: 'Cargo containers' },
-  { src: 'https://images.unsplash.com/photo-1616432043562-3671ea2e5242?w=800&q=80', alt: 'Air freight' },
-  { src: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=80', alt: 'Truck logistics' },
-  { src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80', alt: 'Harbor cranes' },
-  { src: 'https://images.unsplash.com/photo-1595246140625-573b715d11dc?w=800&q=80', alt: 'Container terminal' },
-  { src: 'https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=800&q=80', alt: 'Logistics team' },
-  { src: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80', alt: 'Business meeting' },
-  { src: 'https://images.unsplash.com/photo-1605745341112-85968b19335b?w=800&q=80', alt: 'Supply chain' },
+  { src: 'src/assets/backimage.jpeg', alt: 'Container ship' },
+  { src: 'src/assets/consultation.jpeg', alt: 'Port operations' },
+  { src: 'src/assets/gestion_.jpg', alt: 'Cargo containers' },
+  { src: 'src/assets/about1.jpeg', alt: 'Air freight' },
+  { src: 'src/assets/ss1.avif', alt: 'Truck logistics' },
+  { src: 'src/assets/servis3.jpeg', alt: 'Harbor cranes' },
+  { src: 'src/assets/servis1.jpeg', alt: 'Container terminal' },
+  { src: 'src/assets/servis2.jpeg', alt: 'Logistics team' },
+  { src: 'src/assets/servis3.jpeg', alt: 'Business meeting' },
+  { src: 'src/assets/backimage.jpeg', alt: 'Supply chain' },
 ];
 
 // ── Animation Utilities ───────────────────────────────────────────────────────
@@ -419,7 +419,7 @@ function Hero() {
             >
               <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl shadow-indigo-500/20 border border-white/10">
                 <img
-                  src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=800&q=80"
+                  src="src/assets/about1.jpeg"
                   alt={data.heroImageAlt}
                   className="w-full h-[250px] sm:h-[300px] md:h-[400px] object-cover"
                 />
@@ -671,7 +671,7 @@ function ServicesDetail() {
               <div className="relative rounded-2xl md:rounded-3xl overflow-hidden mb-6 md:mb-8 group">
                 <div className="aspect-video">
                   <img
-                    src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&q=80"
+                    src="src/assets/International_Transport.jpeg"
                     alt={data.services[activeService].title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
