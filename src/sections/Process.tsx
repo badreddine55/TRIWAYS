@@ -4,24 +4,24 @@ import { translations } from '@/lib/translations';
 
 // Partner logos data - Using local assets
 const partners = [
-  { id: 1, name: 'Partner 1', logo: '/src/assets/logoC1.png' },
-  { id: 2, name: 'Partner 2', logo: '/src/assets/logoC2.png' },
-  { id: 3, name: 'Partner 3', logo: '/src/assets/logoC3.png' },
-  { id: 4, name: 'Partner 4', logo: '/src/assets/logoC4.png' },
-  { id: 5, name: 'Partner 5', logo: '/src/assets/logoC5.png' },
-  { id: 6, name: 'Partner 6', logo: '/src/assets/logoC6.png' },
-  { id: 7, name: 'Partner 7', logo: '/src/assets/logoC7.png' },
-  { id: 8, name: 'Partner 8', logo: '/src/assets/logoC8.png' },
-  { id: 9, name: 'Partner 9', logo: '/src/assets/logoC9.png' },
-  { id: 11, name: 'Partner 11', logo: '/src/assets/logoC11.png' },
-  { id: 12, name: 'Partner 12', logo: '/src/assets/logoC12.png' },
-  { id: 13, name: 'Partner 13', logo: '/src/assets/logoC13.png' },
-  { id: 14, name: 'Partner 14', logo: '/src/assets/logoC14.png' },
-  { id: 15, name: 'Partner 15', logo: '/src/assets/logoC15.png' },
-  { id: 16, name: 'Partner 16', logo: '/src/assets/logoC16.png' },
-  { id: 17, name: 'Partner 17', logo: '/src/assets/logoC17.png' },
-  { id: 18, name: 'Partner 18', logo: '/src/assets/logoC18.png' },
-  { id: 19, name: 'Partner 19', logo: '/src/assets/logoC0.png' },
+  { id: 1, name: 'Partner 1', logo: '/assets/logoC1.png' },
+  { id: 2, name: 'Partner 2', logo: '/assets/logoC2.png' },
+  { id: 3, name: 'Partner 3', logo: '/assets/logoC3.png' },
+  { id: 4, name: 'Partner 4', logo: '/assets/logoC4.png' },
+  { id: 5, name: 'Partner 5', logo: '/assets/logoC5.png' },
+  { id: 6, name: 'Partner 6', logo: '/assets/logoC6.png' },
+  { id: 7, name: 'Partner 7', logo: '/assets/logoC7.png' },
+  { id: 8, name: 'Partner 8', logo: '/assets/logoC8.png' },
+  { id: 9, name: 'Partner 9', logo: '/assets/logoC9.png' },
+  { id: 11, name: 'Partner 11', logo: '/assets/logoC11.png' },
+  { id: 12, name: 'Partner 12', logo: '/assets/logoC12.png' },
+  { id: 13, name: 'Partner 13', logo: '/assets/logoC13.png' },
+  { id: 14, name: 'Partner 14', logo: '/assets/logoC14.png' },
+  { id: 15, name: 'Partner 15', logo: '/assets/logoC15.png' },
+  { id: 16, name: 'Partner 16', logo: '/assets/logoC16.png' },
+  { id: 17, name: 'Partner 17', logo: '/assets/logoC17.png' },
+  { id: 18, name: 'Partner 18', logo: '/assets/logoC18.png' },
+  { id: 19, name: 'Partner 19', logo: '/assets/logoC0.png' },
 ];
 
 export default function Partners() {
@@ -41,7 +41,7 @@ export default function Partners() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed"
         style={{
-          backgroundImage: 'url(/src/assets/backimage.jpeg)',
+          backgroundImage: 'url(/assets/backimage.jpeg)',
         }}
       >
         <div className="absolute inset-0 bg-slate-950/85" />

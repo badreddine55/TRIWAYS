@@ -321,7 +321,7 @@ export default function Services() {
       {/* Hero Section */}
       <section className="relative min-h-[60vh] md:h-screen overflow-hidden">
         <img 
-          src="/src/assets/backimage.jpeg" 
+          src="/assets/backimage.jpeg" 
           alt="Services Hero" 
           className="w-full h-full object-cover absolute inset-0"
         />

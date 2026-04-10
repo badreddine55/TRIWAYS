@@ -22,9 +22,9 @@ export default function Hero() {
   const slides = heroData.slides.map((slide, index) => ({
     id: index + 1,
     image: [
-      '/src/assets/International_Transport.jpeg',
-      '/src/assets/gestion_.jpg',
-      '/src/assets/consultation.jpeg',
+      '/assets/International_Transport.jpeg',
+      '/assets/gestion_.jpg',
+      '/assets/consultation.jpeg',
     ][index],
     title: slide.title,
   }));

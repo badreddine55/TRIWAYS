@@ -14,7 +14,7 @@ const transportSubServices = [
     description: "Solutions de fret maritime internationale avec tracking en temps réel.",
     icon: Ship,
     color: "from-cyan-500 to-blue-600",
-    image: "/src/assets/s1.avif",
+    image: "/assets/s1.avif",
   },
   {
     title: "Transport Aérien",
@@ -28,7 +28,7 @@ const transportSubServices = [
     description: "Réseau routier optimisé et solutions de stockage automatisée.",
     icon: Truck,
     color: "from-emerald-500 to-teal-600",
-    image: "/src/assets/s2.avif",
+    image: "/assets/s2.avif",
   },
 ];
 
@@ -40,7 +40,7 @@ const baseServicesPreview = [
     icon: Globe,
     color: "from-indigo-500 via-purple-500 to-cyan-500",
     accent: "indigo",
-    image: "/src/assets/ss1.avif",
+    image: "/assets/ss1.avif",
     isExpandable: true,
     subServices: transportSubServices,
   },
@@ -50,7 +50,7 @@ const baseServicesPreview = [
     icon: Package,
     color: "from-amber-500 to-orange-600",
     accent: "amber",
-    image: "/src/assets/ss2.jpeg",
+    image: "/assets/ss2.jpeg",
   },
   {
     titleKey: 'consulting',
@@ -58,7 +58,7 @@ const baseServicesPreview = [
     icon: Anchor,
     color: "from-rose-500 to-pink-600",
     accent: "rose",
-    image: "/src/assets/ss2.avif",
+    image: "/assets/ss2.avif",
   },
 ];
 
