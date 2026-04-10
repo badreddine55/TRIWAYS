@@ -240,7 +240,7 @@ export const translations = {
           title: 'Gestion Douanière',
           shortDesc: 'Formalités douanières simplifiées et conformes',
           fullDesc: 'Nous assurons une gestion complète et rigoureuse de vos formalités douanières, en garantissant un suivi précis et conforme à la réglementation en vigueur. Grâce à l\'expertise de nos partenaires spécialisés dans le domaine du transit, nous facilitons toutes vos opérations d\'import et d\'export, en réduisant les délais et en optimisant les coûts.',
-          image: 'src/assets/servis1.jpeg',
+          image: '/assets/servis1.jpeg',
           sections: [
             {
               title: 'Nos services incluent',
@@ -268,7 +268,7 @@ export const translations = {
           title: 'Consultation et Formation Stratégique',
           shortDesc: 'Accompagnement expert pour optimiser vos opérations',
           fullDesc: 'Nous accompagnons les entreprises à travers des services de consultation et de formation stratégique dans les domaines du transport et de la logistique internationale. Grâce à notre expertise et à celle de nos partenaires, nous aidons nos clients à optimiser leurs opérations, renforcer leurs compétences et assurer la conformité de leurs activités.',
-          image: 'src/assets/servis2.jpeg',
+          image: '/assets/servis2.jpeg',
           sections: [
             {
               title: 'Nos services incluent',
@@ -296,7 +296,7 @@ export const translations = {
           title: 'Transport National et International',
           shortDesc: 'Solutions de transport sur mesure avec réseau mondial',
           fullDesc: 'Profitez de notre réseau mondial de partenaires pour des solutions de transport sur mesure, offrant des délais compétitifs et une fiabilité inégalée.',
-          image: 'src/assets/servis3.jpeg',
+          image: '/assets/servis3.jpeg',
           subsections: [
             {
               id: 'maritime',
@@ -640,7 +640,7 @@ export const translations = {
           title: 'Customs Management',
           shortDesc: 'Simplified and compliant customs procedures',
           fullDesc: 'We ensure complete and rigorous management of your customs procedures, guaranteeing precise monitoring in compliance with current regulations. Thanks to the expertise of our partners specialized in the field of transit, we facilitate all your import and export operations, reducing delays and optimizing costs.',
-          image: 'src/assets/servis1.jpeg',
+          image: '/assets/servis1.jpeg',
           sections: [
             {
               title: 'Our services include',
@@ -668,7 +668,7 @@ export const translations = {
           title: 'Consulting and Strategic Training',
           shortDesc: 'Expert support to optimize your operations',
           fullDesc: 'We support companies through consulting and strategic training services in the fields of transport and international logistics. Thanks to our expertise and that of our partners, we help our clients optimize their operations, strengthen their skills and ensure the compliance of their activities.',
-          image: 'src/assets/servis2.jpeg',
+          image: '/assets/servis2.jpeg',
           sections: [
             {
               title: 'Our services include',
@@ -696,7 +696,7 @@ export const translations = {
           title: 'National and International Transport',
           shortDesc: 'Customized transport solutions with global network',
           fullDesc: 'Benefit from our global network of partners for customized transport solutions, offering competitive deadlines and unmatched reliability.',
-          image: 'src/assets/servis3.jpeg',
+          image: '/assets/servis3.jpeg',
           subsections: [
             {
               id: 'maritime',

@@ -283,16 +283,16 @@ const GlassButton = ({ children, to, onClick, variant = 'primary' }: {
 // ── Data (UNCHANGED) ───────────────────────────────────────────────────────────
 
 const galleryImages = [
-  { src: 'src/assets/backimage.jpeg', alt: 'Container ship' },
-  { src: 'src/assets/consultation.jpeg', alt: 'Port operations' },
-  { src: 'src/assets/gestion_.jpg', alt: 'Cargo containers' },
-  { src: 'src/assets/about1.jpeg', alt: 'Air freight' },
-  { src: 'src/assets/ss1.avif', alt: 'Truck logistics' },
-  { src: 'src/assets/servis3.jpeg', alt: 'Harbor cranes' },
-  { src: 'src/assets/servis1.jpeg', alt: 'Container terminal' },
-  { src: 'src/assets/servis2.jpeg', alt: 'Logistics team' },
-  { src: 'src/assets/servis3.jpeg', alt: 'Business meeting' },
-  { src: 'src/assets/backimage.jpeg', alt: 'Supply chain' },
+  { src: '/assets/backimage.jpeg', alt: 'Container ship' },
+  { src: '/assets/consultation.jpeg', alt: 'Port operations' },
+  { src: '/assets/gestion_.jpg', alt: 'Cargo containers' },
+  { src: '/assets/about1.jpeg', alt: 'Air freight' },
+  { src: '/assets/ss1.avif', alt: 'Truck logistics' },
+  { src: '/assets/servis3.jpeg', alt: 'Harbor cranes' },
+  { src: '/assets/servis1.jpeg', alt: 'Container terminal' },
+  { src: '/assets/servis2.jpeg', alt: 'Logistics team' },
+  { src: '/assets/servis3.jpeg', alt: 'Business meeting' },
+  { src: '/assets/backimage.jpeg', alt: 'Supply chain' },
 ];
 
 // ── Animation Utilities ───────────────────────────────────────────────────────
@@ -419,7 +419,7 @@ function Hero() {
             >
               <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl shadow-indigo-500/20 border border-white/10">
                 <img
-                  src="src/assets/about1.jpeg"
+                  src="/assets/about1.jpeg"
                   alt={data.heroImageAlt}
                   className="w-full h-[250px] sm:h-[300px] md:h-[400px] object-cover"
                 />
@@ -671,7 +671,7 @@ function ServicesDetail() {
               <div className="relative rounded-2xl md:rounded-3xl overflow-hidden mb-6 md:mb-8 group">
                 <div className="aspect-video">
                   <img
-                    src="src/assets/International_Transport.jpeg"
+                    src="/assets/International_Transport.jpeg"
                     alt={data.services[activeService].title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />

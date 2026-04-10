@@ -121,7 +121,7 @@ export function ServicesPreview() {
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[100px]" 
         />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+
       </div>
 
       <div className="relative px-4 sm:px-6 lg:px-12 xl:px-20">
