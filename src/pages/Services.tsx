@@ -204,7 +204,7 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
                   </div>
 
                   {/* Commitments */}
-                  {service.sections && (
+                  {service.sections && service.sections.length > 0 && (
                     <motion.div 
                       initial={{ opacity: 0, y: 20 }} 
                       animate={{ opacity: 1, y: 0 }} 
@@ -213,15 +213,15 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
                     >
                       <h4 className="text-white font-semibold mb-3 md:mb-4 flex items-center gap-2 md:gap-3 text-sm md:text-base" style={{ fontFamily: 'Syne, sans-serif' }}>
                         <span className="w-6 md:w-8 h-px bg-indigo-500" />
-                        {service.sections[0].title}
+                        {service.sections[0]?.title || 'Our Commitments'}
                       </h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                        {service.sections[0].items.map((item: string, i: number) => (
+                        {service.sections[0]?.items?.map((item: string, i: number) => (
                           <div key={i} className="flex items-center gap-2 text-slate-300 text-xs md:text-sm">
                             <span className="w-1 h-1 md:w-1.5 md:h-1.5 bg-gradient-to-r from-indigo-400 to-cyan-400 rotate-45 shrink-0" />
                             <span style={{ fontFamily: 'DM Sans, sans-serif' }}>{item}</span>
                           </div>
-                        ))}
+                        )) || []}
                       </div>
                     </motion.div>
                   )}

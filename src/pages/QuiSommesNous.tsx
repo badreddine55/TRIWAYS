@@ -137,6 +137,7 @@ function GalleryScene({ images, speed = 1, visibleCount = 8,
   const [scrollVelocity, setScrollVelocity] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
   const lastInteraction = useRef(Date.now());
+  const timeRef = useRef(0);
   const normalizedImages = useMemo(() => images.map(img => typeof img === 'string' ? { src: img, alt: '' } : img), [images]);
   const textures = useTexture(normalizedImages.map(img => img.src));
   const materials = useMemo(() => Array.from({ length: visibleCount }, () => createClothMaterial()), [visibleCount]);
@@ -173,10 +174,11 @@ function GalleryScene({ images, speed = 1, visibleCount = 8,
     const interval = setInterval(() => { if (Date.now() - lastInteraction.current > 3000) setAutoPlay(true); }, 1000);
     return () => clearInterval(interval);
   }, []);
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     if (autoPlay) setScrollVelocity(p => p + 0.3 * delta);
     setScrollVelocity(p => p * 0.95);
-    const time = state.clock.getElapsedTime();
+    timeRef.current += delta;
+    const time = timeRef.current;
     materials.forEach(m => { if (m?.uniforms) { m.uniforms.time.value = time; m.uniforms.scrollForce.value = scrollVelocity; } });
     const imageAdvance = totalImages > 0 ? visibleCount % totalImages || totalImages : 0;
     planesData.current.forEach((plane, i) => {

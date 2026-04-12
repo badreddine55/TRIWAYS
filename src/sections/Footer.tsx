@@ -7,8 +7,6 @@ import {
   Plane,
   Truck,
   Linkedin,
-  Twitter,
-  Facebook,
   Instagram
 } from 'lucide-react';
 import { useLang } from './LangContext';
@@ -26,10 +24,8 @@ export function Footer() {
     icon: iconMap[item.icon as keyof typeof iconMap],
   }));
   const socialLinks = [
-    { icon: Linkedin, href: 'https://linkedin.com', label: footerData.social[0].label },
-    { icon: Twitter, href: 'https://twitter.com', label: footerData.social[1].label },
-    { icon: Facebook, href: 'https://facebook.com', label: footerData.social[2].label },
-    { icon: Instagram, href: 'https://instagram.com', label: footerData.social[3].label },
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/triways-logistics', label: footerData.social[0]?.label || 'LinkedIn' },
+    { icon: Instagram, href: 'https://www.instagram.com/triways_logistics', label: footerData.social[2]?.label || 'Instagram' },
   ];
 
   const transportIcons = [

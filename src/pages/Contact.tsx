@@ -90,10 +90,10 @@ ${formData.message}`;
 
   // Map contact info icons to translation data
   const contactInfoWithIcons = [
-    { icon: MapPin,  label: t.info[0].label, value: t.info[0].value },
-    { icon: Phone,   label: t.info[1].label, value: t.info[1].value },
-    { icon: Mail,    label: t.info[2].label, value: t.info[2].value },
-    { icon: Clock,   label: t.info[3].label, value: t.info[3].value },
+    { icon: MapPin,  label: t.info[0]?.label || 'Location', value: t.info[0]?.value || '' },
+    { icon: Phone,   label: t.info[1]?.label || 'Phone', value: t.info[1]?.value || '' },
+    { icon: Mail,    label: t.info[2]?.label || 'Email', value: t.info[2]?.value || '' },
+    { icon: Clock,   label: t.info[3]?.label || 'Hours', value: t.info[3]?.value || '' },
   ];
 
   const transportOptionsWithIcons = t.form.transportTypes.map((opt, i) => ({

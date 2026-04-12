@@ -401,7 +401,6 @@ export const translations = {
       social: [
         { label: 'LinkedIn' },
         { label: 'Twitter' },
-        { label: 'Facebook' },
         { label: 'Instagram' },
       ],
     },
@@ -801,7 +800,6 @@ export const translations = {
       social: [
         { label: 'LinkedIn' },
         { label: 'Twitter' },
-        { label: 'Facebook' },
         { label: 'Instagram' },
       ],
     },

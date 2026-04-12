@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, ArrowDown, Facebook, Instagram, Linkedin, Mail } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowDown, Instagram, Linkedin, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLang } from './LangContext';
 import { translations } from '@/lib/translations';
@@ -89,7 +89,6 @@ export default function Hero() {
         <div className="w-px h-16 bg-gradient-to-b from-transparent via-white/40 to-transparent" />
 
         {[
-          { href: '#', icon: <Facebook size={18} />, label: 'Facebook' },
           { href: 'https://www.instagram.com/triways_logistics', icon: <Instagram size={18} />, label: 'Instagram' },
           { href: 'https://www.linkedin.com/company/triways-logistics', icon: <Linkedin size={18} />, label: 'LinkedIn' },
           {
