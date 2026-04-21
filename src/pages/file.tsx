@@ -21,7 +21,7 @@ const servicesPreview = [
     accent: "violet",
   },
   {
-    title: "Logistique Terrestre",
+    title: "Transport Routier",
     description: "Réseau routier optimisé et solutions de stockage avec gestion d'entrepôt automatisée.",
     icon: Truck,
     color: "from-emerald-500 to-teal-600",

@@ -24,7 +24,7 @@ const transportSubServices = [
     image: "https://images.unsplash.com/photo-1616432043562-3671ea2ea5242?q=80&w=800&auto=format&fit=crop",
   },
   {
-    title: "Logistique Terrestre",
+    title: "Transport Routier",
     description: "Réseau routier optimisé et solutions de stockage automatisée.",
     icon: Truck,
     color: "from-emerald-500 to-teal-600",

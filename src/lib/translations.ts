@@ -52,7 +52,7 @@ export const translations = {
       subServices: [
         { title: 'Transport Maritime', description: 'Solutions de fret maritime internationale avec tracking en temps réel.' },
         { title: 'Transport Aérien', description: 'Livraison express par voie aérienne pour vos marchandises urgentes.' },
-        { title: 'Logistique Terrestre', description: 'Réseau routier optimisé et solutions de stockage automatisée.' },
+        { title: 'Transport Routier', description: 'Réseau routier optimisé et solutions de stockage automatisée.' },
       ],
     },
     process: {
@@ -148,8 +148,7 @@ export const translations = {
       heroImageAlt: 'Global Logistics',
       heroImageLabel: 'Global Logistics',
 
-      // Ticker hint
-      galleryHint: 'Molette ou flèches • Auto-play après 3s',
+      
 
       // Mission section
       missionWords: ['transparence', 'innovation', 'engagement'],
@@ -172,16 +171,19 @@ export const translations = {
       servicesCta: 'Demander un devis',
       services: [
         {
+          src_imge:"/assets/gestion_.jpg",
           title: 'Gestion Douanière Intégrée',
           description: 'Simplifiez vos formalités douanières avec notre expertise spécialisée, couvrant tous les aspects du dédouanement, des déclarations et des procédures nécessaires pour un transit fluide et efficace.',
           features: ['Dédouanement complet', 'Suivi en temps réel', 'Conformité réglementaire', 'Documentation assurée'],
         },
         {
+          src_imge:"/assets/servis1.jpeg",
           title: 'Consulting Stratégique',
           description: "Maximisez vos opportunités d'importation grâce à notre consulting personnalisé. Nous vous guidons à travers chaque étape, en optimisant les processus pour minimiser les coûts.",
           features: ['Optimisation des coûts', 'Analyse des processus', 'Conseil personnalisé', 'Accompagnement continu'],
         },
         {
+          src_imge:"/assets/International_Transport.jpeg",
           title: 'Transport National et International',
           description: "Profitez de notre réseau mondial de partenaires pour des solutions de transport sur mesure, offrant des délais compétitifs et une fiabilité inégalée.",
           features: ['Réseau mondial', 'Délais compétitifs', 'Multi-modal', 'Traçabilité complète'],
@@ -561,7 +563,6 @@ export const translations = {
       heroImageAlt: 'Global Logistics',
       heroImageLabel: 'Global Logistics',
 
-      galleryHint: 'Scroll or arrows • Auto-play after 3s',
 
       missionWords: ['transparency', 'innovation', 'commitment'],
 
@@ -582,16 +583,19 @@ export const translations = {
       servicesCta: 'Request a quote',
       services: [
         {
+          src_imge:"/assets/gestion_.jpg",
           title: 'Integrated Customs Management',
           description: 'Simplify your customs formalities with our specialized expertise, covering all aspects of customs clearance, declarations and procedures for smooth and efficient transit.',
           features: ['Full clearance', 'Real-time tracking', 'Regulatory compliance', 'Documentation assured'],
         },
         {
+          src_imge:"/assets/servis1.jpeg",
           title: 'Strategic Consulting',
           description: 'Maximize your import opportunities through our personalized consulting. We guide you through every step, optimizing processes to minimize costs.',
           features: ['Cost optimization', 'Process analysis', 'Personalized advice', 'Ongoing support'],
         },
         {
+          src_imge:"/assets/International_Transport.jpeg",
           title: 'National and International Transport',
           description: 'Take advantage of our global network of partners for tailor-made transport solutions, offering competitive deadlines and unmatched reliability.',
           features: ['Global network', 'Competitive deadlines', 'Multi-modal', 'Full traceability'],
@@ -805,8 +809,8 @@ export const translations = {
       info: [
         { icon: 'mail', text: 'sales@triwaysslogistics.com' },
         { icon: 'mail',  text: 'info@triwaysslogistics.com' },
-        { icon: 'phone', text: '+212 6 34 36 27 01' },
-        { icon: 'phone',  text: '+212 6 11 08 79 00' },
+        { icon: 'phone', text: '+212 6 60 27 63 34' },
+        { icon: 'phone',  text: '+212 6 00 54 98 67' },
         { icon: 'location', text: 'Dakhla, Morocco' },
       ],
       brand: {

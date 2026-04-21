@@ -182,6 +182,7 @@ function VideoSection() {
             <video
               ref={videoRef}
               src="/assets/IMG_1388.MOV"
+              poster="src/assets/vedio_tuhb.png"
               className="w-full h-full object-cover"
               loop
               muted={isMuted}

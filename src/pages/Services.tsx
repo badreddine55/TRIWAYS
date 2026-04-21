@@ -293,7 +293,7 @@ export default function Services() {
   const location = useLocation();
   const accordionRef = useRef<HTMLDivElement>(null);
   const [openId, setOpenId] = useState<string | null>(
-    location.state?.openServiceId ?? '01'
+    location.state?.openServiceId ?? '03'
   );
 
   const toggleService = (id: string) => {

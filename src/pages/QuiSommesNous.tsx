@@ -1,9 +1,6 @@
-import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useTexture } from '@react-three/drei';
-import * as THREE from 'three';
 import { useLang } from '@/sections/LangContext';
 import { translations } from '@/lib/translations';
 import {
@@ -15,6 +12,7 @@ import {
   Zap,
 } from 'lucide-react';
 import SEO from '@/components/SEO';
+import { ImageSwiper } from "../components/ui/image-swiper";
 
 // ── Noise utility ──────────────────────────────────────────────────────────────
 
@@ -26,233 +24,6 @@ const NoiseOverlay = ({ opacity = 0.15 }: { opacity?: number }) => (
     style={{ backgroundImage: NOISE_SVG, opacity }}
   />
 );
-
-// ── 3D Gallery (UNCHANGED) ────────────────────────────────────────────────────
-
-type ImageItem = string | { src: string; alt?: string };
-
-interface FadeSettings {
-  fadeIn: { start: number; end: number };
-  fadeOut: { start: number; end: number };
-}
-
-interface BlurSettings {
-  blurIn: { start: number; end: number };
-  blurOut: { start: number; end: number };
-  maxBlur: number;
-}
-
-interface InfiniteGalleryProps {
-  images: ImageItem[];
-  speed?: number;
-  visibleCount?: number;
-  fadeSettings?: FadeSettings;
-  blurSettings?: BlurSettings;
-  className?: string;
-  style?: React.CSSProperties;
-}
-
-const DEFAULT_DEPTH_RANGE = 50;
-const MAX_HORIZONTAL_OFFSET = 8;
-const MAX_VERTICAL_OFFSET = 8;
-
-const createClothMaterial = () =>
-  new THREE.ShaderMaterial({
-    transparent: true,
-    uniforms: {
-      map: { value: null },
-      opacity: { value: 1.0 },
-      blurAmount: { value: 0.0 },
-      scrollForce: { value: 0.0 },
-      time: { value: 0.0 },
-      isHovered: { value: 0.0 },
-    },
-    vertexShader: `
-      uniform float scrollForce; uniform float time; uniform float isHovered;
-      varying vec2 vUv; varying vec3 vNormal;
-      void main() {
-        vUv = uv; vNormal = normal; vec3 pos = position;
-        float curveIntensity = scrollForce * 0.3;
-        float distanceFromCenter = length(pos.xy);
-        float curve = distanceFromCenter * distanceFromCenter * curveIntensity;
-        float ripple1 = sin(pos.x * 2.0 + scrollForce * 3.0) * 0.02;
-        float ripple2 = sin(pos.y * 2.5 + scrollForce * 2.0) * 0.015;
-        float clothEffect = (ripple1 + ripple2) * abs(curveIntensity) * 2.0;
-        float flagWave = 0.0;
-        if (isHovered > 0.5) {
-          float wavePhase = pos.x * 3.0 + time * 8.0;
-          float dampening = smoothstep(-0.5, 0.5, pos.x);
-          flagWave = sin(wavePhase) * 0.1 * dampening + sin(pos.x * 5.0 + time * 12.0) * 0.03 * dampening;
-        }
-        pos.z -= (curve + clothEffect + flagWave);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-      }
-    `,
-    fragmentShader: `
-      uniform sampler2D map; uniform float opacity; uniform float blurAmount; uniform float scrollForce;
-      varying vec2 vUv;
-      void main() {
-        vec4 color = texture2D(map, vUv);
-        if (blurAmount > 0.0) {
-          vec2 texelSize = 1.0 / vec2(textureSize(map, 0));
-          vec4 blurred = vec4(0.0); float total = 0.0;
-          for (float x = -2.0; x <= 2.0; x += 1.0) {
-            for (float y = -2.0; y <= 2.0; y += 1.0) {
-              float weight = 1.0 / (1.0 + length(vec2(x, y)));
-              blurred += texture2D(map, vUv + vec2(x, y) * texelSize * blurAmount) * weight;
-              total += weight;
-            }
-          }
-          color = blurred / total;
-        }
-        color.rgb += vec3(abs(scrollForce) * 0.005);
-        gl_FragColor = vec4(color.rgb, color.a * opacity);
-      }
-    `,
-  });
-
-function ImagePlane({ texture, position, scale, material }: {
-  texture: THREE.Texture;
-  position: [number, number, number];
-  scale: [number, number, number];
-  material: THREE.ShaderMaterial;
-}) {
-  const [isHovered, setIsHovered] = useState(false);
-  useEffect(() => { if (material && texture) material.uniforms.map.value = texture; }, [material, texture]);
-  useEffect(() => { if (material?.uniforms) material.uniforms.isHovered.value = isHovered ? 1.0 : 0.0; }, [material, isHovered]);
-  return (
-    <mesh position={position} scale={scale} material={material}
-      onPointerEnter={() => setIsHovered(true)} onPointerLeave={() => setIsHovered(false)}>
-      <planeGeometry args={[1, 1, 32, 32]} />
-    </mesh>
-  );
-}
-
-interface PlaneData { index: number; z: number; imageIndex: number; x: number; y: number; }
-
-function GalleryScene({ images, speed = 1, visibleCount = 8,
-  fadeSettings = { fadeIn: { start: 0.05, end: 0.15 }, fadeOut: { start: 0.85, end: 0.95 } },
-  blurSettings = { blurIn: { start: 0.0, end: 0.1 }, blurOut: { start: 0.9, end: 1.0 }, maxBlur: 3.0 },
-}: Omit<InfiniteGalleryProps, 'className' | 'style'>) {
-  const [scrollVelocity, setScrollVelocity] = useState(0);
-  const [autoPlay, setAutoPlay] = useState(true);
-  const lastInteraction = useRef(Date.now());
-  const timeRef = useRef(0);
-  const normalizedImages = useMemo(() => images.map(img => typeof img === 'string' ? { src: img, alt: '' } : img), [images]);
-  const textures = useTexture(normalizedImages.map(img => img.src));
-  const materials = useMemo(() => Array.from({ length: visibleCount }, () => createClothMaterial()), [visibleCount]);
-  const spatialPositions = useMemo(() => Array.from({ length: visibleCount }, (_, i) => ({
-    x: (Math.sin((i * 2.618) % (Math.PI * 2)) * (i % 3) * 1.2 * MAX_HORIZONTAL_OFFSET) / 3,
-    y: (Math.cos((i * 1.618 + Math.PI / 3) % (Math.PI * 2)) * ((i + 1) % 4) * 0.8 * MAX_VERTICAL_OFFSET) / 4,
-  })), [visibleCount]);
-  const totalImages = normalizedImages.length;
-  const depthRange = DEFAULT_DEPTH_RANGE;
-  const planesData = useRef<PlaneData[]>(Array.from({ length: visibleCount }, (_, i) => ({
-    index: i, z: ((depthRange / visibleCount) * i) % depthRange,
-    imageIndex: i % totalImages, x: spatialPositions[i]?.x ?? 0, y: spatialPositions[i]?.y ?? 0,
-  })));
-  useEffect(() => {
-    planesData.current = Array.from({ length: visibleCount }, (_, i) => ({
-      index: i, z: ((depthRange / Math.max(visibleCount, 1)) * i) % depthRange,
-      imageIndex: i % totalImages, x: spatialPositions[i]?.x ?? 0, y: spatialPositions[i]?.y ?? 0,
-    }));
-  }, [depthRange, spatialPositions, totalImages, visibleCount]);
-  const handleWheel = useCallback((e: WheelEvent) => {
-    e.preventDefault(); setScrollVelocity(p => p + e.deltaY * 0.01 * speed);
-    setAutoPlay(false); lastInteraction.current = Date.now();
-  }, [speed]);
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { setScrollVelocity(p => p - 2 * speed); setAutoPlay(false); lastInteraction.current = Date.now(); }
-    else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { setScrollVelocity(p => p + 2 * speed); setAutoPlay(false); lastInteraction.current = Date.now(); }
-  }, [speed]);
-  useEffect(() => {
-    const canvas = document.querySelector('canvas');
-    if (canvas) { canvas.addEventListener('wheel', handleWheel, { passive: false }); document.addEventListener('keydown', handleKeyDown); }
-    return () => { canvas?.removeEventListener('wheel', handleWheel); document.removeEventListener('keydown', handleKeyDown); };
-  }, [handleWheel, handleKeyDown]);
-  useEffect(() => {
-    const interval = setInterval(() => { if (Date.now() - lastInteraction.current > 3000) setAutoPlay(true); }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-  useFrame((_state, delta) => {
-    if (autoPlay) setScrollVelocity(p => p + 0.3 * delta);
-    setScrollVelocity(p => p * 0.95);
-    timeRef.current += delta;
-    const time = timeRef.current;
-    materials.forEach(m => { if (m?.uniforms) { m.uniforms.time.value = time; m.uniforms.scrollForce.value = scrollVelocity; } });
-    const imageAdvance = totalImages > 0 ? visibleCount % totalImages || totalImages : 0;
-    planesData.current.forEach((plane, i) => {
-      let newZ = plane.z + scrollVelocity * delta * 10;
-      let fw = 0, bw = 0;
-      if (newZ >= depthRange) { fw = Math.floor(newZ / depthRange); newZ -= depthRange * fw; }
-      else if (newZ < 0) { bw = Math.ceil(-newZ / depthRange); newZ += depthRange * bw; }
-      if (fw > 0 && imageAdvance > 0) plane.imageIndex = (plane.imageIndex + fw * imageAdvance) % totalImages;
-      if (bw > 0 && imageAdvance > 0) { const s = plane.imageIndex - bw * imageAdvance; plane.imageIndex = ((s % totalImages) + totalImages) % totalImages; }
-      plane.z = ((newZ % depthRange) + depthRange) % depthRange;
-      plane.x = spatialPositions[i]?.x ?? 0; plane.y = spatialPositions[i]?.y ?? 0;
-      const np = plane.z / depthRange;
-      let opacity = 1;
-      if (np < fadeSettings.fadeIn.start) opacity = 0;
-      else if (np <= fadeSettings.fadeIn.end) opacity = (np - fadeSettings.fadeIn.start) / (fadeSettings.fadeIn.end - fadeSettings.fadeIn.start);
-      else if (np >= fadeSettings.fadeOut.start && np <= fadeSettings.fadeOut.end) opacity = 1 - (np - fadeSettings.fadeOut.start) / (fadeSettings.fadeOut.end - fadeSettings.fadeOut.start);
-      else if (np > fadeSettings.fadeOut.end) opacity = 0;
-      let blur = 0;
-      if (np < blurSettings.blurIn.start) blur = blurSettings.maxBlur;
-      else if (np <= blurSettings.blurIn.end) blur = blurSettings.maxBlur * (1 - (np - blurSettings.blurIn.start) / (blurSettings.blurIn.end - blurSettings.blurIn.start));
-      else if (np >= blurSettings.blurOut.start && np <= blurSettings.blurOut.end) blur = blurSettings.maxBlur * ((np - blurSettings.blurOut.start) / (blurSettings.blurOut.end - blurSettings.blurOut.start));
-      else if (np > blurSettings.blurOut.end) blur = blurSettings.maxBlur;
-      const m = materials[i];
-      if (m?.uniforms) { m.uniforms.opacity.value = Math.max(0, Math.min(1, opacity)); m.uniforms.blurAmount.value = Math.max(0, Math.min(blurSettings.maxBlur, blur)); }
-    });
-  });
-  if (normalizedImages.length === 0) return null;
-  return (
-    <>
-      {planesData.current.map((plane, i) => {
-        const texture = textures[plane.imageIndex]; const material = materials[i];
-        if (!texture || !material) return null;
-        const img = texture.image as { width: number; height: number } | undefined;
-        const aspect = img && img.width > 0 && img.height > 0 ? img.width / img.height : 1;
-        const scale: [number, number, number] = aspect > 1 ? [2 * aspect, 2, 1] : [2, 2 / aspect, 1];
-        return <ImagePlane key={plane.index} texture={texture} position={[plane.x, plane.y, plane.z - depthRange / 2]} scale={scale} material={material} />;
-      })}
-    </>
-  );
-}
-
-function FallbackGallery({ images }: { images: ImageItem[] }) {
-  const normalized = useMemo(() => images.map(img => typeof img === 'string' ? { src: img, alt: '' } : img), [images]);
-  return (
-    <div className="flex flex-col items-center justify-center h-full bg-white/5 p-4">
-      <p className="text-slate-400 mb-4">WebGL not supported.</p>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-h-96 overflow-y-auto">
-        {normalized.map((img, i) => <img key={i} src={img.src} alt={img.alt} className="w-full h-32 object-cover rounded-lg" />)}
-      </div>
-    </div>
-  );
-}
-
-function InfiniteGallery({ images, className = 'h-96 w-full', style,
-  fadeSettings = { fadeIn: { start: 0.05, end: 0.25 }, fadeOut: { start: 0.4, end: 0.43 } },
-  blurSettings = { blurIn: { start: 0.0, end: 0.1 }, blurOut: { start: 0.4, end: 0.43 }, maxBlur: 8.0 },
-  speed, visibleCount,
-}: InfiniteGalleryProps) {
-  const [webglSupported, setWebglSupported] = useState(true);
-  useEffect(() => {
-    try {
-      const c = document.createElement('canvas');
-      if (!c.getContext('webgl') && !c.getContext('experimental-webgl')) setWebglSupported(false);
-    } catch { setWebglSupported(false); }
-  }, []);
-  if (!webglSupported) return <div className={className} style={style}><FallbackGallery images={images} /></div>;
-  return (
-    <div className={className} style={style}>
-      <Canvas camera={{ position: [0, 0, 0], fov: 55 }} gl={{ antialias: true, alpha: true }}>
-        <GalleryScene images={images} speed={speed} visibleCount={visibleCount} fadeSettings={fadeSettings} blurSettings={blurSettings} />
-      </Canvas>
-    </div>
-  );
-}
 
 // ── Shared Components ─────────────────────────────────────────────────────────
 
@@ -285,16 +56,30 @@ const GlassButton = ({ children, to, onClick, variant = 'primary' }: {
 // ── Data (UNCHANGED) ───────────────────────────────────────────────────────────
 
 const galleryImages = [
-  { src: '/assets/backimage.jpeg', alt: 'Container ship' },
-  { src: '/assets/consultation.jpeg', alt: 'Port operations' },
-  { src: '/assets/gestion_.jpg', alt: 'Cargo containers' },
-  { src: '/assets/about1.jpeg', alt: 'Air freight' },
-  { src: '/assets/ss1.avif', alt: 'Truck logistics' },
-  { src: '/assets/servis3.jpeg', alt: 'Harbor cranes' },
-  { src: '/assets/servis1.jpeg', alt: 'Container terminal' },
-  { src: '/assets/servis2.jpeg', alt: 'Logistics team' },
-  { src: '/assets/servis3.jpeg', alt: 'Business meeting' },
-  { src: '/assets/backimage.jpeg', alt: 'Supply chain' },
+  { src: '/assets/gallery/image1.jpeg', alt: 'Image 1' },
+  { src: '/assets/gallery/image2.jpeg', alt: 'Image 2' },
+  { src: '/assets/gallery/image3.jpeg', alt: 'Image 3' },
+  { src: '/assets/gallery/image4.jpeg', alt: 'Image 4' },
+  { src: '/assets/gallery/image5.jpeg', alt: 'Image 5' },
+  { src: '/assets/gallery/image6.jpeg', alt: 'Image 6' },
+  { src: '/assets/gallery/image7.jpeg', alt: 'Image 7' },
+  { src: '/assets/gallery/image8.jpeg', alt: 'Image 8' },
+  { src: '/assets/gallery/image9.jpeg', alt: 'Image 9' },
+  { src: '/assets/gallery/image10.jpeg', alt: 'Image 10' },
+  { src: '/assets/gallery/image11.jpeg', alt: 'Image 11' },
+  { src: '/assets/gallery/image12.jpeg', alt: 'Image 12' },
+  { src: '/assets/gallery/image13.jpeg', alt: 'Image 13' },
+  { src: '/assets/gallery/image14.jpeg', alt: 'Image 14' },
+  { src: '/assets/gallery/image15.jpeg', alt: 'Image 15' },
+  { src: '/assets/gallery/image16.jpeg', alt: 'Image 16' },
+  { src: '/assets/gallery/image17.jpeg', alt: 'Image 17' },
+  { src: '/assets/gallery/image18.jpeg', alt: 'Image 18' },
+  { src: '/assets/gallery/image19.jpeg', alt: 'Image 19' },
+  { src: '/assets/gallery/image20.jpeg', alt: 'Image 20' },
+  { src: '/assets/gallery/image21.jpeg', alt: 'Image 21' },
+  { src: '/assets/gallery/image22.jpeg', alt: 'Image 22' },
+  { src: '/assets/gallery/image23.jpeg', alt: 'Image 23' },
+  { src: '/assets/gallery/image24.jpeg', alt: 'Image 24' },
 ];
 
 // ── Animation Utilities ───────────────────────────────────────────────────────
@@ -673,7 +458,7 @@ function ServicesDetail() {
               <div className="relative rounded-2xl md:rounded-3xl overflow-hidden mb-6 md:mb-8 group">
                 <div className="aspect-video">
                   <img
-                    src="/assets/International_Transport.jpeg"
+                    src={data.services[activeService].src_imge}
                     alt={data.services[activeService].title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
@@ -804,18 +589,21 @@ function WhyChooseUs() {
   );
 }
 
-function GallerySection() {
-  const { lang } = useLang();
-  const data = translations[lang].about;
+
+
+export function GallerySection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
+  const data = translations.en.about;
   const titleChars = data.galleryTitle.split('');
-  const triwaysChars = data.galleryTitleGradient.split('');
+  const gradientChars = data.galleryTitleGradient.split('');
 
   return (
     <section ref={ref} className="relative py-20 md:py-32 overflow-hidden bg-slate-950">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Animated Title */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -840,7 +628,7 @@ function GallerySection() {
               ))}
             </span>
             <span className="flex flex-wrap justify-center">
-              {triwaysChars.map((char, i) => (
+              {gradientChars.map((char, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
@@ -855,12 +643,14 @@ function GallerySection() {
           </h2>
         </motion.div>
 
+        {/* Swiper Container with SVG Border Animation */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8 }}
           className="relative"
         >
+          {/* Animated SVG Border */}
           <svg className="absolute -inset-2 md:-inset-4 w-[calc(100%+16px)] md:w-[calc(100%+32px)] h-[calc(100%+16px)] md:h-[calc(100%+32px)] pointer-events-none z-20">
             <motion.rect
               x="2"
@@ -878,25 +668,28 @@ function GallerySection() {
             />
           </svg>
 
-          <div className="relative h-[300px] sm:h-[400px] md:h-[600px] rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-indigo-500/10">
-            <InfiniteGallery images={galleryImages} speed={1.2} visibleCount={12}
-              fadeSettings={{ fadeIn: { start: 0.05, end: 0.25 }, fadeOut: { start: 0.4, end: 0.43 } }}
-              blurSettings={{ blurIn: { start: 0.0, end: 0.1 }, blurOut: { start: 0.4, end: 0.43 }, maxBlur: 8.0 }}
-              className="h-full w-full" />
+          {/* BIGGER ImageSwiper Container */}
+          <div className="relative h-[400px] sm:h-[500px] md:h-[700px] lg:h-[800px] rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-indigo-500/10 flex items-center justify-center">
 
-            <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-              <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl tracking-tight mix-blend-exclusion text-white opacity-80 italic" style={{ fontFamily: 'Syne, sans-serif' }}>TRIWAYS</h3>
+            {/* Large ImageSwiper — centered and scaled up */}
+            <ImageSwiper
+              images={galleryImages.map((item) => item.src)}
+              cardWidth={340}
+              cardHeight={480}
+              className="scale-100 sm:scale-110 md:scale-125 lg:scale-150"
+            />
+
+            {/* Overlay Text */}
+            <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-30">
+              <h3 
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl tracking-tight mix-blend-exclusion text-white opacity-80 italic" 
+                style={{ fontFamily: 'Syne, sans-serif' }}
+              >
+                TRIWAYS
+              </h3>
             </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.7 }}
-            className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 px-3 md:px-6 py-1.5 md:py-2 rounded-full bg-indigo-500/10 border border-indigo-400/30"
-          >
-            <p className="text-indigo-300 text-[10px] md:text-xs font-mono uppercase tracking-widest" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{data.galleryHint}</p>
-          </motion.div>
         </motion.div>
       </div>
     </section>
