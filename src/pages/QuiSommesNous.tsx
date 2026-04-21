@@ -385,7 +385,7 @@ function Hero() {
                       backgroundClip: 'text',
                     }}
                   >
-                    INTERNATIONAL
+                    LOGISTICS
                   </motion.span>
                 </h1>
 

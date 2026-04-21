@@ -30,7 +30,7 @@ export const translations = {
       videoSection: {
         badge: 'Découvrez-nous',
         heading: 'Notre Vision',
-        company: 'TRIWAYS International',
+        company: 'TRIWAYS LOGISTICS',
         tagline: 'Excellence en logistique',
         live: 'LIVE',
       },
@@ -93,12 +93,19 @@ export const translations = {
       info: [
         { label: 'Adresse', value: 'Dakhla, Maroc' },
         { label: 'Téléphone', value: '+212 611-087900' },
-        { label: 'Email', value: 'sales@triwayslogistics.ma' },
+        { label: 'Email', value: 'sales@triwaysslogistics.com' },
+        { label: 'Email', value: 'info@triwaysslogistics.com' },
         { label: 'Horaires', value: 'Lun–Ven, 8h–18h' },
       ],
       form: {
         name: 'Nom complet',
         email: 'Email',
+        title: 'Envoyez-nous un message',
+        subtitle: 'Remplissez le formulaire ci-dessous et nous vous répondrons dans les 24 heures',
+        namePlaceholder: 'Jean Dupont',
+        emailPlaceholder: 'jean@entreprise.com',
+        messagePlaceholder: 'Parlez-nous de votre projet...',
+        transportTypeLabel: 'Type de transport',
         phone: 'Téléphone',
         subject: 'Sujet',
         message: 'Message',
@@ -132,7 +139,7 @@ export const translations = {
     },
     about: {
       heading: 'À propos de nous',
-      hero: { eyebrow: 'Découvrez notre histoire', title: 'TRIWAYS INTERNATIONAL' },
+      hero: { eyebrow: 'Découvrez notre histoire', title: 'TRIWAYS LOGISTICS' },
       
       // Hero section
       heroBadge: 'À propos de nous',
@@ -156,7 +163,7 @@ export const translations = {
       // CEO Quote section
       ceoQuote: { text: "Triways Logistique est née de la volonté de trois personnes partageant la même vision : offrir un service logistique fiable, humain et performant. Aujourd'hui, nous mettons toute notre énergie et notre engagement au service de nos clients, avec une priorité claire : bâtir une relation de confiance durable et accompagner chaque projet avec sérieux et réactivité." },
       ceoTitle: 'Directeur Général',
-      ceoCompany: 'TRIWAYS International',
+      ceoCompany: 'TRIWAYS LOGISTICS',
 
       // Services detail section
       servicesBadge: 'Nos Expertises',
@@ -236,62 +243,6 @@ export const translations = {
       ctaButton: 'Demander un devis',
       items: [
         {
-          id: '01',
-          title: 'Gestion Douanière',
-          shortDesc: 'Formalités douanières simplifiées et conformes',
-          fullDesc: 'Nous assurons une gestion complète et rigoureuse de vos formalités douanières, en garantissant un suivi précis et conforme à la réglementation en vigueur. Grâce à l\'expertise de nos partenaires spécialisés dans le domaine du transit, nous facilitons toutes vos opérations d\'import et d\'export, en réduisant les délais et en optimisant les coûts.',
-          image: '/assets/servis1.jpeg',
-          sections: [
-            {
-              title: 'Nos services incluent',
-              items: [
-                'Préparation et vérification des dossiers douaniers',
-                'Déclaration en douane (import / export)',
-                'Suivi des procédures auprès des autorités compétentes',
-                'Conseil en réglementation douanière',
-                'Gestion des litiges et assistance administrative',
-              ],
-            },
-            {
-              title: 'Nos engagements',
-              items: [
-                'Conformité réglementaire',
-                'Rapidité de traitement',
-                'Accompagnement personnalisé',
-                'Service après-vente réactif',
-              ],
-            },
-          ],
-        },
-        {
-          id: '02',
-          title: 'Consultation et Formation Stratégique',
-          shortDesc: 'Accompagnement expert pour optimiser vos opérations',
-          fullDesc: 'Nous accompagnons les entreprises à travers des services de consultation et de formation stratégique dans les domaines du transport et de la logistique internationale. Grâce à notre expertise et à celle de nos partenaires, nous aidons nos clients à optimiser leurs opérations, renforcer leurs compétences et assurer la conformité de leurs activités.',
-          image: '/assets/servis2.jpeg',
-          sections: [
-            {
-              title: 'Nos services incluent',
-              items: [
-                'Formation des entreprises dans le domaine du transport et de la gestion des formalités douanières',
-                'Accompagnement personnalisé pour améliorer les processus logistiques',
-                'Conseil en logistique internationale (import / export)',
-                'Optimisation des coûts et des délais de votre activité',
-                'Assistance stratégique pour le développement de vos activités',
-              ],
-            },
-            {
-              title: 'Nos engagements',
-              items: [
-                'Expertise et professionnalisme',
-                'Solutions adaptées à vos besoins',
-                'Approche pratique et orientée résultats',
-                'Suivi et accompagnement continu',
-              ],
-            },
-          ],
-        },
-        {
           id: '03',
           title: 'Transport National et International',
           shortDesc: 'Solutions de transport sur mesure avec réseau mondial',
@@ -348,6 +299,62 @@ export const translations = {
             },
           ],
         },
+        {
+          id: '01',
+          title: 'Gestion Douanière',
+          shortDesc: 'Formalités douanières simplifiées et conformes',
+          fullDesc: 'Nous assurons une gestion complète et rigoureuse de vos formalités douanières, en garantissant un suivi précis et conforme à la réglementation en vigueur. Grâce à l\'expertise de nos partenaires spécialisés dans le domaine du transit, nous facilitons toutes vos opérations d\'import et d\'export, en réduisant les délais et en optimisant les coûts.',
+          image: '/assets/gestion_.jpg',
+          sections: [
+            {
+              title: 'Nos services incluent',
+              items: [
+                'Préparation et vérification des dossiers douaniers',
+                'Déclaration en douane (import / export)',
+                'Suivi des procédures auprès des autorités compétentes',
+                'Conseil en réglementation douanière',
+                'Gestion des litiges et assistance administrative',
+              ],
+            },
+            {
+              title: 'Nos engagements',
+              items: [
+                'Conformité réglementaire',
+                'Rapidité de traitement',
+                'Accompagnement personnalisé',
+                'Service après-vente réactif',
+              ],
+            },
+          ],
+        },
+        {
+          id: '02',
+          title: 'Consultation et Formation Stratégique',
+          shortDesc: 'Accompagnement expert pour optimiser vos opérations',
+          fullDesc: 'Nous accompagnons les entreprises à travers des services de consultation et de formation stratégique dans les domaines du transport et de la logistique internationale. Grâce à notre expertise et à celle de nos partenaires, nous aidons nos clients à optimiser leurs opérations, renforcer leurs compétences et assurer la conformité de leurs activités.',
+          image: '/assets/servis2.jpeg',
+          sections: [
+            {
+              title: 'Nos services incluent',
+              items: [
+                'Formation des entreprises dans le domaine du transport et de la gestion des formalités douanières',
+                'Accompagnement personnalisé pour améliorer les processus logistiques',
+                'Conseil en logistique internationale (import / export)',
+                'Optimisation des coûts et des délais de votre activité',
+                'Assistance stratégique pour le développement de vos activités',
+              ],
+            },
+            {
+              title: 'Nos engagements',
+              items: [
+                'Expertise et professionnalisme',
+                'Solutions adaptées à vos besoins',
+                'Approche pratique et orientée résultats',
+                'Suivi et accompagnement continu',
+              ],
+            },
+          ],
+        },
       ],
       tickerServices: ['DÉDOUANEMENT', 'CONSULTING', 'TRANSPORT', 'FREIGHT', 'EXPRESS', 'ASSURANCE', 'INTERNATIONAL'],
       tickerCities: [
@@ -371,7 +378,7 @@ export const translations = {
       services: 'Services',
       company: 'Entreprise',
       contact: 'Contact',
-      copyright: '© TRIWAYS International. Tous droits réservés.',
+      copyright: '© TRIWAYS LOGISTICS. Tous droits réservés.',
       transport: {
         maritime: 'Maritime',
         air: 'Aérien',
@@ -389,14 +396,15 @@ export const translations = {
         ],
       },
       info: [
-        { icon: 'mail',  text: 'sales@triwayslogistics.ma' },
-        { icon: 'phone',  text: '+212 6 34 36 27 01' },
-        { icon: 'phone',  text: '+212 6 11 08 79 00' },
+        { icon: 'mail',  text: 'sales@triwaysslogistics.com' },
+        { icon: 'mail',  text: 'info@triwaysslogistics.com' },
+        { icon: 'phone',  text: '+212 6 60 27 63 34' },
+        { icon: 'phone',  text: '+212 6 00 54 98 67' },
         { icon: 'location', text: 'Dakhla, Maroc' },
       ],
       brand: {
         name: 'TRIWAYS',
-        tagline: 'INTERNATIONAL',
+        tagline: 'LOGISTICS',
       },
       social: [
         { label: 'LinkedIn' },
@@ -435,7 +443,7 @@ export const translations = {
       videoSection: {
         badge: 'Discover us',
         heading: 'Our Vision',
-        company: 'TRIWAYS International',
+        company: 'TRIWAYS LOGISTICS',
         tagline: 'Excellence in logistics',
         live: 'LIVE',
       },
@@ -498,13 +506,20 @@ export const translations = {
       info: [
         { label: 'Address', value: 'Dakhla, Morocco' },
         { label: 'Phone', value: '+212 611-087900' },
-        { label: 'Email', value: 'sales@triwayslogistics.ma' },
+        { label: 'Email', value: 'sales@triwaysslogistics.com' },
+        { label: 'Email', value: 'info@triwaysslogistics.com' },
         { label: 'Hours', value: 'Mon–Fri, 8am–6pm' },
       ],
       form: {
         name: 'Full name',
         email: 'Email',
         phone: 'Phone',
+        title: 'Send us a Message',
+        subtitle: "Fill out the form below and we'll get back to you within 24 hours",
+        namePlaceholder: 'John Smith',
+        emailPlaceholder: 'john@company.com',
+        messagePlaceholder: 'Tell us about your project...',
+        transportTypeLabel: 'Transport Type',
         subject: 'Subject',
         message: 'Message',
         selectOption: 'Select an option',
@@ -537,7 +552,7 @@ export const translations = {
     },
     about: {
       heading: 'About us',
-      hero: { eyebrow: 'Discover our story', title: 'TRIWAYS INTERNATIONAL' },
+      hero: { eyebrow: 'Discover our story', title: 'TRIWAYS LOGISTICS' },
       
       // Hero section
       heroBadge: 'About us',
@@ -557,7 +572,7 @@ export const translations = {
       },
 
       ceoTitle: 'Chief Executive Officer',
-      ceoCompany: 'TRIWAYS International',
+      ceoCompany: 'TRIWAYS LOGISTICS',
 
       ceoQuote: { text: 'Triways Logistics was born from the desire of three people sharing the same vision: to provide a reliable, human and high-performing logistics service. Today, we put all our energy and commitment at the service of our clients, with one clear priority: to build a lasting relationship of trust and support each project with seriousness and responsiveness.' },
 
@@ -635,62 +650,6 @@ export const translations = {
       ctaButton: 'Request a quote',
       items: [
         {
-          id: '01',
-          title: 'Customs Management',
-          shortDesc: 'Simplified and compliant customs procedures',
-          fullDesc: 'We ensure complete and rigorous management of your customs procedures, guaranteeing precise monitoring in compliance with current regulations. Thanks to the expertise of our partners specialized in the field of transit, we facilitate all your import and export operations, reducing delays and optimizing costs.',
-          image: '/assets/servis1.jpeg',
-          sections: [
-            {
-              title: 'Our services include',
-              items: [
-                'Preparation and verification of customs files',
-                'Customs declaration (import / export)',
-                'Monitoring of procedures with competent authorities',
-                'Advice on customs regulations',
-                'Dispute management and administrative assistance',
-              ],
-            },
-            {
-              title: 'Our commitments',
-              items: [
-                'Regulatory compliance',
-                'Speed of processing',
-                'Personalized support',
-                'Responsive after-sales service',
-              ],
-            },
-          ],
-        },
-        {
-          id: '02',
-          title: 'Consulting and Strategic Training',
-          shortDesc: 'Expert support to optimize your operations',
-          fullDesc: 'We support companies through consulting and strategic training services in the fields of transport and international logistics. Thanks to our expertise and that of our partners, we help our clients optimize their operations, strengthen their skills and ensure the compliance of their activities.',
-          image: '/assets/servis2.jpeg',
-          sections: [
-            {
-              title: 'Our services include',
-              items: [
-                'Training companies in the field of transport and customs procedures management',
-                'Personalized support to improve logistics processes',
-                'Advice on international logistics (import / export)',
-                'Optimization of costs and deadlines for your activity',
-                'Strategic assistance for the development of your activities',
-              ],
-            },
-            {
-              title: 'Our commitments',
-              items: [
-                'Expertise and professionalism',
-                'Solutions tailored to your needs',
-                'Practical and results-oriented approach',
-                'Continuous follow-up and support',
-              ],
-            },
-          ],
-        },
-        {
           id: '03',
           title: 'National and International Transport',
           shortDesc: 'Customized transport solutions with global network',
@@ -747,6 +706,62 @@ export const translations = {
             },
           ],
         },
+        {
+          id: '01',
+          title: 'Customs Management',
+          shortDesc: 'Simplified and compliant customs procedures',
+          fullDesc: 'We ensure complete and rigorous management of your customs procedures, guaranteeing precise monitoring in compliance with current regulations. Thanks to the expertise of our partners specialized in the field of transit, we facilitate all your import and export operations, reducing delays and optimizing costs.',
+          image: '/assets/gestion_.jpg',
+          sections: [
+            {
+              title: 'Our services include',
+              items: [
+                'Preparation and verification of customs files',
+                'Customs declaration (import / export)',
+                'Monitoring of procedures with competent authorities',
+                'Advice on customs regulations',
+                'Dispute management and administrative assistance',
+              ],
+            },
+            {
+              title: 'Our commitments',
+              items: [
+                'Regulatory compliance',
+                'Speed of processing',
+                'Personalized support',
+                'Responsive after-sales service',
+              ],
+            },
+          ],
+        },
+        {
+          id: '02',
+          title: 'Consulting and Strategic Training',
+          shortDesc: 'Expert support to optimize your operations',
+          fullDesc: 'We support companies through consulting and strategic training services in the fields of transport and international logistics. Thanks to our expertise and that of our partners, we help our clients optimize their operations, strengthen their skills and ensure the compliance of their activities.',
+          image: '/assets/servis2.jpeg',
+          sections: [
+            {
+              title: 'Our services include',
+              items: [
+                'Training companies in the field of transport and customs procedures management',
+                'Personalized support to improve logistics processes',
+                'Advice on international logistics (import / export)',
+                'Optimization of costs and deadlines for your activity',
+                'Strategic assistance for the development of your activities',
+              ],
+            },
+            {
+              title: 'Our commitments',
+              items: [
+                'Expertise and professionalism',
+                'Solutions tailored to your needs',
+                'Practical and results-oriented approach',
+                'Continuous follow-up and support',
+              ],
+            },
+          ],
+        },
       ],
       tickerServices: ['CUSTOMS CLEARANCE', 'CONSULTING', 'TRANSPORT', 'FREIGHT', 'EXPRESS', 'INSURANCE', 'INTERNATIONAL'],
       tickerCities: [
@@ -770,7 +785,7 @@ export const translations = {
       services: 'Services',
       company: 'Company',
       contact: 'Contact',
-      copyright: '© TRIWAYS International. All rights reserved.',
+      copyright: '© TRIWAYS LOGISTICS. All rights reserved.',
       transport: {
         maritime: 'Maritime',
         air: 'Air',
@@ -788,14 +803,15 @@ export const translations = {
         ],
       },
       info: [
-        { icon: 'mail', text: 'sales@triwayslogistics.ma' },
+        { icon: 'mail', text: 'sales@triwaysslogistics.com' },
+        { icon: 'mail',  text: 'info@triwaysslogistics.com' },
         { icon: 'phone', text: '+212 6 34 36 27 01' },
         { icon: 'phone',  text: '+212 6 11 08 79 00' },
         { icon: 'location', text: 'Dakhla, Morocco' },
       ],
       brand: {
         name: 'TRIWAYS',
-        tagline: 'INTERNATIONAL',
+        tagline: 'LOGISTICS',
       },
       social: [
         { label: 'LinkedIn' },

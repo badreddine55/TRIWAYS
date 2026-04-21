@@ -127,13 +127,13 @@ User sees correct page (Services, Contact, About, etc.)
 
 ### Email Configuration
 **File**: src/pages/Contact.tsx
-**Current Email**: sales@triwayslogistics.ma
+**Current Email**: sales@triwaysslogistics.com
 **Function**: Opens user's email client with pre-filled form data
 **Status**: ✅ Works without backend server
 
 To change email address:
 1. Edit src/pages/Contact.tsx
-2. Find: `mailto:sales@triwayslogistics.ma`
+2. Find: `mailto:sales@triwaysslogistics.com`
 3. Replace with your email
 4. Run: `npm run build`
 5. Copy new dist/ files to wordpress-complete/
@@ -158,7 +158,7 @@ To change email address:
 **Solution**:
 1. Ensure you have email client configured (Gmail, Outlook, etc.)
 2. Click on contact form - it should open your email client
-3. If not, check that sales@triwayslogistics.ma is correct
+3. If not, check that sales@triwaysslogistics.com is correct
 4. Test with a different email address if needed
 
 ### Issue: Images Not Loading (`/assets/...`)
@@ -243,7 +243,7 @@ public_html/
 ### 4. SEO & Analytics (Optional)
 - [ ] Set up Google Search Console
 - [ ] Add Google Analytics tracking
-- [ ] Set up email forwarding for sales@triwayslogistics.ma
+- [ ] Set up email forwarding for sales@triwaysslogistics.com
 - [ ] Test email delivery
 
 ### 5. Backups

@@ -113,7 +113,7 @@ export default function SEO({
             '@type': 'ContactPoint',
             contactType: 'Customer Support',
             telephone: '+212 611-087900',
-            email: 'sales@triwayslogistics.ma',
+            email: 'sales@triwaysslogistics.com',
           },
         })}
       </script>

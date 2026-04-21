@@ -11,7 +11,7 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-const EMAIL_ADDRESS = 'sales@triwayslogistics.ma';
+const EMAIL_ADDRESS = 'sales@triwaysslogistics.com';
 
 export default function Hero() {
   const { lang } = useLang();
@@ -31,13 +31,44 @@ export default function Hero() {
 
   const whatsappUrl = `https://api.whatsapp.com/send?phone=${heroData.whatsapp.number}&text=${encodeURIComponent(heroData.whatsapp.message)}`;
 
-  const emailSubject = lang === 'fr' ? 'Demande d\'informations' : 'Information request';
-  const emailBody = lang === 'fr'
-    ? 'Bonjour,\n\nJe souhaite avoir plus d\'informations sur vos services logistiques.\n\nCordialement,'
-    : 'Hello,\n\nI would like more information about your logistics services.\n\nBest regards,';
+  const emailSubjectFR = 'Demande d\'informations';
+
+  const emailBodyFR = `Bonjour,
+
+  Et si vous confiez votre logistique à des experts ?
+
+  Nous vous aidons à :
+  ✔️ Accélérer vos opérations de transport
+  ✔️ Éviter les blocages en douane
+  ✔️ Maîtriser vos coûts
+  ✔️ Former vos équipes en commerce international
+
+  Avec notre accompagnement, vous gagnez en efficacité et en sérénité.
+
+  📩 Contactez-nous dès aujourd’hui pour une solution sur mesure.
+
+  Cordialement,`;
+  const emailSubjectEN = 'Information request';
+
+const emailBodyEN = `Hello,
+
+  What if you entrusted your logistics to experts?
+
+  We help you:
+  ✔️ Accelerate your transport operations
+  ✔️ Avoid customs delays and issues
+  ✔️ Control your costs
+  ✔️ Train your teams in international trade
+
+  With our support, you gain efficiency and peace of mind.
+
+  📩 Contact us today for a tailored solution.
+
+  Best regards,`;
+  const emailSubject = lang === 'fr' ? emailSubjectFR : emailSubjectEN;
+  const emailBody = lang === 'fr' ? emailBodyFR : emailBodyEN;
+
   const emailUrl = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-
-
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   }, [slides.length]);

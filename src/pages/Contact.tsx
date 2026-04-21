@@ -20,8 +20,6 @@ import {
   RadioGroupItem,
 } from '@/components/ui/radio-group';
 
-// ── Noise Overlay Component ─────────────────────────────────────────────────────
-
 const NoiseOverlay = ({ opacity = 0.08 }: { opacity?: number }) => (
   <div
     className="absolute inset-0 mix-blend-overlay pointer-events-none"
@@ -31,8 +29,6 @@ const NoiseOverlay = ({ opacity = 0.08 }: { opacity?: number }) => (
     }}
   />
 );
-
-
 
 export default function Contact() {
   const { lang } = useLang();
@@ -53,8 +49,7 @@ export default function Contact() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    
-    // Create email body with form data
+
     const emailBody = `Name: ${formData.name}
 Email: ${formData.email}
 Phone: ${formData.phone}
@@ -63,13 +58,10 @@ ${formData.transportType ? `Transport Type: ${formData.transportType}\n` : ''}
 Message:
 ${formData.message}`;
 
-    // Create mailto link
-    const mailtoLink = `mailto:sales@triwayslogistics.ma?subject=${encodeURIComponent(`Contact Form - ${formData.subject}`)}&body=${encodeURIComponent(emailBody)}&cc=${encodeURIComponent(formData.email)}`;
+    const mailtoLink = `mailto:sales@triwaysslogistics.com?subject=${encodeURIComponent(`Contact Form - ${formData.subject}`)}&body=${encodeURIComponent(emailBody)}&cc=${encodeURIComponent(formData.email)}`;
 
-    // Open email client in new tab
     window.open(mailtoLink, '_blank');
 
-    // Show success state
     setIsSubmitted(true);
     setProgress(0);
     const duration = 3000;
@@ -88,24 +80,26 @@ ${formData.message}`;
     }, 3000);
   };
 
-  // Map contact info icons to translation data
   const contactInfoWithIcons = [
-    { icon: MapPin,  label: t.info[0]?.label || 'Location', value: t.info[0]?.value || '' },
-    { icon: Phone,   label: t.info[1]?.label || 'Phone', value: t.info[1]?.value || '' },
-    { icon: Mail,    label: t.info[2]?.label || 'Email', value: t.info[2]?.value || '' },
-    { icon: Clock,   label: t.info[3]?.label || 'Hours', value: t.info[3]?.value || '' },
+    { icon: MapPin, label: t.info[0]?.label || 'Location', value: t.info[0]?.value || '' },
+    { icon: Phone,  label: t.info[1]?.label || 'Phone',    value: t.info[1]?.value || '' },
+    { icon: Mail,   label: t.info[2]?.label || 'Email',    value: t.info[2]?.value || '' },
+    { icon: Clock,  label: t.info[3]?.label || 'Hours',    value: t.info[3]?.value || '' },
   ];
 
-  const transportOptionsWithIcons = t.form.transportTypes.map((opt, i) => ({
+  const transportOptionsWithIcons = t.form.transportTypes.map((opt: any, i: number) => ({
     ...opt,
     icon: [Ship, Plane, Truck][i],
   }));
+
+  const dakhlaCoords = { lat: 23.70806, lng: -15.94556 };
+  const mapEmbedUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13882.2!2d${dakhlaCoords.lng}!3d${dakhlaCoords.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xc2247c5b0f6f0d%3A0x1234567890abcdef!2sDakhla%2C%20Morocco!5e0!3m2!1sen!2sus!4v1234567890`;
 
   return (
     <div className="min-h-screen bg-slate-950 relative">
       <SEO page="contact" />
 
-      {/* Global Background — unchanged */}
+      {/* Global Background */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-slate-950" />
         <motion.div
@@ -135,18 +129,19 @@ ${formData.message}`;
         <div className="px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
           <div className="max-w-7xl mx-auto">
 
-            {/* Header */}
+            {/* Centered Header */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-12 md:mb-16"
+              className="mb-12 md:mb-16 text-center"
             >
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center justify-center gap-4 mb-4">
                 <span className="w-12 h-px bg-indigo-500" />
                 <span className="text-indigo-400 text-xs uppercase tracking-[0.3em]" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
                   {t.headerTag}
                 </span>
+                <span className="w-12 h-px bg-indigo-500" />
               </div>
               <h2
                 className="text-[clamp(36px,6vw,72px)] text-white mb-4 leading-none"
@@ -158,25 +153,25 @@ ${formData.message}`;
                 </span>
               </h2>
               <motion.div
-                className="h-[3px] w-[200px] bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 rounded-full"
+                className="h-[3px] w-[200px] bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 rounded-full mx-auto"
                 style={{ scaleX }}
                 initial={{ scaleX: 0 }}
                 animate={isInView ? { scaleX: 1 } : {}}
                 transition={{ delay: 0.2, duration: 0.8 }}
               />
-              <p className="text-slate-400 text-lg max-w-xl mt-6" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+              <p className="text-slate-400 text-lg max-w-xl mx-auto mt-6" style={{ fontFamily: 'DM Sans, sans-serif' }}>
                 {t.subheading}
               </p>
             </motion.div>
 
-            <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
 
-              {/* Left Column */}
+              {/* LEFT COLUMN - Contact Info & Map */}
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.7 }}
-                className="lg:col-span-2 space-y-6"
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="lg:col-span-2 space-y-6 order-2 lg:order-1"
               >
                 {/* Contact Cards */}
                 <div className="grid gap-3">
@@ -207,26 +202,33 @@ ${formData.message}`;
                   ))}
                 </div>
 
-
-                {/* Map */}
+                {/* Interactive Map */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: 0.5 }}
-                  className="rounded-2xl overflow-hidden relative group"
+                  className="rounded-2xl overflow-hidden relative group border border-white/10"
                 >
                   <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-indigo-400/50 z-20" />
                   <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-indigo-400/50 z-20" />
 
-                  <div className="relative h-[300px] md:h-[350px]">
-                    <img
-                      src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=1200&q=80"
-                      alt="Dakhla Map"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  <div className="relative h-[300px] md:h-[350px] bg-slate-900">
+                    <iframe
+                      src={mapEmbedUrl}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0, filter: 'grayscale(100%) invert(92%) contrast(83%)' }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Dakhla Location Map"
+                      className="absolute inset-0"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
 
-                    <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none" />
+
+                    {/* Animated Location Pin */}
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                       <div className="relative">
                         <motion.div
                           className="absolute inset-0 rounded-full border-2 border-indigo-400/30"
@@ -248,23 +250,24 @@ ${formData.message}`;
                       </div>
                     </div>
 
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <div className="bg-slate-950/80 backdrop-blur-md border border-white/10 rounded-xl p-4 flex items-center justify-between">
+                    {/* Location Info Card */}
+                    <div className="absolute bottom-4 left-4 right-4 pointer-events-auto">
+                      <div className="bg-slate-950/90 backdrop-blur-md border border-white/10 rounded-xl p-4 flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <div className="p-2 rounded-lg bg-indigo-500/20 text-indigo-400">
                             <Navigation className="w-5 h-5" />
                           </div>
                           <div>
                             <p className="text-white font-semibold text-sm" style={{ fontFamily: 'Syne, sans-serif' }}>
-                              {t.location}
+                              Dakhla, Morocco
                             </p>
                             <p className="text-slate-400 text-xs" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                              {t.mapCoordinates}
+                              23°42'29"N 15°56'44"W
                             </p>
                           </div>
                         </div>
                         <motion.a
-                          href="https://maps.google.com/?q=Dakhla,Morocco"
+                          href={`https://www.google.com/maps?q=${dakhlaCoords.lat},${dakhlaCoords.lng}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           whileHover={{ scale: 1.05 }}
@@ -280,16 +283,27 @@ ${formData.message}`;
                 </motion.div>
               </motion.div>
 
-              {/* Right Column - Form */}
+              {/* RIGHT COLUMN - Contact Form */}
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.1 }}
-                className="lg:col-span-3"
+                className="lg:col-span-3 order-1 lg:order-2"
               >
-                <div className="relative bg-white/[0.02] border border-white/10 backdrop-blur-xl rounded-3xl p-6 md:p-8 lg:p-10 overflow-hidden">
+                <div className="relative bg-white/[0.03] border border-white/10 backdrop-blur-xl rounded-3xl p-6 md:p-8 lg:p-10 overflow-hidden shadow-2xl shadow-indigo-500/10">
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-indigo-400/50 to-transparent" />
                   <div className="absolute top-1/2 -right-20 w-40 h-40 bg-indigo-500/20 rounded-full blur-[80px] pointer-events-none" />
+                  <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
+
+                  {/* Form Header */}
+                  <div className="mb-8 text-center">
+                    <h3 className="text-2xl md:text-3xl text-white font-bold mb-2" style={{ fontFamily: 'Syne, sans-serif' }}>
+                      {t.form.title}
+                    </h3>
+                    <p className="text-slate-400 text-sm" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                      {t.form.subtitle}
+                    </p>
+                  </div>
 
                   {isSubmitted ? (
                     <motion.div
@@ -334,7 +348,7 @@ ${formData.message}`;
                       </div>
                     </motion.div>
                   ) : (
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-6">
 
                       {/* Name & Email */}
                       <div className="grid sm:grid-cols-2 gap-4">
@@ -344,11 +358,11 @@ ${formData.message}`;
                           </Label>
                           <Input
                             id="name"
-                            placeholder="Jean Dupont"
+                            placeholder={t.form.namePlaceholder || 'Jean Dupont'}
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             required
-                            className="h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-600 rounded-xl focus-visible:ring-0 focus-visible:border-indigo-400/50 focus-visible:bg-white/8 transition-all hover:border-white/20"
+                            className="h-14 bg-white/5 border-white/10 text-white placeholder:text-slate-600 rounded-xl focus-visible:ring-2 focus-visible:ring-indigo-400/50 focus-visible:border-indigo-400 focus-visible:bg-white/8 transition-all hover:border-white/20 text-base"
                           />
                         </div>
                         <div className="space-y-2 group">
@@ -358,11 +372,11 @@ ${formData.message}`;
                           <Input
                             id="email"
                             type="email"
-                            placeholder="jean@entreprise.com"
+                            placeholder={t.form.emailPlaceholder || 'jean@entreprise.com'}
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             required
-                            className="h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-600 rounded-xl focus-visible:ring-0 focus-visible:border-indigo-400/50 focus-visible:bg-white/8 transition-all hover:border-white/20"
+                            className="h-14 bg-white/5 border-white/10 text-white placeholder:text-slate-600 rounded-xl focus-visible:ring-2 focus-visible:ring-indigo-400/50 focus-visible:border-indigo-400 focus-visible:bg-white/8 transition-all hover:border-white/20 text-base"
                           />
                         </div>
                       </div>
@@ -379,7 +393,7 @@ ${formData.message}`;
                             placeholder="+212 6XX-XXXXXX"
                             value={formData.phone}
                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                            className="h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-600 rounded-xl focus-visible:ring-0 focus-visible:border-indigo-400/50 focus-visible:bg-white/8 transition-all hover:border-white/20"
+                            className="h-14 bg-white/5 border-white/10 text-white placeholder:text-slate-600 rounded-xl focus-visible:ring-2 focus-visible:ring-indigo-400/50 focus-visible:border-indigo-400 focus-visible:bg-white/8 transition-all hover:border-white/20 text-base"
                           />
                         </div>
                         <div className="space-y-2 group">
@@ -390,13 +404,13 @@ ${formData.message}`;
                             value={formData.subject}
                             onValueChange={(value) => setFormData({ ...formData, subject: value, transportType: '' })}
                           >
-                            <SelectTrigger className="h-12 bg-white/5 border-white/10 text-white rounded-xl focus:ring-0 focus:border-indigo-400/50 [&>span]:text-slate-600 data-[state=open]:border-indigo-400/50 hover:border-white/20 transition-all">
+                            <SelectTrigger className="h-14 bg-white/5 border-white/10 text-white rounded-xl focus:ring-2 focus:ring-indigo-400/50 focus:border-indigo-400 [&>span]:text-slate-600 data-[state=open]:border-indigo-400 hover:border-white/20 transition-all text-base">
                               <SelectValue placeholder={t.form.selectOption} />
                             </SelectTrigger>
                             <SelectContent className="bg-[#0A1628] border-white/10 backdrop-blur-xl">
                               {Object.entries(t.form.subjectOptions).map(([key, label]) => (
-                                <SelectItem key={key} value={key} className="text-slate-300 focus:text-white focus:bg-indigo-500/10">
-                                  {label}
+                                <SelectItem key={key} value={key} className="text-slate-300 focus:text-white focus:bg-indigo-500/10 h-12">
+                                  {label as string}
                                 </SelectItem>
                               ))}
                             </SelectContent>
@@ -416,21 +430,21 @@ ${formData.message}`;
                           >
                             <div className="space-y-3 pt-2">
                               <Label className="text-slate-400 text-xs uppercase tracking-widest font-normal" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-                                {t.form.subject} <span className="text-indigo-400">*</span>
+                                {t.form.transportTypeLabel || 'Transport Type'} <span className="text-indigo-400">*</span>
                               </Label>
                               <RadioGroup
                                 value={formData.transportType}
                                 onValueChange={(value) => setFormData({ ...formData, transportType: value })}
                                 className="grid grid-cols-1 sm:grid-cols-3 gap-3"
                               >
-                                {transportOptionsWithIcons.map((option) => (
+                                {transportOptionsWithIcons.map((option: any) => (
                                   <motion.div key={option.id} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                                     <label
                                       htmlFor={option.id}
-                                      className={`flex flex-col items-center gap-2 p-4 rounded-xl border cursor-pointer transition-all duration-300 ${
+                                      className={`flex flex-col items-center gap-2 p-4 rounded-xl border cursor-pointer transition-all duration-300 relative ${
                                         formData.transportType === option.id
                                           ? 'bg-indigo-500/20 border-indigo-400/50 text-white'
-                                          : 'bg-white/5 border-white/10 text-slate-400 hover:border-white/20 hover:bg-white/8'
+                                          : 'bg-white/5 border-white/10 text-slate-400 hover:border-white/20 hover:bg-white/[0.08]'
                                       }`}
                                     >
                                       <RadioGroupItem value={option.id} id={option.id} className="sr-only" />
@@ -466,34 +480,34 @@ ${formData.message}`;
                         </Label>
                         <Textarea
                           id="message"
-                          placeholder="..."
+                          placeholder={t.form.messagePlaceholder || 'Tell us about your project...'}
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                           required
-                          className="min-h-[140px] resize-none bg-white/5 border-white/10 text-white placeholder:text-slate-600 rounded-xl focus-visible:ring-0 focus-visible:border-indigo-400/50 focus-visible:bg-white/8 transition-all hover:border-white/20"
+                          className="min-h-[160px] resize-none bg-white/5 border-white/10 text-white placeholder:text-slate-600 rounded-xl focus-visible:ring-2 focus-visible:ring-indigo-400/50 focus-visible:border-indigo-400 focus-visible:bg-white/8 transition-all hover:border-white/20 text-base"
                         />
                       </div>
 
-                      {/* Submit */}
-                      <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }} className="pt-2">
+                      {/* Submit Button */}
+                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="pt-4">
                         <Button
                           type="submit"
-                          className="w-full h-14 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 hover:from-indigo-400 hover:via-purple-400 hover:to-cyan-400 text-white font-semibold text-base border-0 shadow-none hover:shadow-[0_0_40px_rgba(99,102,241,0.35)] transition-all group relative overflow-hidden"
+                          className="w-full h-16 rounded-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 hover:from-indigo-400 hover:via-purple-400 hover:to-cyan-400 text-white font-bold text-lg border-0 shadow-lg shadow-indigo-500/25 hover:shadow-[0_0_60px_rgba(99,102,241,0.4)] transition-all group relative overflow-hidden"
                           style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700 }}
                         >
                           <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-12"
                             animate={{ x: ['-200%', '200%'] }}
                             transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
                           />
-                          <span className="relative flex items-center justify-center gap-2">
+                          <span className="relative flex items-center justify-center gap-3">
                             {t.form.send}
                             <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                           </span>
                         </Button>
                       </motion.div>
 
-                      <p className="text-center text-slate-500 text-xs" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                      <p className="text-center text-slate-500 text-xs mt-4" style={{ fontFamily: 'DM Sans, sans-serif' }}>
                         {t.privacyNote}
                       </p>
                     </form>

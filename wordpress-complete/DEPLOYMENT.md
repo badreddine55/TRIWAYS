@@ -57,7 +57,7 @@ wordpress-complete/
 ## Important Notes
 
 ### Email Configuration
-- The contact form uses **mailto:sales@triwayslogistics.ma**
+- The contact form uses **mailto:sales@triwaysslogistics.com**
 - It opens the user's email client with pre-filled data
 - No backend server required
 - Make sure the email address is correct in Contact.tsx
@@ -91,7 +91,7 @@ wordpress-complete/
 
 ### Contact form not working
 1. Ensure you have an email client configured (Gmail, Outlook, etc.)
-2. Check that sales@triwayslogistics.ma is correct
+2. Check that sales@triwaysslogistics.com is correct
 3. Update email address if needed in src/pages/Contact.tsx
 
 ### Performance issues
@@ -106,4 +106,4 @@ For React/Technical issues: Check browser console logs (F12)
 ---
 **TRIWAYS Logistics**  
 Deploy Date: 2024  
-Website: TRIWAYS - International Logistics Solutions
+Website: TRIWAYS - LOGISTICS Logistics Solutions

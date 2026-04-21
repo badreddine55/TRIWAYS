@@ -100,16 +100,7 @@ const GlassCard = ({ service, index, learnMore }: { service: (typeof baseService
 
         {/* Content */}
         <div className="relative z-10 p-8 h-full flex flex-col">
-          {/* Icon */}
-          <motion.div 
-            animate={{ rotate: isHovered ? 10 : 0, scale: isHovered ? 1.1 : 1 }}
-            className={`relative w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br ${service.color} p-[1px] overflow-hidden shadow-lg`}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent" />
-            <div className="relative w-full h-full rounded-2xl bg-slate-900/50 backdrop-blur-sm flex items-center justify-center">
-              <service.icon size={28} className="text-white drop-shadow-md" />
-            </div>
-          </motion.div>
+          
 
           {/* Text */}
           <h3 className="text-2xl font-bold text-white mb-3 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/70 transition-all duration-500">
