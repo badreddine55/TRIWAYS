@@ -27,7 +27,6 @@ const partners = [
   { id: 16, name: 'Partner 16', logo: '/assets/logoC16.png' },
   { id: 17, name: 'Partner 17', logo: '/assets/logoC17.png' },
   { id: 18, name: 'Partner 18', logo: '/assets/logoC18.png' },
-  { id: 19, name: 'Partner 19', logo: '/assets/logoC0.png' },
 ];
 
 export default function Partners() {

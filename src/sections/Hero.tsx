@@ -31,44 +31,22 @@ export default function Hero() {
 
   const whatsappUrl = `https://api.whatsapp.com/send?phone=${heroData.whatsapp.number}&text=${encodeURIComponent(heroData.whatsapp.message)}`;
 
-  const emailSubjectFR = 'Demande d\'informations';
+  const emailSubject = lang === 'fr' ? "Demande d'informations" : 'Information request';
+  const emailBody = lang === 'fr' ? 'Bonjour,' : 'Hello,';
 
-  const emailBodyFR = `Bonjour,
+  const handleEmailClick = useCallback(() => {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL_ADDRESS}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    const mailtoUrl = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
-  Et si vous confiez votre logistique à des experts ?
+    // Try Gmail in browser first
+    const gmailWindow = window.open(gmailUrl, '_blank');
 
-  Nous vous aidons à :
-  ✔️ Accélérer vos opérations de transport
-  ✔️ Éviter les blocages en douane
-  ✔️ Maîtriser vos coûts
-  ✔️ Former vos équipes en commerce international
+    // Fall back to default mail client if popup was blocked
+    if (!gmailWindow || gmailWindow.closed || typeof gmailWindow.closed === 'undefined') {
+      window.location.href = mailtoUrl;
+    }
+  }, [emailSubject, emailBody]);
 
-  Avec notre accompagnement, vous gagnez en efficacité et en sérénité.
-
-  📩 Contactez-nous dès aujourd’hui pour une solution sur mesure.
-
-  Cordialement,`;
-  const emailSubjectEN = 'Information request';
-
-const emailBodyEN = `Hello,
-
-  What if you entrusted your logistics to experts?
-
-  We help you:
-  ✔️ Accelerate your transport operations
-  ✔️ Avoid customs delays and issues
-  ✔️ Control your costs
-  ✔️ Train your teams in international trade
-
-  With our support, you gain efficiency and peace of mind.
-
-  📩 Contact us today for a tailored solution.
-
-  Best regards,`;
-  const emailSubject = lang === 'fr' ? emailSubjectFR : emailSubjectEN;
-  const emailBody = lang === 'fr' ? emailBodyFR : emailBodyEN;
-
-  const emailUrl = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   }, [slides.length]);
@@ -121,7 +99,7 @@ const emailBodyEN = `Hello,
 
         {[
           { href: 'https://www.instagram.com/triways_logistics', icon: <Instagram size={18} />, label: 'Instagram' },
-          { href: 'https://www.linkedin.com/company/triways-logistics', icon: <Linkedin size={18} />, label: 'LinkedIn' },
+          { href: 'https://www.linkedin.com/company/triways-logistcs-company/', icon: <Linkedin size={18} />, label: 'LinkedIn' },
           {
             href: whatsappUrl,
             icon: <WhatsAppIcon />,
@@ -269,10 +247,9 @@ const emailBodyEN = `Hello,
         </motion.button>
       </div>
 
-      <motion.a
-        href={emailUrl}
-        target="_blank"
-        rel="noopener noreferrer"
+      {/* ── Floating Email Button ── */}
+      <motion.button
+        onClick={handleEmailClick}
         aria-label="Send us an email"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -285,7 +262,7 @@ const emailBodyEN = `Hello,
         <span className="text-sm font-semibold whitespace-nowrap max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300">
           {heroData.emailCta}
         </span>
-      </motion.a>
+      </motion.button>
 
     </section>
   );

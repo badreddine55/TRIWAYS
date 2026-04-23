@@ -83,8 +83,10 @@ ${formData.message}`;
   const contactInfoWithIcons = [
     { icon: MapPin, label: t.info[0]?.label || 'Location', value: t.info[0]?.value || '' },
     { icon: Phone,  label: t.info[1]?.label || 'Phone',    value: t.info[1]?.value || '' },
-    { icon: Mail,   label: t.info[2]?.label || 'Email',    value: t.info[2]?.value || '' },
-    { icon: Clock,  label: t.info[3]?.label || 'Hours',    value: t.info[3]?.value || '' },
+    { icon: Phone,  label: t.info[2]?.label || 'Phone',    value: t.info[2]?.value || '' },
+    { icon: Mail,   label: t.info[3]?.label || 'Email',    value: t.info[3]?.value || '' },
+    { icon: Mail,   label: t.info[4]?.label || 'Email',    value: t.info[4]?.value || '' },
+    { icon: Clock,  label: t.info[5]?.label || 'Hours',    value: t.info[5]?.value || '' },
   ];
 
   const transportOptionsWithIcons = t.form.transportTypes.map((opt: any, i: number) => ({
@@ -177,7 +179,7 @@ ${formData.message}`;
                 <div className="grid gap-3">
                   {contactInfoWithIcons.map((item, index) => (
                     <motion.div
-                      key={item.label}
+                      key={`${item.label}-${item.value}-${index}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={isInView ? { opacity: 1, x: 0 } : {}}
                       transition={{ delay: index * 0.1, duration: 0.5 }}

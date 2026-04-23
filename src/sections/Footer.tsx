@@ -37,7 +37,7 @@ export function Footer() {
   )}`;
 
   const socialLinks = [
-    { icon: Linkedin, href: 'https://www.linkedin.com/company/triways-logistics', label: footerData.social[0]?.label || 'LinkedIn', isWhatsApp: false },
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/triways-logistcs-company/', label: footerData.social[0]?.label || 'LinkedIn', isWhatsApp: false },
     { icon: Instagram, href: 'https://www.instagram.com/triways_logistics', label: footerData.social[1]?.label || 'Instagram', isWhatsApp: false },
     { icon: null, href: whatsappUrl, label: 'WhatsApp', isWhatsApp: true },
   ];

@@ -45,7 +45,7 @@ export default function Navbar() {
 
   const socialLinks = [
     { Icon: Instagram, href: 'https://www.instagram.com/triways_logistics', label: 'Instagram', isWhatsApp: false },
-    { Icon: Linkedin, href: 'https://www.linkedin.com/company/triways-logistics', label: 'LinkedIn', isWhatsApp: false },
+    { Icon: Linkedin, href: 'https://www.linkedin.com/company/triways-logistcs-company/', label: 'LinkedIn', isWhatsApp: false },
     { Icon: null, href: whatsappUrl, label: 'WhatsApp', isWhatsApp: true },
   ];
 

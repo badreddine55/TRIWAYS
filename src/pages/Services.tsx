@@ -88,7 +88,7 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
     } else {
       console.log('No action found, navigating to services');
       // Fallback navigation
-      navigate('/services', { state: { openServiceId: '03' } });
+      navigate('/services', { state: { openServiceId: '01' } });
     }
   };
 
@@ -143,22 +143,35 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
             <div className="px-4 sm:px-6 lg:px-12 xl:px-20 pb-10 md:pb-16 lg:pb-20">
               
               {hasSubsections ? (
-                // Transport National et International - 3 subsections layout
                 <div className="space-y-6 md:space-y-8">
-                  {/* Main description */}
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    transition={{ delay: 0.1 }}
-                    className="max-w-4xl"
-                  >
-                    <p className="text-slate-400 text-xs md:text-sm uppercase tracking-widest mb-2 md:mb-3" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-                      {service.shortDesc}
-                    </p>
-                    <p className="text-slate-300 text-sm md:text-base lg:text-lg leading-relaxed" style={{ fontFamily: 'DM Sans, sans-serif' }}>
-                      {service.fullDesc}
-                    </p>
-                  </motion.div>
+                  {/* Image + Description Row */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 lg:gap-16">
+                    {/* Image */}
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }} 
+                      animate={{ opacity: 1, y: 0 }} 
+                      transition={{ delay: 0.1 }}
+                      className="relative rounded-lg md:rounded-xl overflow-hidden aspect-[4/3] lg:aspect-[16/10]"
+                    >
+                      <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
+                    </motion.div>
+
+                    {/* Description */}
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }} 
+                      animate={{ opacity: 1, y: 0 }} 
+                      transition={{ delay: 0.2 }}
+                      className="flex flex-col justify-center"
+                    >
+                      <p className="text-slate-400 text-xs md:text-sm uppercase tracking-widest mb-2 md:mb-3" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
+                        {service.shortDesc}
+                      </p>
+                      <p className="text-slate-300 text-sm md:text-base lg:text-lg leading-relaxed" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+                        {service.fullDesc}
+                      </p>
+                    </motion.div>
+                  </div>
 
                   {/* 3 Subsections Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
@@ -293,7 +306,7 @@ export default function Services() {
   const location = useLocation();
   const accordionRef = useRef<HTMLDivElement>(null);
   const [openId, setOpenId] = useState<string | null>(
-    location.state?.openServiceId ?? '03'
+    location.state?.openServiceId ?? '01'
   );
 
   const toggleService = (id: string) => {
