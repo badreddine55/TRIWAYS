@@ -66,7 +66,6 @@ const galleryImages = [
   { src: '/assets/gallery/image8.jpeg', alt: 'Image 8' },
   { src: '/assets/gallery/image9.jpeg', alt: 'Image 9' },
   { src: '/assets/gallery/image10.jpeg', alt: 'Image 10' },
-  { src: '/assets/gallery/image11.jpeg', alt: 'Image 11' },
   { src: '/assets/gallery/image12.jpeg', alt: 'Image 12' },
   { src: '/assets/gallery/image13.jpeg', alt: 'Image 13' },
   { src: '/assets/gallery/image14.jpeg', alt: 'Image 14' },
