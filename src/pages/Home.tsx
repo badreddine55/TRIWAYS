@@ -1,3 +1,7 @@
+import companyVideoWebm from '@/assets/company-video.webm';
+import companyVideo from '@/assets/company-video.mp4';
+import companyVideoPoster from '@/assets/vedio_tuhb.webp';
+
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX, RotateCcw, SkipBack, SkipForward } from 'lucide-react';
@@ -180,9 +184,9 @@ function VideoSection() {
           >
             {/* Video Element */}
             <video
+              preload="metadata"
               ref={videoRef}
-              src="/assets/IMG_1388.MOV"
-              poster="/assets/vedio_tuhb.png"
+              poster={companyVideoPoster}
               className="w-full h-full object-cover"
               loop
               muted={isMuted}
@@ -190,7 +194,10 @@ function VideoSection() {
               onPlay={() => setIsPlaying(true)}
               onPause={() => setIsPlaying(false)}
               onClick={togglePlay}
-            />
+            >
+              <source src={companyVideo} type="video/mp4" />
+              <source src={companyVideoWebm} type="video/webm" />
+            </video>
 
 
 

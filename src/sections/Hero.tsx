@@ -1,3 +1,8 @@
+import transportMobileImage from '@/assets/International_Transport-960.webp';
+import transportImage from '@/assets/International_Transport.webp';
+import customsImage from '@/assets/gestion_.webp';
+import consultingImage from '@/assets/consultation.webp';
+
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, ArrowDown, Instagram, Linkedin, Mail } from 'lucide-react';
@@ -22,9 +27,9 @@ export default function Hero() {
   const slides = heroData.slides.map((slide, index) => ({
     id: index + 1,
     image: [
-      '/assets/International_Transport.jpeg',
-      '/assets/gestion_.jpg',
-      '/assets/consultation.jpeg',
+      transportImage,
+      customsImage,
+      consultingImage,
     ][index],
     title: slide.title,
   }));
@@ -85,7 +90,7 @@ export default function Hero() {
               transition={{ duration: 6, ease: 'linear' }}
               className="absolute inset-0"
             >
-              <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" />
+              <img width={[1920, 780, 940][index]} height={[1280, 468, 627][index]} srcSet={index === 0 ? `${transportMobileImage} 960w, ${slide.image} 1920w` : undefined} sizes="100vw" fetchPriority={index === 0 ? "high" : "low"} decoding="async" src={slide.image} alt={slide.title} className="w-full h-full object-cover" />
             </motion.div>
           </div>
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/30 to-slate-950/80" />

@@ -1,3 +1,9 @@
+import customsImage from '@/assets/gestion_.webp';
+import transportImage from '@/assets/International_Transport.webp';
+import consultingServiceImage from '@/assets/servis1.webp';
+import transportServiceImage from '@/assets/servis3.webp';
+import consultingDetailImage from '@/assets/servis2.webp';
+
 export type Language = 'fr' | 'en';
 
 export const translations = {
@@ -172,19 +178,19 @@ export const translations = {
       servicesCta: 'Demander un devis',
       services: [
         {
-          src_imge:"/assets/gestion_.jpg",
+          src_imge:customsImage,
           title: 'Gestion Douanière Intégrée',
           description: 'Simplifiez vos formalités douanières avec notre expertise spécialisée, couvrant tous les aspects du dédouanement, des déclarations et des procédures nécessaires pour un transit fluide et efficace.',
           features: ['Dédouanement complet', 'Suivi en temps réel', 'Conformité réglementaire', 'Documentation assurée'],
         },
         {
-          src_imge:"/assets/servis1.jpeg",
+          src_imge:consultingServiceImage,
           title: 'Consulting Stratégique',
           description: "Maximisez vos opportunités d'importation grâce à notre consulting personnalisé. Nous vous guidons à travers chaque étape, en optimisant les processus pour minimiser les coûts.",
           features: ['Optimisation des coûts', 'Analyse des processus', 'Conseil personnalisé', 'Accompagnement continu'],
         },
         {
-          src_imge:"/assets/International_Transport.jpeg",
+          src_imge:transportImage,
           title: 'Transport National et International',
           description: "Profitez de notre réseau mondial de partenaires pour des solutions de transport sur mesure, offrant des délais compétitifs et une fiabilité inégalée.",
           features: ['Réseau mondial', 'Délais compétitifs', 'Multi-modal', 'Traçabilité complète'],
@@ -250,7 +256,7 @@ export const translations = {
           title: 'Transport National et International',
           shortDesc: 'Solutions de transport sur mesure avec réseau mondial',
           fullDesc: 'Profitez de notre réseau mondial de partenaires pour des solutions de transport sur mesure, offrant des délais compétitifs et une fiabilité inégalée.',
-          image: '/assets/servis3.jpeg',
+          image: transportServiceImage,
           subsections: [
             {
               id: 'maritime',
@@ -307,7 +313,7 @@ export const translations = {
           title: 'Gestion Douanière',
           shortDesc: 'Formalités douanières simplifiées et conformes',
           fullDesc: 'Nous assurons une gestion complète et rigoureuse de vos formalités douanières, en garantissant un suivi précis et conforme à la réglementation en vigueur. Grâce à l\'expertise de nos partenaires spécialisés dans le domaine du transit, nous facilitons toutes vos opérations d\'import et d\'export, en réduisant les délais et en optimisant les coûts.',
-          image: '/assets/gestion_.jpg',
+          image: customsImage,
           sections: [
             {
               title: 'Nos services incluent',
@@ -335,7 +341,7 @@ export const translations = {
           title: 'Consultation et Formation Stratégique',
           shortDesc: 'Accompagnement expert pour optimiser vos opérations',
           fullDesc: 'Nous accompagnons les entreprises à travers des services de consultation et de formation stratégique dans les domaines du transport et de la logistique internationale. Grâce à notre expertise et à celle de nos partenaires, nous aidons nos clients à optimiser leurs opérations, renforcer leurs compétences et assurer la conformité de leurs activités.',
-          image: '/assets/servis2.jpeg',
+          image: consultingDetailImage,
           sections: [
             {
               title: 'Nos services incluent',
@@ -407,7 +413,7 @@ export const translations = {
       ],
       brand: {
         name: 'TRIWAYS',
-        tagline: 'LOGISTICS',
+        tagline: 'LOGISTIQUE SOLUTIONS',
       },
       social: [
         { label: 'LinkedIn' },
@@ -585,19 +591,19 @@ export const translations = {
       servicesCta: 'Request a quote',
       services: [
         {
-          src_imge:"/assets/gestion_.jpg",
+          src_imge:customsImage,
           title: 'Integrated Customs Management',
           description: 'Simplify your customs formalities with our specialized expertise, covering all aspects of customs clearance, declarations and procedures for smooth and efficient transit.',
           features: ['Full clearance', 'Real-time tracking', 'Regulatory compliance', 'Documentation assured'],
         },
         {
-          src_imge:"/assets/servis1.jpeg",
+          src_imge:consultingServiceImage,
           title: 'Strategic Consulting',
           description: 'Maximize your import opportunities through our personalized consulting. We guide you through every step, optimizing processes to minimize costs.',
           features: ['Cost optimization', 'Process analysis', 'Personalized advice', 'Ongoing support'],
         },
         {
-          src_imge:"/assets/International_Transport.jpeg",
+          src_imge:transportImage,
           title: 'National and International Transport',
           description: 'Take advantage of our global network of partners for tailor-made transport solutions, offering competitive deadlines and unmatched reliability.',
           features: ['Global network', 'Competitive deadlines', 'Multi-modal', 'Full traceability'],
@@ -660,7 +666,7 @@ export const translations = {
           title: 'National and International Transport',
           shortDesc: 'Customized transport solutions with global network',
           fullDesc: 'Benefit from our global network of partners for customized transport solutions, offering competitive deadlines and unmatched reliability.',
-          image: '/assets/servis3.jpeg',
+          image: transportServiceImage,
           subsections: [
             {
               id: 'maritime',
@@ -717,7 +723,7 @@ export const translations = {
           title: 'Customs Management',
           shortDesc: 'Simplified and compliant customs procedures',
           fullDesc: 'We ensure complete and rigorous management of your customs procedures, guaranteeing precise monitoring in compliance with current regulations. Thanks to the expertise of our partners specialized in the field of transit, we facilitate all your import and export operations, reducing delays and optimizing costs.',
-          image: '/assets/gestion_.jpg',
+          image: customsImage,
           sections: [
             {
               title: 'Our services include',
@@ -745,7 +751,7 @@ export const translations = {
           title: 'Consulting and Strategic Training',
           shortDesc: 'Expert support to optimize your operations',
           fullDesc: 'We support companies through consulting and strategic training services in the fields of transport and international logistics. Thanks to our expertise and that of our partners, we help our clients optimize their operations, strengthen their skills and ensure the compliance of their activities.',
-          image: '/assets/servis2.jpeg',
+          image: consultingDetailImage,
           sections: [
             {
               title: 'Our services include',
@@ -817,7 +823,7 @@ export const translations = {
       ],
       brand: {
         name: 'TRIWAYS',
-        tagline: 'LOGISTICS',
+        tagline: 'LOGISTIQUE SOLUTIONS',
       },
       social: [
         { label: 'LinkedIn' },

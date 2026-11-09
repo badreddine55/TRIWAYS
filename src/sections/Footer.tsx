@@ -1,3 +1,5 @@
+import whiteSymbol from '@/assets/brand/logo-symbol-white.svg';
+
 import { Link } from 'react-router-dom';
 import { 
   Phone, 
@@ -224,7 +226,7 @@ export function Footer() {
                     width: '52px',
                     height: '52px',
                     borderRadius: '12px',
-                    background: '#fff',
+                    background: '#122e59',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -233,8 +235,9 @@ export function Footer() {
                   }}
                 >
                   <img
-                    src="/assets/logoC0.png"
-                    alt="TRIWAYS"
+                    loading="lazy" width={100} height={100} decoding="async"
+                    src={whiteSymbol}
+                    alt=""
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                   />
                 </div>
@@ -242,7 +245,7 @@ export function Footer() {
                   <div style={{ fontSize: '20px', fontWeight: '700', color: '#ffffff', letterSpacing: '-0.01em', lineHeight: 1 }}>
                     {footerData.brand.name}
                   </div>
-                  <div style={{ fontSize: '9px', color: '#4a5568', letterSpacing: '0.15em', textTransform: 'uppercase', marginTop: '3px' }}>
+                  <div style={{ fontSize: '10px', color: '#b6c2d1', letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: '4px' }}>
                     {footerData.brand.tagline}
                   </div>
                 </div>

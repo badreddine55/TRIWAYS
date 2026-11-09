@@ -1,3 +1,22 @@
+import partnersBackground from '@/assets/backimage.webp';
+import logoC1 from '@/assets/logoC1.webp';
+import logoC2 from '@/assets/logoC2.webp';
+import logoC3 from '@/assets/logoC3.webp';
+import logoC4 from '@/assets/logoC4.webp';
+import logoC5 from '@/assets/logoC5.webp';
+import logoC6 from '@/assets/logoC6.webp';
+import logoC7 from '@/assets/logoC7.webp';
+import logoC8 from '@/assets/logoC8.webp';
+import logoC9 from '@/assets/logoC9.webp';
+import logoC11 from '@/assets/logoC11.webp';
+import logoC12 from '@/assets/logoC12.webp';
+import logoC13 from '@/assets/logoC13.webp';
+import logoC14 from '@/assets/logoC14.webp';
+import logoC15 from '@/assets/logoC15.webp';
+import logoC16 from '@/assets/logoC16.webp';
+import logoC17 from '@/assets/logoC17.webp';
+import logoC18 from '@/assets/logoC18.webp';
+
 import { motion } from 'framer-motion';
 import { useLang } from './LangContext';
 import { translations } from '@/lib/translations';
@@ -10,23 +29,23 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Partner logos data - Using local assets
 const partners = [
-  { id: 1, name: 'Partner 1', logo: '/assets/logoC1.png' },
-  { id: 2, name: 'Partner 2', logo: '/assets/logoC2.png' },
-  { id: 3, name: 'Partner 3', logo: '/assets/logoC3.png' },
-  { id: 4, name: 'Partner 4', logo: '/assets/logoC4.png' },
-  { id: 5, name: 'Partner 5', logo: '/assets/logoC5.png' },
-  { id: 6, name: 'Partner 6', logo: '/assets/logoC6.png' },
-  { id: 7, name: 'Partner 7', logo: '/assets/logoC7.png' },
-  { id: 8, name: 'Partner 8', logo: '/assets/logoC8.png' },
-  { id: 9, name: 'Partner 9', logo: '/assets/logoC9.png' },
-  { id: 11, name: 'Partner 11', logo: '/assets/logoC11.png' },
-  { id: 12, name: 'Partner 12', logo: '/assets/logoC12.png' },
-  { id: 13, name: 'Partner 13', logo: '/assets/logoC13.png' },
-  { id: 14, name: 'Partner 14', logo: '/assets/logoC14.png' },
-  { id: 15, name: 'Partner 15', logo: '/assets/logoC15.png' },
-  { id: 16, name: 'Partner 16', logo: '/assets/logoC16.png' },
-  { id: 17, name: 'Partner 17', logo: '/assets/logoC17.png' },
-  { id: 18, name: 'Partner 18', logo: '/assets/logoC18.png' },
+  { id: 1, name: 'Partner 1', logo: logoC1, width: 290, height: 256 },
+  { id: 2, name: 'Partner 2', logo: logoC2, width: 420, height: 256 },
+  { id: 3, name: 'Partner 3', logo: logoC3, width: 448, height: 192 },
+  { id: 4, name: 'Partner 4', logo: logoC4, width: 448, height: 209 },
+  { id: 5, name: 'Partner 5', logo: logoC5, width: 330, height: 51 },
+  { id: 6, name: 'Partner 6', logo: logoC6, width: 448, height: 43 },
+  { id: 7, name: 'Partner 7', logo: logoC7, width: 448, height: 79 },
+  { id: 8, name: 'Partner 8', logo: logoC8, width: 448, height: 204 },
+  { id: 9, name: 'Partner 9', logo: logoC9, width: 250, height: 88 },
+  { id: 11, name: 'Partner 11', logo: logoC11, width: 373, height: 256 },
+  { id: 12, name: 'Partner 12', logo: logoC12, width: 448, height: 221 },
+  { id: 13, name: 'Partner 13', logo: logoC13, width: 120, height: 143 },
+  { id: 14, name: 'Partner 14', logo: logoC14, width: 448, height: 119 },
+  { id: 15, name: 'Partner 15', logo: logoC15, width: 448, height: 122 },
+  { id: 16, name: 'Partner 16', logo: logoC16, width: 398, height: 256 },
+  { id: 17, name: 'Partner 17', logo: logoC17, width: 352, height: 115 },
+  { id: 18, name: 'Partner 18', logo: logoC18, width: 330, height: 76 },
 ];
 
 export default function Partners() {
@@ -81,6 +100,9 @@ export default function Partners() {
         <div className="absolute inset-0 bg-white/0 group-hover:bg-white/15 rounded-2xl sm:rounded-3xl transition-all duration-300" />
         <div className="relative z-10 w-full h-full flex items-center justify-center p-4 sm:p-5 md:p-6">
           <img
+            width={partner.width}
+            height={partner.height}
+            decoding="async"
             src={partner.logo}
             alt={partner.name}
             className="max-w-full max-h-full object-contain opacity-90 group-hover:opacity-100 transition-all duration-300"
@@ -106,7 +128,7 @@ export default function Partners() {
     <section className="relative w-full py-24 overflow-hidden bg-slate-950">
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: 'url(/assets/backimage.jpeg)' }}
+        style={{ backgroundImage: `url(${partnersBackground})` }}
       >
         <div className="absolute inset-0 bg-slate-950/85" />
         <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/30 via-transparent to-purple-900/30" />

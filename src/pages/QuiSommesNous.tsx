@@ -1,3 +1,28 @@
+import aboutImage from '@/assets/about1.webp';
+import galleryImage1 from '@/assets/gallery/gestion_.jpg';
+import galleryImage2 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.30 PM (1).jpeg';
+import galleryImage3 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.30 PM (2).jpeg';
+import galleryImage4 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.30 PM.jpeg';
+import galleryImage5 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.31 PM (1).jpeg';
+import galleryImage6 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.31 PM (2).jpeg';
+import galleryImage7 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.31 PM (3).jpeg';
+import galleryImage8 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.31 PM.jpeg';
+import galleryImage9 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.32 PM (1).jpeg';
+import galleryImage10 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.32 PM.jpeg';
+import galleryImage12 from '@/assets/gallery/image12.jpeg';
+import galleryImage13 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.33 PM (3).jpeg';
+import galleryImage14 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.33 PM (4).jpeg';
+import galleryImage15 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.33 PM.jpeg';
+import galleryImage16 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.34 PM (1).jpeg';
+import galleryImage17 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.34 PM (2).jpeg';
+import galleryImage18 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.34 PM (3).jpeg';
+import galleryImage19 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.34 PM.jpeg';
+import galleryImage20 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.35 PM (1).jpeg';
+import galleryImage21 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.35 PM (2).jpeg';
+import galleryImage22 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.35 PM (3).jpeg';
+import galleryImage23 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.47.35 PM.jpeg';
+import galleryImage24 from '@/assets/gallery/WhatsApp Image 2026-04-21 at 8.48.02 PM.jpeg';
+
 import { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -53,32 +78,32 @@ const GlassButton = ({ children, to, onClick, variant = 'primary' }: {
   return to ? <Link to={to}>{content}</Link> : content;
 };
 
-// ── Data (UNCHANGED) ───────────────────────────────────────────────────────────
+// ── Gallery images ───────────────────────────────────────────────────────────
 
 const galleryImages = [
-  { src: '/assets/gallery/image1.jpeg', alt: 'Image 1' },
-  { src: '/assets/gallery/image2.jpeg', alt: 'Image 2' },
-  { src: '/assets/gallery/image3.jpeg', alt: 'Image 3' },
-  { src: '/assets/gallery/image4.jpeg', alt: 'Image 4' },
-  { src: '/assets/gallery/image5.jpeg', alt: 'Image 5' },
-  { src: '/assets/gallery/image6.jpeg', alt: 'Image 6' },
-  { src: '/assets/gallery/image7.jpeg', alt: 'Image 7' },
-  { src: '/assets/gallery/image8.jpeg', alt: 'Image 8' },
-  { src: '/assets/gallery/image9.jpeg', alt: 'Image 9' },
-  { src: '/assets/gallery/image10.jpeg', alt: 'Image 10' },
-  { src: '/assets/gallery/image12.jpeg', alt: 'Image 12' },
-  { src: '/assets/gallery/image13.jpeg', alt: 'Image 13' },
-  { src: '/assets/gallery/image14.jpeg', alt: 'Image 14' },
-  { src: '/assets/gallery/image15.jpeg', alt: 'Image 15' },
-  { src: '/assets/gallery/image16.jpeg', alt: 'Image 16' },
-  { src: '/assets/gallery/image17.jpeg', alt: 'Image 17' },
-  { src: '/assets/gallery/image18.jpeg', alt: 'Image 18' },
-  { src: '/assets/gallery/image19.jpeg', alt: 'Image 19' },
-  { src: '/assets/gallery/image20.jpeg', alt: 'Image 20' },
-  { src: '/assets/gallery/image21.jpeg', alt: 'Image 21' },
-  { src: '/assets/gallery/image22.jpeg', alt: 'Image 22' },
-  { src: '/assets/gallery/image23.jpeg', alt: 'Image 23' },
-  { src: '/assets/gallery/image24.jpeg', alt: 'Image 24' },
+  galleryImage1,
+  galleryImage2,
+  galleryImage3,
+  galleryImage4,
+  galleryImage5,
+  galleryImage6,
+  galleryImage7,
+  galleryImage8,
+  galleryImage9,
+  galleryImage10,
+  galleryImage12,
+  galleryImage13,
+  galleryImage14,
+  galleryImage15,
+  galleryImage16,
+  galleryImage17,
+  galleryImage18,
+  galleryImage19,
+  galleryImage20,
+  galleryImage21,
+  galleryImage22,
+  galleryImage23,
+  galleryImage24,
 ];
 
 // ── Animation Utilities ───────────────────────────────────────────────────────
@@ -205,7 +230,8 @@ function Hero() {
             >
               <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl shadow-indigo-500/20 border border-white/10">
                 <img
-                  src="/assets/about1.jpeg"
+                  width={800} height={533} loading="lazy" decoding="async"
+                  src={aboutImage}
                   alt={data.heroImageAlt}
                   className="w-full h-[250px] sm:h-[300px] md:h-[400px] object-cover"
                 />
@@ -457,6 +483,7 @@ function ServicesDetail() {
               <div className="relative rounded-2xl md:rounded-3xl overflow-hidden mb-6 md:mb-8 group">
                 <div className="aspect-video">
                   <img
+                    width={[780, 1200, 1920][activeService]} height={[468, 675, 1280][activeService]} loading="lazy" decoding="async"
                     src={data.services[activeService].src_imge}
                     alt={data.services[activeService].title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -672,7 +699,7 @@ export function GallerySection() {
 
             {/* Large ImageSwiper — centered and scaled up */}
             <ImageSwiper
-              images={galleryImages.map((item) => item.src)}
+              images={galleryImages}
               cardWidth={340}
               cardHeight={480}
               className="scale-100 sm:scale-110 md:scale-125 lg:scale-150"
@@ -701,9 +728,7 @@ export default function QuiSommesNous() {
   return (
     <div className="relative min-h-screen text-white overflow-x-hidden bg-slate-950">
       <SEO page="about" />
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
-      `}</style>
+
 
 
       <div className="fixed inset-0 -z-10">

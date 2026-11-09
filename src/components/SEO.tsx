@@ -1,3 +1,6 @@
+import brandIcon from '@/assets/brand/favicon-512.png';
+import brandLogo from '@/assets/brand/logo-horizontal-navy.svg';
+
 import { Helmet } from 'react-helmet-async';
 
 interface SEOProps {
@@ -12,25 +15,21 @@ const seoConfig = {
   home: {
     title: 'TRIWAYS LOGISTICS — Transit & Logistique',
     description: 'Leader en transit, dédouanement et logistique au Maroc. Services complets d\'importation, d\'exportation et de gestion douanière intégrée.',
-    image: 'https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo',
     url: 'https://www.triways.ma',
   },
   services: {
     title: 'Services de Transit & Logistique | TRIWAYS LOGISTICS',
     description: 'Découvrez nos services complets: gestion douanière, consulting stratégique, transport et logistique intégrée. Solutions personnalisées pour vos besoins logistiques.',
-    image: 'https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo',
     url: 'https://www.triways.ma/services',
   },
   about: {
     title: 'À Propos de TRIWAYS LOGISTICS',
     description: 'Qui sommes-nous? TRIWAYS LOGISTICS, leader reconnu en logistique et transit au Maroc. Découvrez notre expertise depuis 2014 et nos engagements envers nos clients.',
-    image: 'https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo',
     url: 'https://www.triways.ma/qui-sommes-nous',
   },
   contact: {
     title: 'Contactez TRIWAYS LOGISTICS',
     description: 'Nous sommes à écoute de vos questions. Contactez-nous pour discuter de vos besoins logistiques. Basé à Casablanca, Maroc.',
-    image: 'https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo',
     url: 'https://www.triways.ma/contact',
   },
 };
@@ -45,8 +44,8 @@ export default function SEO({
   const config = seoConfig[page];
   const finalTitle = title || config.title;
   const finalDescription = description || config.description;
-  const finalImage = image || config.image;
   const finalUrl = url || config.url;
+  const finalImage = new URL(image || brandIcon, finalUrl).href;
 
   return (
     <Helmet>
@@ -78,17 +77,6 @@ export default function SEO({
       {/* Canonical URL */}
       <link rel="canonical" href={finalUrl} />
 
-      {/* Icons */}
-      <link
-        rel="icon"
-        type="image/png"
-        href="https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo"
-      />
-      <link
-        rel="apple-touch-icon"
-        href="https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo"
-      />
-
       {/* Structured Data (JSON-LD) */}
       <script type="application/ld+json">
         {JSON.stringify({
@@ -96,7 +84,7 @@ export default function SEO({
           '@type': 'Organization',
           name: 'TRIWAYS LOGISTICS',
           url: 'https://www.triways.ma',
-          logo: finalImage,
+          logo: new URL(brandLogo, finalUrl).href,
           description: finalDescription,
           sameAs: [
             'https://www.facebook.com/TRIWAYS',

@@ -1,6 +1,8 @@
+import servicesBackground from '@/assets/backimage.webp';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, ChevronDown } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SEO from '@/components/SEO';
 import { useLang } from '@/sections/LangContext';
@@ -96,8 +98,11 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
     <div className="border-b border-white/10 last:border-b-0">
       {/* Header */}
       <button
+        type="button"
+        id={`service-${service.id}`}
+        aria-expanded={isOpen}
         onClick={onToggle}
-        className="w-full py-5 md:py-8 lg:py-10 flex items-center justify-between group hover:bg-white/[0.02] transition-colors px-4 sm:px-6 lg:px-12 xl:px-20"
+        className="w-full scroll-mt-28 py-5 md:py-8 lg:py-10 flex items-center justify-between group hover:bg-white/[0.02] transition-colors px-4 sm:px-6 lg:px-12 xl:px-20"
       >
         <div className="flex items-center gap-3 md:gap-8 lg:gap-12 min-w-0">
           {/* Number */}
@@ -131,7 +136,7 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
       </button>
 
       {/* Expandable Content */}
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
@@ -153,7 +158,7 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
                       transition={{ delay: 0.1 }}
                       className="relative rounded-lg md:rounded-xl overflow-hidden aspect-[4/3] lg:aspect-[16/10]"
                     >
-                      <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
+                      <img width={service.id === '02' ? 780 : 1200} height={service.id === '02' ? 468 : service.id === '03' ? 801 : 800} loading="lazy" decoding="async" src={service.image} alt={service.title} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
                     </motion.div>
 
@@ -249,7 +254,7 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
                     transition={{ delay: 0.1 }}
                     className="relative rounded-lg md:rounded-xl overflow-hidden aspect-[4/3] lg:aspect-[16/10]"
                   >
-                    <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
+                    <img width={service.id === '02' ? 780 : 1200} height={service.id === '02' ? 468 : service.id === '03' ? 801 : 800} loading="lazy" decoding="async" src={service.image} alt={service.title} className="w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent" />
                   </motion.div>
 
@@ -298,43 +303,49 @@ function ServiceAccordion({ service, isOpen, onToggle }: { service: ServiceItem;
   );
 }
 
+function ServiceList({ items, requestedId }: { items: ServiceItem[]; requestedId?: string }) {
+  const requestedService = items.find((service) => service.id === requestedId);
+  const [openId, setOpenId] = useState<string | null>(requestedService?.id ?? items[0]?.id ?? null);
+
+  return (
+    <motion.div
+      initial={requestedService ? false : { opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.2, duration: 0.8 }}
+      className="border-t border-white/10 w-full"
+    >
+      {items.map((service) => (
+        <ServiceAccordion
+          key={service.id}
+          service={service}
+          isOpen={openId === service.id}
+          onToggle={() => setOpenId((currentId) => currentId === service.id ? null : service.id)}
+        />
+      ))}
+    </motion.div>
+  );
+}
+
 // --- Main Page ---
 
 export default function Services() {
   const { lang } = useLang();
   const data = translations[lang].services;
   const location = useLocation();
-  const accordionRef = useRef<HTMLDivElement>(null);
-  const [openId, setOpenId] = useState<string | null>(
-    location.state?.openServiceId ?? '01'
-  );
-
-  const toggleService = (id: string) => {
-    setOpenId(openId === id ? null : id);
-  };
-
-  // Auto-scroll to accordion when navigating with state
-  useEffect(() => {
-    if (location.state?.openServiceId && accordionRef.current) {
-      setTimeout(() => {
-        accordionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 300);
-    }
-  }, [location.state?.openServiceId]);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
       <SEO page="services" />
       
       {/* Google Fonts */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
-      `}</style>
+
 
       {/* Hero Section */}
       <section className="relative min-h-[60vh] md:h-screen overflow-hidden">
         <img 
-          src="/assets/backimage.jpeg" 
+          width={1920} height={1280} fetchPriority="high"
+          src={servicesBackground}
           alt="Services Hero" 
           className="w-full h-full object-cover absolute inset-0"
         />
@@ -424,24 +435,7 @@ export default function Services() {
             </motion.div>
           </div>
 
-          {/* Accordion - Full width */}
-          <motion.div 
-            ref={accordionRef}
-            initial={{ opacity: 0, y: 40 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true }} 
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="border-t border-white/10 w-full"
-          >
-            {data.items.map((service: ServiceItem) => (
-              <ServiceAccordion 
-                key={service.id} 
-                service={service} 
-                isOpen={openId === service.id} 
-                onToggle={() => toggleService(service.id)} 
-              />
-            ))}
-          </motion.div>
+          <ServiceList key={location.key} items={data.items} requestedId={location.state?.openServiceId} />
         </div>
       </section>
 

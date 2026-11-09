@@ -1,5 +1,8 @@
 "use client";
 
+import transportImage from "@/assets/ss1.avif";
+import customsImage from "@/assets/ss2.webp";
+import consultingImage from "@/assets/ss2.avif";
 import { useRef, useState } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -14,51 +17,51 @@ const transportSubServices = [
     description: "Solutions de fret maritime internationale avec tracking en temps réel.",
     icon: Ship,
     color: "from-cyan-500 to-blue-600",
-    image: "/assets/s1.avif",
   },
   {
     title: "Transport Aérien",
     description: "Livraison express par voie aérienne pour vos marchandises urgentes.",
     icon: Plane,
     color: "from-violet-500 to-purple-600",
-    image: "https://images.unsplash.com/photo-1616432043562-3671ea2ea5242?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "Transport Routier",
     description: "Réseau routier optimisé et solutions de stockage automatisée.",
     icon: Truck,
     color: "from-emerald-500 to-teal-600",
-    image: "/assets/s2.avif",
   },
 ];
 
 // Main services preview - now with expandable transport card and 2 new cards
 const baseServicesPreview = [
   {
+    serviceId: '01',
     titleKey: 'transport',
     descriptionKey: 'transportDesc',
     icon: Globe,
     color: "from-indigo-500 via-purple-500 to-cyan-500",
     accent: "indigo",
-    image: "/assets/ss1.avif",
+    image: transportImage,
     isExpandable: true,
     subServices: transportSubServices,
   },
   {
+    serviceId: '02',
     titleKey: 'customs',
     descriptionKey: 'customsDesc',
     icon: Package,
     color: "from-amber-500 to-orange-600",
     accent: "amber",
-    image: "/assets/ss2.jpeg",
+    image: customsImage,
   },
   {
+    serviceId: '03',
     titleKey: 'consulting',
     descriptionKey: 'consultingDesc',
     icon: Anchor,
     color: "from-rose-500 to-pink-600",
     accent: "rose",
-    image: "/assets/ss2.avif",
+    image: consultingImage,
   },
 ];
 
@@ -86,6 +89,7 @@ const GlassCard = ({ service, index, learnMore }: { service: (typeof baseService
           transition={{ duration: 0.6 }}
         >
           <img
+            width={800} height={533} loading="lazy" decoding="async"
             src={service.image}
             alt={service.title}
             className="w-full h-full object-cover opacity-20 group-hover:opacity-30 transition-opacity duration-500"
@@ -168,7 +172,12 @@ const GlassCard = ({ service, index, learnMore }: { service: (typeof baseService
           )}
 
           {/* CTA */}
-          <Link to="/services" className="inline-flex items-center gap-2 group/link mt-auto">
+          <Link
+            to="/services"
+            state={{ openServiceId: service.serviceId }}
+            aria-label={`${learnMore}: ${service.title}`}
+            className="inline-flex items-center gap-2 group/link mt-auto"
+          >
             <span className={`text-sm font-semibold bg-gradient-to-r ${service.color} bg-clip-text text-transparent`}>
               {learnMore}
             </span>
@@ -324,7 +333,7 @@ export function ServicesPreview() {
           {/* Services Grid - Now 3 cards layout */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             {servicesPreview.map((service, index) => (
-              <GlassCard key={index} service={service} index={index} learnMore={learnMore} />
+              <GlassCard key={service.serviceId} service={service} index={index} learnMore={learnMore} />
             ))}
           </div>
 

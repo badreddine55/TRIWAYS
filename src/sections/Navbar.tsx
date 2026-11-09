@@ -1,3 +1,8 @@
+import horizontalNavyLogo from '@/assets/brand/logo-horizontal-navy.svg';
+import horizontalWhiteLogo from '@/assets/brand/logo-horizontal-white.svg';
+import navySymbol from '@/assets/brand/logo-symbol-navy.svg';
+import whiteSymbol from '@/assets/brand/logo-symbol-white.svg';
+
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
@@ -30,6 +35,7 @@ export default function Navbar() {
   }, [location.pathname]);
 
   const isHome = location.pathname === '/';
+  const isOverHero = isHome && !isScrolled;
   const isActive = (path: string) => location.pathname === path;
   const navData = translations[lang].nav;
 
@@ -81,32 +87,39 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`fixed z-50 transition-all duration-500 ${
-          isScrolled ? 'top-4 left-4 right-4' : 'top-0 left-0 right-0'
-        }`}
+        className="fixed top-0 left-0 right-0 z-50"
       >
         <div
-          className={`transition-all duration-500 ${
+          className={`px-4 sm:px-6 lg:px-12 xl:px-20 transition-colors duration-500 ${
             isScrolled
-              ? 'bg-white/90 backdrop-blur-lg shadow-xl rounded-2xl border border-white/20 px-6'
+              ? 'bg-white/90 backdrop-blur-lg shadow-md'
               : isHome
-              ? 'bg-transparent px-4 sm:px-6 lg:px-12 xl:px-20'
-              : 'bg-white/95 backdrop-blur-md shadow-lg px-4 sm:px-6 lg:px-12 xl:px-20'
+              ? 'bg-transparent'
+              : 'bg-white/95 backdrop-blur-md shadow-md'
           }`}
         >
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-14">
 
             {/* ── Logo ── */}
-            <Link to="/">
-              <motion.div className="flex items-center gap-3 cursor-pointer" whileHover={{ scale: 1.02 }}>
+            <Link
+              to="/"
+              className="flex shrink-0 items-center rounded-lg px-2 2xl:px-3"
+            >
+              <picture>
+                <source
+                  width={453} height={140}
+                  media="(min-width: 1536px)"
+                  srcSet={isOverHero ? horizontalWhiteLogo : horizontalNavyLogo}
+                />
                 <img
-                  src="/assets/logoC0.png"
-                  alt="TRIWAYS logo"
-                  className={`w-20 h-20 object-contain transition-all duration-300 ${
-                    isScrolled || !isHome ? 'brightness-75' : 'brightness-0 invert'
+                    width={100} height={100} decoding="async"
+                  src={isOverHero ? whiteSymbol : navySymbol}
+                  alt="Triways logistique solutions"
+                  className={`block h-auto w-8 2xl:w-[200px] ${
+                    isOverHero ? 'drop-shadow-md' : ''
                   }`}
                 />
-              </motion.div>
+              </picture>
             </Link>
 
             {/* ── Desktop Nav ── */}
@@ -115,7 +128,7 @@ export default function Navbar() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`relative text-sm font-medium tracking-wide transition-colors duration-300 ${
+                  className={`relative text-[13px] font-medium tracking-wide transition-colors duration-300 ${
                     isScrolled || !isHome
                       ? isActive(link.path) ? 'text-indigo-600' : 'text-slate-600 hover:text-indigo-600'
                       : isActive(link.path) ? 'text-white font-semibold' : 'text-white/80 hover:text-white'
@@ -144,7 +157,7 @@ export default function Navbar() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+                  className={`rounded-full px-5 py-1.5 text-xs font-semibold transition-all duration-300 ${
                     isScrolled || !isHome
                       ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg hover:shadow-xl hover:shadow-indigo-500/30 hover:-translate-y-0.5'
                       : 'bg-white/10 backdrop-blur-md text-white border border-white/30 hover:bg-white/20'
@@ -190,23 +203,22 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
-              className={`fixed left-4 right-4 bg-white rounded-2xl shadow-2xl z-50 lg:hidden overflow-hidden ${
-                isScrolled ? 'top-28' : 'top-24'
-              }`}
+              className="fixed top-16 left-4 right-4 bg-white rounded-2xl shadow-2xl z-50 lg:hidden overflow-hidden"
             >
               <div className="p-6">
 
                 {/* Drawer header: logo + lang switcher */}
                 <div className="flex items-center justify-between pb-4 mb-3 border-b border-slate-100">
-                  <div className="flex items-center gap-3">
+                  <div className="flex min-w-0 items-center gap-2">
                     <img
-                      src="https://pttyxrnufnmrjtxiielr.supabase.co/storage/v1/object/sign/images/image-removebg-preview%20(1).png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV82MzRlMGRiYy0xNmZiLTQ0NWEtOWM2Ni0yYTI0ZDYwMGFiZjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWFnZXMvaW1hZ2UtcmVtb3ZlYmctcHJldmlldyAoMSkucG5nIiwiaWF0IjoxNzc0NDk2NDQxLCJleHAiOjE4MDYwMzI0NDF9.TEzY_B6MDwPcPSUWKUthIUde3-0Xc3EQelONzVTNiTo"
-                      alt="TRIWAYS logo"
-                      className="w-9 h-9 object-contain brightness-75"
+                    width={100} height={100} decoding="async"
+                      src={navySymbol}
+                      alt=""
+                      className="size-8 shrink-0"
                     />
                     <div>
                       <p className="font-bold text-slate-900 text-sm">TRIWAYS</p>
-                      <p className="text-[10px] text-indigo-500 tracking-[0.25em]">LOGISTICS</p>
+                      <p className="text-[10px] font-medium leading-tight text-slate-600">LOGISTIQUE SOLUTIONS</p>
                     </div>
                   </div>
                   <LangSwitcher dark />
