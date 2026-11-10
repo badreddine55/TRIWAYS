@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
@@ -54,7 +56,7 @@ export default function ScrollExpandMedia({
         {/* Header */}
         <div className="text-center mb-12">
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-sky-400 text-sm font-medium tracking-widest uppercase mb-4"
@@ -62,7 +64,7 @@ export default function ScrollExpandMedia({
             {date}
           </motion.p>
           <motion.h2
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className={`text-5xl sm:text-6xl lg:text-7xl font-bold ${
@@ -72,7 +74,7 @@ export default function ScrollExpandMedia({
             {title}
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 text-slate-400 text-lg flex items-center justify-center gap-2"
@@ -85,7 +87,7 @@ export default function ScrollExpandMedia({
 
         {/* Media */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={false}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative rounded-2xl overflow-hidden shadow-2xl"
@@ -112,7 +114,7 @@ export default function ScrollExpandMedia({
         {/* Children Content */}
         {children && (
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-12 text-center max-w-3xl mx-auto"

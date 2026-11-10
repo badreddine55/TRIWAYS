@@ -1,8 +1,13 @@
-import customsImage from '@/assets/gestion_.webp';
-import transportImage from '@/assets/International_Transport.webp';
-import consultingServiceImage from '@/assets/servis1.webp';
-import transportServiceImage from '@/assets/servis3.webp';
-import consultingDetailImage from '@/assets/servis2.webp';
+import customsImageAsset from '@/assets/gestion_.webp';
+const customsImage = customsImageAsset.src;
+import transportImageAsset from '@/assets/International_Transport.webp';
+const transportImage = transportImageAsset.src;
+import consultingServiceImageAsset from '@/assets/servis1.webp';
+const consultingServiceImage = consultingServiceImageAsset.src;
+import transportServiceImageAsset from '@/assets/servis3.webp';
+const transportServiceImage = transportServiceImageAsset.src;
+import consultingDetailImageAsset from '@/assets/servis2.webp';
+const consultingDetailImage = consultingDetailImageAsset.src;
 
 export type Language = 'fr' | 'en';
 

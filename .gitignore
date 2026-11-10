@@ -71,7 +71,6 @@ dist
 
 # Gatsby files
 .cache/
-public
 
 # Storybook build outputs
 .out
@@ -102,3 +101,5 @@ temp/
 .out
 .storybook-out
 .storybook-out.stat*.zip
+
+.next/
